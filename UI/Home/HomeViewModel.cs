@@ -54,8 +54,7 @@ namespace UI.Home
                 {
                    return $"{user.GivenName} {user.MiddleName}";
                 }
-            });
-            
+            });           
         }
         #endregion PrivateMethod
     }
