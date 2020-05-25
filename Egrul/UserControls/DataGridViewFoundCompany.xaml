@@ -1,0 +1,87 @@
+﻿<UserControl
+    x:Class="Egrul.UserControls.DataGridViewFoundCompany"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:Egrul.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dtvm="clr-namespace:Egrul.Data.DesignTime"
+    xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance dtvm:CollectionCompanyInfoDesignTime}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="White" />
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+    <Grid>
+        <DataGrid
+            x:Name="dg"
+            Grid.Row="2"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding CollectionCompanyInfo}">
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource MahApps.Styles.DataGrid}" TargetType="{x:Type DataGrid}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CollectionCompanyInfo}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <cmd:EventToCommand Command="{Binding DataContext.CommandOpenCompanyCard, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainEgrulView}}}" CommandParameter="{Binding ElementName=dg, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Margin="5"
+                                Padding="5"
+                                Command="{Binding DataContext.CommandLoadPdf, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundView}}}"
+                                CommandParameter="{Binding}"
+                                ToolTip="Получить выписку">
+                                <iconPack:FontAwesome Kind="FilePdfSolid" />
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Binding="{Binding Ogrn}"
+                    CanUserSort="True"
+                    Header="ОГРН"
+                    SortMemberPath="Ogrn" />
+                <DataGridTextColumn
+                    Binding="{Binding Inn}"
+                    CanUserSort="True"
+                    Header="ИНН"
+                    SortMemberPath="Inn" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Address}"
+                    CanUserSort="True"
+                    Header="Адрес"
+                    SortMemberPath="Address" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Title}"
+                    CanUserSort="True"
+                    Header="Название"
+                    SortMemberPath="Title" />
+                <DataGridTextColumn
+                    Binding="{Binding Director}"
+                    CanUserSort="True"
+                    Header="Руководитель"
+                    SortMemberPath="Director" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

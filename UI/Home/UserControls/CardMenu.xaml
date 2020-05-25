@@ -1,0 +1,97 @@
+﻿<UserControl
+    x:Class="UI.Home.UserControls.CardMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dtvm="clr-namespace:UI.Home.Data.DesignTime"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance dtvm:CardViewModelDesignTime,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="130"
+    d:DesignWidth="230"
+    mc:Ignorable="d">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="White" />
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+    <Border
+        Width="200"
+        Height="100"
+        Margin="5"
+        Padding="15"
+        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+        BorderThickness="1"
+        CornerRadius="10"
+        SnapsToDevicePixels="True">
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetProperty="Height"
+                                    From="100"
+                                    To="150"
+                                    Duration="00:00:0.1" />
+                                <DoubleAnimation
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetProperty="Width"
+                                    From="200"
+                                    To="300"
+                                    Duration="00:00:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetProperty="Height"
+                                    From="150"
+                                    To="100"
+                                    Duration="00:00:0.1" />
+                                <DoubleAnimation
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetProperty="Width"
+                                    From="300"
+                                    To="200"
+                                    Duration="00:00:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Border.InputBindings>
+            <MouseBinding
+                Command="{Binding Source={StaticResource Locator}, Path=MainViewModel.CommandOpenMenu}"
+                CommandParameter="{Binding}"
+                MouseAction="LeftClick" />
+        </Border.InputBindings>
+        <Grid ToolTip="{Binding ToolTip}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Column="0">
+                <ContentControl
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{Binding Icon}"
+                    Focusable="False" />
+            </Viewbox>
+            <TextBlock
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                FontSize="18"
+                FontWeight="Bold"
+                Text="{Binding Label, FallbackValue=Название}" />
+        </Grid>
+    </Border>
+</UserControl>

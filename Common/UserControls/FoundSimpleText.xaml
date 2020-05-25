@@ -1,0 +1,45 @@
+﻿<UserControl
+    x:Class="Common.UserControls.FoundSimpleText"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dtvm="clr-namespace:Common.Data"
+    xmlns:local="clr-namespace:Common.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance dtvm:FoundHeader}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="White" />
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+    <Controls:MetroHeader
+        Grid.Row="1"
+        Margin="0,10,0,0"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Top"
+        Header="{Binding Header}">
+        <WrapPanel Orientation="Horizontal">
+            <TextBox
+                Width="400"
+                Height="30"
+                VerticalContentAlignment="Center"
+                Controls:TextBoxHelper.ClearTextButton="True"
+                Controls:TextBoxHelper.IsWaitingForData="True"
+                Controls:TextBoxHelper.Watermark="{Binding Watermark}"
+                Text="{Binding FoundText, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding CommandFound}" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button
+                Margin="5,0,0,0"
+                Padding="6"
+                Command="{Binding CommandFound}"
+                Content="Поиск" />
+        </WrapPanel>
+    </Controls:MetroHeader>
+</UserControl>

@@ -1,0 +1,49 @@
+﻿<Controls:MetroWindow
+    x:Class="UI.MainView.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:Converters="clr-namespace:UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Информационный центр"
+    Width="1000"
+    Height="650"
+    Controls:WindowStartupLocation="CenterScreen"
+    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+    BorderThickness="1"
+    DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}"
+    GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+    Icon="../Image/logo.png"
+    mc:Ignorable="d">
+    <Controls:MetroWindow.Resources>
+        <Converters:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter" />
+        <Style BasedOn="{StaticResource MahApps.Styles.WindowButtonCommands.Win10}" TargetType="{x:Type Controls:WindowButtonCommands}" />
+    </Controls:MetroWindow.Resources>
+    <Grid>
+        <Controls:HamburgerMenu
+            DisplayMode="CompactOverlay"
+            IsPaneOpen="False"
+            ItemContainerStyle="{StaticResource HamburgerMenuCreatorsItemStyle}"
+            ItemsSource="{Binding MenuItems}"
+            OptionsItemContainerStyle="{StaticResource HamburgerMenuCreatorsItemStyle}"
+            OptionsItemsSource="{Binding MenuOptionItems}"
+            SelectedIndex="{Binding IndexItem}"
+            ShowSelectionIndicator="True">
+            <Controls:HamburgerMenu.Content>
+                <MultiBinding Converter="{StaticResource SelectedItemToContentConverter}">
+                    <Binding
+                        FallbackValue="{x:Null}"
+                        Mode="OneWay"
+                        Path="SelectedItem.Tag"
+                        RelativeSource="{RelativeSource Self}" />
+                    <Binding
+                        FallbackValue="{x:Null}"
+                        Mode="OneWay"
+                        Path="SelectedOptionsItem.Tag"
+                        RelativeSource="{RelativeSource Self}" />
+                </MultiBinding>
+            </Controls:HamburgerMenu.Content>
+        </Controls:HamburgerMenu>
+    </Grid>
+</Controls:MetroWindow>
