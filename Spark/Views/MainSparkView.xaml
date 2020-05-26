@@ -19,15 +19,9 @@
         </Style>
     </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
-
         <DataTemplate DataType="{x:Type vm:FoundCompanySparkViewModel}">
             <local:FoundView />
         </DataTemplate>
-
-        <DataTemplate DataType="{x:Type vm:CompanySparkViewModel}">
-            <local:CompanyView />
-        </DataTemplate>
-
     </UserControl.Resources>
 
     <ContentControl Content="{Binding CurrentViewModel}" />

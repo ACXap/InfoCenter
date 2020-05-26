@@ -15,13 +15,13 @@ namespace Spark.ViewModel
             Header = "Поиск в базе данных СПАРК";
             FoundHeader = new Common.Data.FoundHeader()
             {
-                CommandFound = new RelayCommand(() => FoundCompany(), () => !string.IsNullOrEmpty(FoundHeader.FoundText)),
+                CommandFound = new RelayCommand(() => Found(), () => !string.IsNullOrEmpty(FoundHeader.FoundText)),
                 FoundFast = true,
                 Header = "Поиск компаний",
                 Watermark = "СПАРК ID, ИНН, ОГРН, ФИО"
             };
 
-            TypeGrid = settings.GetSettings().TypeGrid;
+            TypeGrid = settings?.GetSettings().TypeGrid;
 
             _foundService = foundSpark;
         }
@@ -38,7 +38,7 @@ namespace Spark.ViewModel
         public ReadOnlyCollection<CompanyInfo> CollectionCompanyInfo
         {
             get => _collectionCompanyInfo;
-            set => Set(ref _collectionCompanyInfo, value);
+            private set => Set(ref _collectionCompanyInfo, value);
         }
         #endregion PublicProperties
 
@@ -51,7 +51,7 @@ namespace Spark.ViewModel
                 IsShowProgressBarFound = true;
                 ErrorStatus = null;
 
-                var result = await _foundService.GetPdfFile(company);
+                var result = await _foundService.GetPdfFile(company).ConfigureAwait(false);
                 
                 ErrorStatus = result.ErrorResult;
                 company.IsLoadPdfFile = false;
@@ -61,12 +61,13 @@ namespace Spark.ViewModel
         #endregion Command
 
         #region PrivateMethod
-        private async void FoundCompany()
+        private async void Found()
         {
             IsShowProgressBarFound = true;
             ErrorStatus = null;
 
-            var result = await _foundService.GetCollectionCompany(FoundHeader.FoundText);
+            var result = await _foundService.GetCollectionCompany(FoundHeader.FoundText).ConfigureAwait(false);
+
             CollectionCompanyInfo = result.Objects != null ? new ReadOnlyCollection<CompanyInfo>(result.Objects.ToList()) : null;
             ErrorStatus = result.ErrorResult;
 

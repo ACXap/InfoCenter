@@ -1,9 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
+using Fssp.Data.Interface;
 
 namespace Fssp.Data
 {
-    public class FoundPerson : ViewModelBase
+    public class FoundPerson : ViewModelBase, IRequestQuery
     {
+        public string FirstField { get =>_fio; }
+        public string TowField { get =>_date; }
+        public string ThreeField { get =>_region.Name; }
+
+
         private string _fio = string.Empty;
         private string _date = string.Empty;
         private Region _region;

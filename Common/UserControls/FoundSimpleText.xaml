@@ -24,8 +24,10 @@
         Header="{Binding Header}">
         <WrapPanel Orientation="Horizontal">
             <TextBox
-                Width="400"
+                Width="600"
                 Height="30"
+                Margin="5"
+                VerticalAlignment="Center"
                 VerticalContentAlignment="Center"
                 Controls:TextBoxHelper.ClearTextButton="True"
                 Controls:TextBoxHelper.IsWaitingForData="True"
@@ -37,7 +39,7 @@
             </TextBox>
             <Button
                 Margin="5,0,0,0"
-                Padding="6"
+                Padding="16"
                 Command="{Binding CommandFound}"
                 Content="Поиск" />
         </WrapPanel>

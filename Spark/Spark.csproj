@@ -111,10 +111,8 @@
     <Compile Include="UserControls\DataGridViewFoundCompany.xaml.cs">
       <DependentUpon>DataGridViewFoundCompany.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CompanySparkViewModel.cs" />
     <Compile Include="ViewModel\FoundCompanySparkViewModel.cs" />
     <Compile Include="ViewModel\MainSparkViewModel.cs" />
-    <Compile Include="ViewModel\NavigatorCompanyViewModel.cs" />
     <Compile Include="Views\FoundView.xaml.cs">
       <DependentUpon>FoundView.xaml</DependentUpon>
     </Compile>

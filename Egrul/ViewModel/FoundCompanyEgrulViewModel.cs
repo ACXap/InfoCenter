@@ -15,13 +15,13 @@ namespace Egrul.ViewModel
             Header = "Предоставление сведений из ЕГРЮЛ/ЕГРИП";
             FoundHeader = new Common.Data.FoundHeader()
             {
-                CommandFound = new RelayCommand(() => FoundCompany(), () => !string.IsNullOrEmpty(FoundHeader.FoundText)),
+                CommandFound = new RelayCommand(() => Found(), () => !string.IsNullOrEmpty(FoundHeader.FoundText)),
                 FoundFast = false,
                 Header = "Поисковый запрос",
                 Watermark = "Укажите ИНН или ОГРН (ОГРНИП) или наименование ЮЛ, ФИО ИП"
             };
 
-            TypeGrid = settings.GetSettings().TypeGrid;
+            TypeGrid = settings?.GetSettings().TypeGrid;
 
             _foundService = foundEgrul;
         }
@@ -59,10 +59,12 @@ namespace Egrul.ViewModel
         #endregion Command
 
         #region PrivateMethod
-        private async void FoundCompany()
+        private async void Found()
         {
             IsShowProgressBarFound = true;
-            var result = await _foundService.GetCollectionCompany(FoundHeader.FoundText);
+            ErrorStatus = null;
+
+            var result = await _foundService.GetCollectionCompany(FoundHeader.FoundText).ConfigureAwait(false);
 
             CollectionCompanyInfo = result.Objects != null ? new ReadOnlyCollection<CompanyInfo>(result.Objects.ToList()) : null;
             ErrorStatus = result.ErrorResult;

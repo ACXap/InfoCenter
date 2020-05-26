@@ -26,6 +26,13 @@ namespace Fssp.Data
             private set => Set(ref _status, value);
         }
 
+        private string _progress = string.Empty;
+        public string Progress
+        {
+            get => _progress;
+            set => Set(ref _progress, value);
+        }
+
         private EnumTypeStatusRequest _typeStatusRequest;
         public EnumTypeStatusRequest TypeStatusRequest
         {

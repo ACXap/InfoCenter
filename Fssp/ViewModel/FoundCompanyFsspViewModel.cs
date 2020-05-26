@@ -5,12 +5,13 @@ using Fssp.Service;
 using Fssp.Service.Interface;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Fssp.ViewModel
 {
-    public class FoundPersonFsspViewModel : FoundViewModelBase
+    public class FoundCompanyFsspViewModel : FoundViewModelBase
     {
-        public FoundPersonFsspViewModel(IFoundPersonFsspService foundervice, ISettingsService settings)
+        public FoundCompanyFsspViewModel(IFoundPersonFsspService foundervice, ISettingsService settings)
         {
             TypeGrid = settings?.GetSettings().TypeGrid;
 
@@ -21,7 +22,6 @@ namespace Fssp.ViewModel
 
         #region PrivateField
         private readonly IFoundPersonFsspService _serviceFound;
-        private readonly IServiceFio _serviceFio = new ServiceFio();
         private readonly IServiceRegion _serviceRegion = new ServiceRegion();
 
         private ObservableCollection<RequestFoundPerson> _collectionRequest;
@@ -42,9 +42,9 @@ namespace Fssp.ViewModel
         public ReadOnlyCollection<Region> CollectionRegion
         {
             get => _collectionRegion;
-            private set => Set(ref _collectionRegion, value);
+            set => Set(ref _collectionRegion, value);
         }
-        public FoundPerson FoundPerson { get; } = new FoundPerson();
+        public FoundCompany FoundCompany { get; } = new FoundCompany();
 
         public Region CurrentRegion
         {
@@ -52,7 +52,7 @@ namespace Fssp.ViewModel
             set
             {
                 Set(ref _currentRegion, value);
-                FoundPerson.Region = value;
+                FoundCompany.Region = value;
                 CommandFoundPerson.RaiseCanExecuteChanged();
             }
         }
@@ -67,7 +67,7 @@ namespace Fssp.ViewModel
                 IsShowProgressBarFound = true;
                 ErrorStatus = null;
 
-                var result = await _serviceFound.GetPerson(FoundPerson);
+                var result = await _serviceFound.GetCompany(FoundCompany);
 
                 if (_collectionRequest == null) CollectionRequest = new ObservableCollection<RequestFoundPerson>();
                 if (result.Object != null) CollectionRequest.Add(result.Object);
@@ -75,9 +75,9 @@ namespace Fssp.ViewModel
                 ErrorStatus = result.ErrorResult;
 
                 IsShowProgressBarFound = false;
-            }, () => _serviceFio.CheckFio(FoundPerson.Fio) && FoundPerson.Region != null));
+            }, () => !string.IsNullOrEmpty(FoundCompany.Name) && FoundCompany.Region != null));
         #endregion Command
-      
+
         public RelayCommand<RequestFoundPerson> CommandGetFile =>
         _commandGetFile ?? (_commandGetFile = new RelayCommand<RequestFoundPerson>(
             req =>

@@ -19,6 +19,8 @@ namespace Fssp.Service
 
         public string ConvertResult(IEnumerable<EntityResult> result, string fileName)
         {
+            fileName = fileName.Replace("/", "_");
+
             var file = _directoryLoadFile + @"\" + fileName + ".xlsx";
                       
             var sourceFile = SaveTempFile(ConvertEntityToString(result), fileName);
@@ -27,7 +29,7 @@ namespace Fssp.Service
             return file;
         }
 
-        private string[] ConvertEntityToString(IEnumerable<EntityResult> result)
+        private static string[] ConvertEntityToString(IEnumerable<EntityResult> result)
         {
             return result.Select(x =>
             {
@@ -35,7 +37,7 @@ namespace Fssp.Service
             }).ToArray();
         }
 
-        private void Convert(Microsoft.Office.Interop.Excel.XlFileFormat format, string fileName, string sourceFile)
+        private static void Convert(Microsoft.Office.Interop.Excel.XlFileFormat format, string fileName, string sourceFile)
         {
             Microsoft.Office.Interop.Excel.Workbook excelDoc = null;
             Microsoft.Office.Interop.Excel.Application excel = null;

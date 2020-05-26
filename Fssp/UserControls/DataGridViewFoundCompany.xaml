@@ -1,10 +1,9 @@
 ﻿<UserControl
-    x:Class="Fssp.UserControls.DataGridViewFoundPerson"
+    x:Class="Fssp.UserControls.DataGridViewFoundCompany"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:Views="clr-namespace:Fssp.Views"
-    xmlns:cmd="http://www.galasoft.ch/mvvmlight"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Fssp.Data.DesignTime"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -47,7 +46,7 @@
                             <Button
                                 Margin="5"
                                 Padding="0"
-                                Command="{Binding DataContext.CommandGetFile, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundPerson}}}"
+                                Command="{Binding DataContext.CommandGetFile, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundCompany}}}"
                                 CommandParameter="{Binding}"
                                 ToolTip="Загрузить данные">
                                 <Button.Style>
@@ -89,21 +88,20 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn
                     Width="*"
-                    Binding="{Binding FoundPerson.Fio}"
+                    Binding="{Binding Query.FirstField}"
                     CanUserSort="True"
-                    Header="ФИО"
-                    SortMemberPath="FoundPerson.Fio" />
+                    Header="Название"
+                    SortMemberPath="Query.FirstField" />
                 <DataGridTextColumn
-                    Binding="{Binding FoundPerson.Date}"
+                    Binding="{Binding Query.TowField}"
                     CanUserSort="True"
-                    Header="Дата рождения"
-                    SortMemberPath="FoundPerson.Date" />
+                    Header="Адрес"
+                    SortMemberPath="Query.TowField" />
                 <DataGridTextColumn
-                    Binding="{Binding FoundPerson.Region.Name}"
+                    Binding="{Binding Query.ThreeField}"
                     CanUserSort="True"
                     Header="Регион"
-                    SortMemberPath="FoundPerson.Region" />
-
+                    SortMemberPath="Query.ThreeField" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

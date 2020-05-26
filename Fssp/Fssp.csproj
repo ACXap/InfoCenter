@@ -85,12 +85,16 @@
     <Compile Include="Data\DesignTime\CollectionPersonInfoDesignTime.cs" />
     <Compile Include="Data\DesignTime\MainViewModelDesignTime.cs" />
     <Compile Include="Data\Enum\EnumTypeStatusRequest.cs" />
+    <Compile Include="Data\FoundCompany.cs" />
+    <Compile Include="Data\FoundNumber.cs" />
     <Compile Include="Data\FoundPerson.cs" />
+    <Compile Include="Data\Interface\IRequestQuery.cs" />
     <Compile Include="Data\Model\Person.cs" />
     <Compile Include="Data\Region.cs" />
     <Compile Include="Data\RequestFoundPerson.cs" />
     <Compile Include="Data\StatusRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Data\EntityCompany.cs" />
     <Compile Include="Repository\Data\EntityPerson.cs" />
     <Compile Include="Repository\Data\EntityResponsResult.cs" />
     <Compile Include="Repository\Data\EntityResult.cs" />
@@ -109,17 +113,34 @@
     <Compile Include="Service\Interface\IServiceRegion.cs" />
     <Compile Include="Service\ServiceFio.cs" />
     <Compile Include="Service\ServiceRegion.cs" />
+    <Compile Include="UserControls\CardCompanyInfo.xaml.cs">
+      <DependentUpon>CardCompanyInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CardPersonInfo.xaml.cs">
       <DependentUpon>CardPersonInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CardsViewFoundCompany.xaml.cs">
+      <DependentUpon>CardsViewFoundCompany.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CardsViewFoundPerson.xaml.cs">
       <DependentUpon>CardsViewFoundPerson.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\DataGridViewFoundCompany.xaml.cs">
+      <DependentUpon>DataGridViewFoundCompany.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\DataGridViewFoundPerson.xaml.cs">
       <DependentUpon>DataGridViewFoundPerson.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\FoundCompanyFsspViewModel.cs" />
+    <Compile Include="ViewModel\FoundNumberFsspViewModel.cs" />
     <Compile Include="ViewModel\FoundPersonFsspViewModel.cs" />
     <Compile Include="ViewModel\MainFsspViewModel.cs" />
+    <Compile Include="Views\FoundCompany.xaml.cs">
+      <DependentUpon>FoundCompany.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FoundNumber.xaml.cs">
+      <DependentUpon>FoundNumber.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FoundPerson.xaml.cs">
       <DependentUpon>FoundPerson.xaml</DependentUpon>
     </Compile>
@@ -137,17 +158,37 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UserControls\CardCompanyInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\CardPersonInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\CardsViewFoundCompany.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CardsViewFoundPerson.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\DataGridViewFoundCompany.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\DataGridViewFoundPerson.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FoundCompany.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FoundNumber.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FoundPerson.xaml">
       <SubType>Designer</SubType>

@@ -6,10 +6,21 @@ namespace Common
 {
     public class FoundViewModelBase : ViewModelBase
     {
+
+
+
+
+        #region PrivateField
         private string _header = string.Empty;
         private ErrorResult _errorStatus;
         private TypeGrid _typeGrid;
         private bool _isShowProgressBarFound = false;
+
+        private RelayCommand _commandCloseErrorView;
+        #endregion PrivateField
+
+        #region PublicProperties
+        public FoundHeader FoundHeader { get; set; }
 
         public ErrorResult ErrorStatus
         {
@@ -31,16 +42,15 @@ namespace Common
             get => _header;
             set => Set(ref _header, value);
         }
+        #endregion PublicProperties
 
-
-        private RelayCommand _commandCloseErrorView;
+        #region Command
         public RelayCommand CommandCloseErrorView =>
         _commandCloseErrorView ?? (_commandCloseErrorView = new RelayCommand(
-                    () =>
-                    {
-                        ErrorStatus = null;
-                    }));
-
-        public FoundHeader FoundHeader { get; set; }
+            () =>
+            {
+                ErrorStatus = null;
+            }));
+        #endregion Command
     }
 }

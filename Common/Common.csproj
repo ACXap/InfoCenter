@@ -91,6 +91,7 @@
     <Compile Include="FoundViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\HttpService.cs" />
+    <Compile Include="Service\Interface\IConverterResultToFile.cs" />
     <Compile Include="Settings\Converters\ConvertNameEnumTypeView.cs" />
     <Compile Include="Settings\Converters\ConvertNameTheme.cs" />
     <Compile Include="Settings\Data\AppSettings.cs" />

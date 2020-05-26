@@ -24,17 +24,32 @@ namespace Fssp.Repository
                 + (string.IsNullOrEmpty(person.Secondname) ? "" : $"&secondname={person.Secondname}")
                 + (string.IsNullOrEmpty(person.Birthdate) ? "" : $"&birthdate={person.Birthdate}");
 
-            var str = _httpService.RequestGet(_urlService, url, HttpService.EnumContentType.Json);
-            var res = JsonConvert.DeserializeObject<JsonResponseSearch>(str);
-
-            var result = new EntityResultSearch()
-            {
-                Exception = res.Exception,
-                TokenTask = res.Response.Task
-            };
-
-            return result;
+            return GetResultSearch(url);
         }
+       
+        public EntityResultSearch SearchCompany(EntityCompany company, string key)
+        {
+            var url = $"search/legal?" +
+                $"token={key}" +
+                $"&region={company?.Region}" +
+                $"&name={company?.Name}" +
+                (string.IsNullOrEmpty(company?.Address) ? "" : $"&address={company?.Address}");
+
+            return GetResultSearch(url);
+        }
+
+        public EntityResultSearch SearchIp(string number, string key)
+        {
+            var url = $"search/ip?token={key}&number={number}";
+
+            return GetResultSearch(url);
+        }
+
+        public string SearchGroop()
+        {
+            throw new NotImplementedException();
+        }
+
         public EntityResponsResult Result(string token, string key)
         {
             var url = $"result?token={key}&task={token}";
@@ -77,27 +92,12 @@ namespace Fssp.Repository
             return result;
         }
 
-        public string SearchCompany()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SearchGroop()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SearchIp()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion PublicMethod
-
         public EntityStatus Status(string token, string key)
         {
             var url = $"status?token={key}&task={token}";
 
             var str = _httpService.RequestGet(_urlService, url, HttpService.EnumContentType.Json);
+            System.Diagnostics.Debug.WriteLine(str);
             var res = JsonConvert.DeserializeObject<JsonResponseStatus>(str);
 
             var result = new EntityStatus()
@@ -109,9 +109,22 @@ namespace Fssp.Repository
 
             return result;
         }
+        #endregion PublicMethod
 
         #region PrivateMethod
+        private EntityResultSearch GetResultSearch(string url)
+        {
+            var str = _httpService.RequestGet(_urlService, url, HttpService.EnumContentType.Json);
+            var res = JsonConvert.DeserializeObject<JsonResponseSearch>(str);
 
+            var result = new EntityResultSearch()
+            {
+                Exception = res.Exception,
+                TokenTask = res.Response.Task
+            };
+
+            return result;
+        }
         #endregion PrivateMethod
     }
 }

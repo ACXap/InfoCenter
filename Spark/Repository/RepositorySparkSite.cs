@@ -70,12 +70,12 @@ namespace Spark.Repository
         #endregion PublicMethod
 
         #region PrivateMethod 
-        private void RemoveControlsByClass(HtmlDocument doc, string className)
+        private static void RemoveControlsByClass(HtmlDocument doc, string className)
         {
             var a = doc.DocumentNode.Descendants(0).Where(n => n.HasClass(className)).First();
             a.ParentNode.RemoveChild(a);
         }
-        private void RemoveControl(HtmlDocument doc)
+        private static void RemoveControl(HtmlDocument doc)
         {
             RemoveControlsByClass(doc, "headerLogo");
             RemoveControlsByClass(doc, "phoneModalContainer");

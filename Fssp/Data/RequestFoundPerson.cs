@@ -1,17 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
+using Fssp.Data.Interface;
 
 namespace Fssp.Data
 {
     public class RequestFoundPerson : ViewModelBase
     {
-        public RequestFoundPerson(FoundPerson person)
+        public RequestFoundPerson(IRequestQuery query)
         {
-            FoundPerson = new FoundPerson()
-            {
-                Date = person.Date,
-                Fio = person.Fio,
-                Region = person.Region
-            };
+            Query = query;
 
             StatusRequest = new StatusRequest();
         }
@@ -34,18 +30,18 @@ namespace Fssp.Data
             StatusRequest.Error = error;
         }
 
-        private FoundPerson _foundPerson;
-        public FoundPerson FoundPerson
+        private IRequestQuery _query;
+        public IRequestQuery Query
         {
-            get => _foundPerson;
-            private set => Set(ref _foundPerson, value);
+            get => _query;
+            private set => Set(ref _query, value);
         }
 
         private StatusRequest _statusRequest;
         public StatusRequest StatusRequest
         {
             get => _statusRequest;
-            set => Set(ref _statusRequest, value);
+            private set => Set(ref _statusRequest, value);
         }
 
         private string _token = string.Empty;

@@ -8,7 +8,7 @@ namespace UI.About
         public string TextAbout
         {
             get => _textAbout;
-            set => Set(ref _textAbout, value);
+            private set => Set(ref _textAbout, value);
         }
     }
 }

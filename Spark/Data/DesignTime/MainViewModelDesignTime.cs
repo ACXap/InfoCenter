@@ -1,4 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Common.Settings.Repository;
+using Common.Settings.Service;
+using GalaSoft.MvvmLight;
+using Spark.Repository;
 using Spark.Service;
 using Spark.ViewModel;
 
@@ -8,7 +11,7 @@ namespace Spark.Data.DesignTime
     {
         public MainViewModelDesignTime()
         {
-            CurrentViewModel = new FoundCompanySparkViewModel(null, null);
+            CurrentViewModel = new FoundCompanySparkViewModel(new FoundCompanyService(new RepositorySparkSite()), new SettingsService(new RepositoryJsonSettings()));
         }
 
         #region PrivateField

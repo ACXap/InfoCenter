@@ -7,6 +7,9 @@ namespace Fssp.Service.Interface
     public interface IFoundPersonFsspService
     {
         Task<Result<RequestFoundPerson>> GetPerson(FoundPerson person);
+        Task<Result<RequestFoundPerson>> GetCompany(FoundCompany company);
+        Task<Result<RequestFoundPerson>> GetNumber(string number);
+        void GetResult(RequestFoundPerson request);
         void GetPersonFile(string file);      
     }
 }

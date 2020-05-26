@@ -38,24 +38,25 @@ namespace UI.Home
 
         private async void GetName()
         {
-            var user = await GetUserName().ConfigureAwait(false);
+            var user = await Task.Run(() =>
+            {
+                try
+                {
+                    using (var u = UserPrincipal.Current)
+                        return $"{u.GivenName} {u.MiddleName}";
+                }
+                catch { }
 
-            if (string.IsNullOrEmpty(user) == false)
+                return null;
+                
+            }).ConfigureAwait(false);
+
+            if (string.IsNullOrEmpty(user) == false && string.IsNullOrWhiteSpace(user) == false)
             {
                 UserName = user;
             }
         }
 
-        private static Task<string> GetUserName()
-        {
-           return Task.Run(() =>
-            {
-                using (var user = UserPrincipal.Current)
-                {
-                   return $"{user.GivenName} {user.MiddleName}";
-                }
-            });           
-        }
         #endregion PrivateMethod
     }
 }

@@ -1,6 +1,4 @@
-﻿using Fssp.Data;
-using Fssp.Repository.Data;
-using System.Collections.Generic;
+﻿using Fssp.Repository.Data;
 
 namespace Fssp.Repository
 {
@@ -17,13 +15,13 @@ namespace Fssp.Repository
         /// Отправить запрос на поиск юридического лица
         /// </summary>
         /// <returns></returns>
-        string SearchCompany();
+        EntityResultSearch SearchCompany(EntityCompany company, string key);
 
         /// <summary>
         /// Отправить запрос на поиск по номеру исполнительного производства
         /// </summary>
         /// <returns></returns>
-        string SearchIp();
+        EntityResultSearch SearchIp(string number, string key);
 
         /// <summary>
         /// Отправить групповой запрос

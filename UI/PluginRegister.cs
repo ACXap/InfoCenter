@@ -35,7 +35,6 @@ namespace UI
             SimpleIoc.Default.Register<ILoadCompanyService, LoadCompanyService>();
             SimpleIoc.Default.Register<IFoundCompanySparkService, FoundCompanyService>();
             SimpleIoc.Default.Register<FoundCompanySparkViewModel>();
-            SimpleIoc.Default.Register<CompanySparkViewModel>();
             SimpleIoc.Default.Register<MainSparkViewModel>();
 
             //SimpleIoc.Default.Register<IRepositoryEgrul, RepositoryEgrulTest>();
@@ -47,6 +46,8 @@ namespace UI
             SimpleIoc.Default.Register<IRepositoryFssp, RepositoryFsspApi>();
             SimpleIoc.Default.Register<IFoundPersonFsspService, FoundPersonFsspService>();
             SimpleIoc.Default.Register<FoundPersonFsspViewModel>();
+            SimpleIoc.Default.Register<FoundCompanyFsspViewModel>();
+            SimpleIoc.Default.Register<FoundNumberFsspViewModel>();
             SimpleIoc.Default.Register<MainFsspViewModel>();
         }
 
