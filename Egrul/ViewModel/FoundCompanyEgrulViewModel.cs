@@ -1,7 +1,7 @@
 ﻿using Common;
 using Common.Settings.Service;
 using Egrul.Data.Model;
-using Egrul.Service.Interfaces;
+using Egrul.Service;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -47,13 +47,11 @@ namespace Egrul.ViewModel
         _commandLoadPdf ?? (_commandLoadPdf = new RelayCommand<CompanyInfo>(
                     async (company) =>
                     {
-                        IsShowProgressBarFound = true;
-                        ErrorStatus = null;
+                        StartProcess();
 
-                        var result = await _foundService.GetPdfFile(company);
-                        ErrorStatus = result.ErrorResult;
-
-                        IsShowProgressBarFound = false;
+                        var result = await _foundService.GetPdfFile(company).ConfigureAwait(false);
+                       
+                        StopProcess(result.ErrorResult);
                     }));
 
         #endregion Command
@@ -61,15 +59,13 @@ namespace Egrul.ViewModel
         #region PrivateMethod
         private async void Found()
         {
-            IsShowProgressBarFound = true;
-            ErrorStatus = null;
+            StartProcess();
 
-            var result = await _foundService.GetCollectionCompany(FoundHeader.FoundText).ConfigureAwait(false);
+            var result = await _foundService.FoundCompany(FoundHeader.FoundText).ConfigureAwait(true);
 
-            CollectionCompanyInfo = result.Objects != null ? new ReadOnlyCollection<CompanyInfo>(result.Objects.ToList()) : null;
-            ErrorStatus = result.ErrorResult;
-
-            IsShowProgressBarFound = false;
+            CollectionCompanyInfo = result.Items != null ? new ReadOnlyCollection<CompanyInfo>(result.Items.ToList()) : null;
+           
+            StopProcess(result.ErrorResult);
         }
         #endregion PrivateMethod
     }

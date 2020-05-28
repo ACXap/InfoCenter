@@ -16,7 +16,12 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ResourceDictionary>
+            <!--<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Style/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <d:DesignerProperties.DesignStyle>
         <Style TargetType="UserControl">
@@ -45,22 +50,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
-                                Margin="5"
-                                Padding="0"
-                                Command="{Binding DataContext.CommandGetFile, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundPerson}}}"
+                                Command="{Binding DataContext.CurrentViewModel.CommandGetFile, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainFsspView}}}"
                                 CommandParameter="{Binding}"
-                                ToolTip="Загрузить данные">
-                                <Button.Style>
-                                    <Style BasedOn="{StaticResource MahApps.Styles.Button.WindowCommands}" TargetType="{x:Type Button}">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                        <Setter Property="Opacity" Value="0.9" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding FileResult}" Value="">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
+                                Style="{StaticResource ButtonLoadFile}">
                                 <iconPack:FontAwesome Kind="FileExcelSolid" />
                             </Button>
                         </DataTemplate>
@@ -87,23 +79,21 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn
+                <DataGridTemplateColumn
                     Width="*"
-                    Binding="{Binding FoundPerson.Fio}"
                     CanUserSort="True"
-                    Header="ФИО"
-                    SortMemberPath="FoundPerson.Fio" />
-                <DataGridTextColumn
-                    Binding="{Binding FoundPerson.Date}"
-                    CanUserSort="True"
-                    Header="Дата рождения"
-                    SortMemberPath="FoundPerson.Date" />
-                <DataGridTextColumn
-                    Binding="{Binding FoundPerson.Region.Name}"
-                    CanUserSort="True"
-                    Header="Регион"
-                    SortMemberPath="FoundPerson.Region" />
-
+                    Header="Запрос"
+                    SortMemberPath="Query.FirstField">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" Text="{Binding Query.FirstField}" />
+                                <TextBlock Margin="5" Text="{Binding Query.ThreeField}" />
+                                <TextBlock Margin="5" Text="{Binding Query.TowField}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

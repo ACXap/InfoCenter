@@ -16,7 +16,8 @@ namespace Common.Data
             set
             {
                 Set(ref _foundText, value);
-                if (value.Length > 2 && FoundFast)
+                
+                if (value!=null && value.Length > 2 && FoundFast)
                 {
                     CommandFound.Execute(null);
                 }

@@ -1,4 +1,4 @@
-﻿using Common.Data.Enum;
+﻿using Common.Data;
 using Common.Settings.Service;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;

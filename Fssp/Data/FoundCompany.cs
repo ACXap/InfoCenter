@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using Fssp.Data.Interface;
 
 namespace Fssp.Data
 {
@@ -9,8 +8,8 @@ namespace Fssp.Data
         public string TowField { get => _address; }
         public string ThreeField { get => _region.Name; }
 
-        private string _name = string.Empty;
-        private string _address = string.Empty;
+        private string _name;
+        private string _address;
         private Region _region;
 
         public string Name

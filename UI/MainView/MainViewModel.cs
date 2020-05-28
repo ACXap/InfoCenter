@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
+using System.IO;
 using UI.About;
 using UI.Data;
 using UI.Home;
@@ -61,6 +62,19 @@ namespace UI.ViewModels
                 IndexItem = plugin.Id;
             }));
         #endregion Command
+
+        private RelayCommand _commandOpenFolder;
+        public RelayCommand CommandOpenFolder =>
+        _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand(
+                    () =>
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start("explorer",  Directory.GetCurrentDirectory());
+                        }
+                        catch { }
+                    }));
+
 
         #region PrivateMethod
         private void CreateMenuItems()

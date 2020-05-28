@@ -6,8 +6,10 @@
     xmlns:common="clr-namespace:Common.UserControls;assembly=Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Fssp.Data.DesignTime"
+    xmlns:en="clr-namespace:Common.Data;assembly=Common"
     xmlns:local="clr-namespace:Fssp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:Fssp.UserControls"
     xmlns:vm="clr-namespace:Fssp.ViewModel"
     x:Name="MainViewFssp"
     d:DataContext="{d:DesignInstance dtvm:MainViewModelDesignTime,
@@ -31,10 +33,14 @@
         <DataTemplate DataType="{x:Type vm:FoundNumberFsspViewModel}">
             <local:FoundNumber />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:FoundListFsspViewModel}">
+            <local:FoundList />
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -55,7 +61,9 @@
             <TabItem Header="Номер ИП">
                 <ContentControl Content="{Binding CurrentViewModel}" />
             </TabItem>
-            <TabItem Header="Списки" />
+            <TabItem Header="Списки">
+                <ContentControl Content="{Binding CurrentViewModel}" />
+            </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
     </Grid>
 </UserControl>

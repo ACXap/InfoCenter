@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Fssp.UserControls
+namespace Spark.UserControls
 {
     /// <summary>
-    /// Логика взаимодействия для CardCompanyInfo.xaml
+    /// Логика взаимодействия для ButtonLoadFile.xaml
     /// </summary>
-    public partial class CardCompanyInfo : UserControl
+    public partial class ButtonLoadFile : UserControl
     {
-        public CardCompanyInfo()
+        public ButtonLoadFile()
         {
             InitializeComponent();
         }

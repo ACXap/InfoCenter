@@ -5,7 +5,7 @@ namespace Spark.Repository
 {
     public interface IRepositorySpark
     {
-        List<EntityCompanyInfo> GetCollectionCompany(string query);
+        List<EntityCompanyInfo> FoundCompany(string query);
 
         EntityCompany GetCompany(string quert);
     }

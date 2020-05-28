@@ -1,11 +1,10 @@
-﻿using Fssp.Service.Interface;
-using System;
+﻿using System;
 
 namespace Fssp.Service
 {
-    public class ServiceFio: IServiceFio
+    public static class ServiceFio
     {
-        public bool CheckFio(string fio)
+        public static bool CheckFio(string fio)
         {
             //если пусто
             if (string.IsNullOrEmpty(fio)) return false;
@@ -28,9 +27,11 @@ namespace Fssp.Service
 
             return true;
         }
-      
-        public string[] GetFio(string fio)
+
+        public static string[] GetFio(string fio)
         {
+            if (string.IsNullOrEmpty(fio)) return new string[2];
+
             var s = fio.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return new string[] { s[0], s[1], s.Length == 3 ? s[2] : "" };
         }

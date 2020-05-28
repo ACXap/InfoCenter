@@ -21,7 +21,7 @@ namespace Common.Settings.Repository
             }
             else
             {
-                throw new FileNotFoundException("Файл настроек не найден");
+                throw new FileNotFoundException("Файл настроек не найден", _fileSettings);
             }
         }
 

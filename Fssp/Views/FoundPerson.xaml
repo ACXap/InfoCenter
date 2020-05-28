@@ -6,7 +6,7 @@
     xmlns:common="clr-namespace:Common.UserControls;assembly=Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Fssp.ViewModel"
-    xmlns:en="clr-namespace:Common.Data.Enum;assembly=Common"
+    xmlns:en="clr-namespace:Common.Data;assembly=Common"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:Fssp.UserControls"
     xmlns:vm="clr-namespace:Fssp.ViewModel"
@@ -25,7 +25,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ViewCardFound" DataType="{x:Type vm:FoundPersonFsspViewModel}">
-            <uc:CardsViewFoundPerson />
+            <uc:CardsFound />
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -66,7 +66,11 @@
                             IsTextSearchEnabled="True"
                             ItemsSource="{Binding CollectionRegion}"
                             SelectedItem="{Binding CurrentRegion, UpdateSourceTrigger=PropertyChanged}"
-                            TextSearch.TextPath="Name" />
+                            TextSearch.TextPath="Name">
+                            <ComboBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding CommandFoundPerson}" />
+                            </ComboBox.InputBindings>
+                        </ComboBox>
                         <TextBox
                             Width="250"
                             Height="30"

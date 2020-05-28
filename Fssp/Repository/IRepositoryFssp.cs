@@ -1,4 +1,5 @@
 ﻿using Fssp.Repository.Data;
+using System.Collections.Generic;
 
 namespace Fssp.Repository
 {
@@ -27,7 +28,19 @@ namespace Fssp.Repository
         /// Отправить групповой запрос
         /// </summary>
         /// <returns></returns>
-        string SearchGroop();
+        EntityResultSearch SearchGroopPerson(IEnumerable<EntityPerson> persons, string key);
+
+        /// <summary>
+        /// Отправить групповой запрос
+        /// </summary>
+        /// <returns></returns>
+        EntityResultSearch SearchGroopCompany(IEnumerable<EntityCompany> companys, string key);
+
+        /// <summary>
+        /// Отправить групповой запрос
+        /// </summary>
+        /// <returns></returns>
+        EntityResultSearch SearchGroopNumber(IEnumerable<string> numbers, string key);
 
         /// <summary>
         /// Отправить запрос на получение статуса выполнения задачи

@@ -26,10 +26,10 @@ namespace UI
             PluginRegister.Register();
         }
 
-        public ViewModelBase MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
-        public ViewModelBase SettingsViewModel => ServiceLocator.Current.GetInstance<SettingsViewModel>();
-        public ViewModelBase HomeViewModel => ServiceLocator.Current.GetInstance<HomeViewModel>();
-        public ViewModelBase AboutViewModel => ServiceLocator.Current.GetInstance<AboutViewModel>();
+        public static ViewModelBase MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public static ViewModelBase SettingsViewModel => ServiceLocator.Current.GetInstance<SettingsViewModel>();
+        public static ViewModelBase HomeViewModel => ServiceLocator.Current.GetInstance<HomeViewModel>();
+        public static ViewModelBase AboutViewModel => ServiceLocator.Current.GetInstance<AboutViewModel>();
 
         public PluginRegister PluginViewModel { get; } = new PluginRegister();
 

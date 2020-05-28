@@ -6,10 +6,6 @@ namespace Common
 {
     public class FoundViewModelBase : ViewModelBase
     {
-
-
-
-
         #region PrivateField
         private string _header = string.Empty;
         private ErrorResult _errorStatus;
@@ -25,7 +21,7 @@ namespace Common
         public ErrorResult ErrorStatus
         {
             get => _errorStatus;
-            set => Set(ref _errorStatus, value);
+            private set => Set(ref _errorStatus, value);
         }
         public TypeGrid TypeGrid
         {
@@ -35,7 +31,7 @@ namespace Common
         public bool IsShowProgressBarFound
         {
             get => _isShowProgressBarFound;
-            set => Set(ref _isShowProgressBarFound, value);
+            private set => Set(ref _isShowProgressBarFound, value);
         }
         public string Header
         {
@@ -52,5 +48,17 @@ namespace Common
                 ErrorStatus = null;
             }));
         #endregion Command
+    
+        public void StartProcess()
+        {
+            ErrorStatus = null;
+            IsShowProgressBarFound = true;
+        }
+
+        public void StopProcess(ErrorResult error)
+        {
+            ErrorStatus = error;
+            IsShowProgressBarFound = false;
+        }
     }
 }

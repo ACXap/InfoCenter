@@ -1,15 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
-using Fssp.Data.Interface;
 
 namespace Fssp.Data
 {
     public class FoundNumber : ViewModelBase, IRequestQuery
     {
         public string FirstField { get => _number; }
-        public string TowField { get; }
-        public string ThreeField { get; }
+        public string TowField => null;
+        public string ThreeField => null;
 
-        private string _number = string.Empty;
+        private string _number;
 
         public string Number
         {

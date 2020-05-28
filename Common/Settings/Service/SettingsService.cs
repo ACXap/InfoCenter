@@ -1,4 +1,4 @@
-﻿using Common.Data.Enum;
+﻿using Common.Data;
 using ControlzEx.Theming;
 using System;
 using System.Threading.Tasks;
@@ -41,14 +41,13 @@ namespace Common.Settings.Service
             }
             catch (Exception ex)
             {
+                // тут будет логер когда нибудь
                 _settings = new Data.AppSettings(this)
                 {
                     CollectionTheme = ThemeManager.Current.Themes,
                     CurrentTheme = ThemeManager.Current.DetectTheme(),
                     TypeGrid = new Common.Data.TypeGrid(this)
                 };
-
-                // тут будет логер когда нибудь
             }
         }
         #endregion PrivateMethod

@@ -1,10 +1,8 @@
 ﻿using Common.Data;
-using Common.Data.Enum;
+using Common.Service;
 using Spark.Data.Model;
 using Spark.Repository;
-using Spark.Service.Interfaces;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,25 +10,20 @@ namespace Spark.Service
 {
     public class FoundCompanyService : IFoundCompanySparkService
     {
-        private string _directoryLoadFile;
-
         public FoundCompanyService(IRepositorySpark rep)
         {
-            var curDir = Directory.GetCurrentDirectory();
-            _directoryLoadFile = curDir + @"\Spark";
-            Directory.CreateDirectory(_directoryLoadFile);
-
             _repositorySpark = rep;
-            _converterHtml = new ConverterHtmlWord(_directoryLoadFile);
+
+            _createFile = new CreateFileOffice("Spark");
         }
 
         #region PrivateField
         private readonly IRepositorySpark _repositorySpark;
-        private readonly IConverterHtml _converterHtml;
+        private readonly ICreateFileOfResult _createFile;
         #endregion PrivateField
 
         #region PublicMethod
-        public async Task<Result<CompanyInfo>> GetCollectionCompany(string query)
+        public async Task<Result<CompanyInfo>> FoundCompany(string query)
         {
             return await Task.Run(() =>
             {
@@ -38,9 +31,9 @@ namespace Spark.Service
 
                 try
                 {
-                    var list = _repositorySpark.GetCollectionCompany(query);
+                    var list = _repositorySpark.FoundCompany(query);
 
-                    result.Objects = list.Select(x =>
+                    result.Items = list.Select(x =>
                     {
                         return new CompanyInfo()
                         {
@@ -53,7 +46,7 @@ namespace Spark.Service
                         };
                     });
 
-                    if (!result.Objects.Any())
+                    if (!result.Items.Any())
                     {
                         result.ErrorResult = new ErrorResult("Данных нет", EnumTypeError.ResultNotFound);
                     }
@@ -65,9 +58,9 @@ namespace Spark.Service
                 }
 
                 return result;
-            });
+            }).ConfigureAwait(false);
         }
-        public async Task<Result<bool>> GetPdfFile(CompanyInfo company)
+        public async Task<Result<bool>> GetFileCompany(CompanyInfo company)
         {
             return await Task.Run(() =>
             {
@@ -77,22 +70,21 @@ namespace Spark.Service
                 {
                     var str = _repositorySpark.GetCompany(company.Link);
 
-                    var resultDoc = _converterHtml.ConvertToDocx(str.Html, company.Ogrn);
-                    var resultPdf = _converterHtml.ConvertToPdf(str.Html, company.Ogrn);
+                    var resultDoc = _createFile.CreateDocx(str.Html, company.Ogrn);
+                    var resultPdf = _createFile.CreatePdf(str.Html, company.Ogrn);
 
                     System.Diagnostics.Process.Start("explorer", @"/select, " + resultDoc);
 
-                    result.Object = !string.IsNullOrEmpty(resultDoc) && !string.IsNullOrEmpty(resultPdf);
+                    result.Item = !string.IsNullOrEmpty(resultDoc) && !string.IsNullOrEmpty(resultPdf);
                 }
                 catch (Exception ex)
                 {
                     // Тут будет логер
-                    result.Object = false;
                     result.ErrorResult = new ErrorResult(ex.Message, EnumTypeError.ErrorBd);
                 }
 
                 return result;
-            });
+            }).ConfigureAwait(false);
         }
         #endregion PublicMethod
     }

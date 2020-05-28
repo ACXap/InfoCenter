@@ -4,8 +4,8 @@ namespace Common.Data
 {
     public class Result<T>
     {
-        public T Object { get; set; }
-        public IEnumerable<T> Objects { get; set; }
+        public T Item { get; set; }
+        public IEnumerable<T> Items { get; set; }
         public ErrorResult ErrorResult { get; set; }
     }
 }

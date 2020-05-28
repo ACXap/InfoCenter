@@ -1,4 +1,4 @@
-﻿using Common.Data.Enum;
+﻿using Common.Data;
 using System;
 using System.Globalization;
 using System.Windows.Data;

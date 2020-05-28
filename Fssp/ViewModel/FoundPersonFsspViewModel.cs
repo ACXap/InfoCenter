@@ -2,7 +2,6 @@
 using Common.Settings.Service;
 using Fssp.Data;
 using Fssp.Service;
-using Fssp.Service.Interface;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 
@@ -21,7 +20,6 @@ namespace Fssp.ViewModel
 
         #region PrivateField
         private readonly IFoundPersonFsspService _serviceFound;
-        private readonly IServiceFio _serviceFio = new ServiceFio();
         private readonly IServiceRegion _serviceRegion = new ServiceRegion();
 
         private ObservableCollection<RequestFoundPerson> _collectionRequest;
@@ -64,18 +62,15 @@ namespace Fssp.ViewModel
         _commandFoundPerson ?? (_commandFoundPerson = new RelayCommand(
             async () =>
             {
-                IsShowProgressBarFound = true;
-                ErrorStatus = null;
+                StartProcess();
 
-                var result = await _serviceFound.GetPerson(FoundPerson);
+                var result = await _serviceFound.GetPerson(FoundPerson).ConfigureAwait(true);
 
                 if (_collectionRequest == null) CollectionRequest = new ObservableCollection<RequestFoundPerson>();
-                if (result.Object != null) CollectionRequest.Add(result.Object);
+                if (result.Item != null) CollectionRequest.Add(result.Item);
 
-                ErrorStatus = result.ErrorResult;
-
-                IsShowProgressBarFound = false;
-            }, () => _serviceFio.CheckFio(FoundPerson.Fio) && FoundPerson.Region != null));
+                StopProcess(result.ErrorResult);
+            }, () => ServiceFio.CheckFio(FoundPerson.Fio) && FoundPerson.Region != null));
         #endregion Command
       
         public RelayCommand<RequestFoundPerson> CommandGetFile =>

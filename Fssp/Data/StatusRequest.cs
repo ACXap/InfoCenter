@@ -1,5 +1,4 @@
-﻿using Fssp.Data.Enum;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 
 namespace Fssp.Data
 {

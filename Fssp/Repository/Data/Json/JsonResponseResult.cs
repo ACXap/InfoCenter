@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Fssp.Repository.Data
 {
@@ -29,7 +30,7 @@ namespace Fssp.Repository.Data
         public string TaskEnd { get; set; }
 
         [JsonProperty("result")]
-        public ResponseResult[] Result { get; set; }
+        public List<ResponseResult> Result { get; set; }
     }
 
     public partial class ResponseResult
@@ -41,7 +42,7 @@ namespace Fssp.Repository.Data
         public Query Query { get; set; }
 
         [JsonProperty("result")]
-        public ResultResult[] Result { get; set; }
+        public List<ResultResult> Result { get; set; }
     }
 
     public class Query
@@ -66,7 +67,8 @@ namespace Fssp.Repository.Data
 
         [JsonProperty("lastname", NullValueHandling = NullValueHandling.Ignore)]
         public string Lastname { get; set; }
-
+        [JsonProperty("secondname", NullValueHandling = NullValueHandling.Ignore)]
+        public string Secondname { get; set; }
         [JsonProperty("number", NullValueHandling = NullValueHandling.Ignore)]
         public string Number { get; set; }
     }

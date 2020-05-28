@@ -5,6 +5,6 @@ namespace Egrul.Data.DesignTime
 {
     public class CollectionCompanyInfoDesignTime
     {
-        public List<CompanyInfo> CollectionCompanyInfo { get; set; }
+        public List<CompanyInfo> CollectionCompanyInfo { get; }
     }
 }

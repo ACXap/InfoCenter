@@ -1,4 +1,4 @@
-﻿namespace Fssp.Data.Interface
+﻿namespace Fssp.Data
 {
     public interface IRequestQuery
     {

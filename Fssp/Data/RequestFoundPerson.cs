@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using Fssp.Data.Interface;
 
 namespace Fssp.Data
 {
@@ -14,19 +13,19 @@ namespace Fssp.Data
 
         public void StartRequest()
         {
-            StatusRequest.TypeStatusRequest = Enum.EnumTypeStatusRequest.InProgress;
+            StatusRequest.TypeStatusRequest = EnumTypeStatusRequest.InProgress;
         }
 
         public void StopRequest()
         {
-            StatusRequest.TypeStatusRequest = Enum.EnumTypeStatusRequest.Ok;
+            StatusRequest.TypeStatusRequest = EnumTypeStatusRequest.Ok;
         }
 
         public void ErrorRequest(string error)
         {
             if (string.IsNullOrEmpty(error)) return;
 
-            StatusRequest.TypeStatusRequest = Enum.EnumTypeStatusRequest.Error;
+            StatusRequest.TypeStatusRequest = EnumTypeStatusRequest.Error;
             StatusRequest.Error = error;
         }
 

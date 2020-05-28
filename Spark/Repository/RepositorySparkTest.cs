@@ -8,7 +8,7 @@ namespace Spark.Repository
 {
     public class RepositorySparkTest : IRepositorySpark
     {
-        public List<EntityCompanyInfo> GetCollectionCompany(string query)
+        public List<EntityCompanyInfo> FoundCompany(string query)
         {
             var list = new List<EntityCompanyInfo>()
             {
@@ -50,7 +50,7 @@ namespace Spark.Repository
             return company;
         }
 
-        private void RemoveControlsByClass(HtmlDocument doc, string className)
+        private static void RemoveControlsByClass(HtmlDocument doc, string className)
         {
             var a = doc.DocumentNode.Descendants(0).Where(n => n.HasClass(className)).First();
             a.ParentNode.RemoveChild(a);

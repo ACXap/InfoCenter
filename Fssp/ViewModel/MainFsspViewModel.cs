@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Common;
+using GalaSoft.MvvmLight;
 
 namespace Fssp.ViewModel
 {
@@ -6,30 +7,32 @@ namespace Fssp.ViewModel
     {
         public MainFsspViewModel(FoundPersonFsspViewModel foundPerson, 
                                 FoundCompanyFsspViewModel foundCompany,
-                                FoundNumberFsspViewModel foundNumber)
+                                FoundNumberFsspViewModel foundNumber,
+                                FoundListFsspViewModel foundList)
         {
             Header = "Поиск в базе данных ФССП";
             _foundPerson = foundPerson;
             _foundCompany = foundCompany;
             _foundNumber = foundNumber;
+            _foundList = foundList;
 
             CurrentViewModel = foundPerson;
         }
 
         #region PrivateField
-        private ViewModelBase _currentViewModel;
+        private FoundViewModelBase _currentViewModel;
 
-        private readonly ViewModelBase _foundPerson;
-        private readonly ViewModelBase _foundCompany;
-        private readonly ViewModelBase _foundNumber;
-        private readonly ViewModelBase _foundList;
+        private readonly FoundViewModelBase _foundPerson;
+        private readonly FoundViewModelBase _foundCompany;
+        private readonly FoundViewModelBase _foundNumber;
+        private readonly FoundViewModelBase _foundList;
 
         private int _currentIndexTab;
         private string _header = string.Empty;
         #endregion PrivateField
 
         #region PublicProperties
-        public ViewModelBase CurrentViewModel
+        public FoundViewModelBase CurrentViewModel
         {
             get => _currentViewModel;
             private set => Set(ref _currentViewModel, value);

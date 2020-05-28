@@ -1,7 +1,7 @@
 ﻿using Fssp.Data;
 using System.Collections.Generic;
 
-namespace Fssp.Service.Interface
+namespace Fssp.Service
 {
     public interface IServiceRegion
     {

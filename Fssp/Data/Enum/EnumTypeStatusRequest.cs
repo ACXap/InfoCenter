@@ -1,4 +1,4 @@
-﻿namespace Fssp.Data.Enum
+﻿namespace Fssp.Data
 {
     public enum EnumTypeStatusRequest
     {

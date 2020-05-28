@@ -6,7 +6,7 @@
     xmlns:common="clr-namespace:Common.UserControls;assembly=Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Fssp.ViewModel"
-    xmlns:en="clr-namespace:Common.Data.Enum;assembly=Common"
+    xmlns:en="clr-namespace:Common.Data;assembly=Common"
     xmlns:local="clr-namespace:Fssp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:Fssp.UserControls"
@@ -21,12 +21,12 @@
         </Style>
     </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
-        <DataTemplate x:Key="ViewDataGridFound" DataType="{x:Type vm:FoundPersonFsspViewModel}">
+        <DataTemplate x:Key="ViewDataGridFound" DataType="{x:Type vm:FoundNumberFsspViewModel}">
             <uc:DataGridViewFoundPerson />
         </DataTemplate>
 
-        <DataTemplate x:Key="ViewCardFound" DataType="{x:Type vm:FoundPersonFsspViewModel}">
-            <uc:CardsViewFoundPerson />
+        <DataTemplate x:Key="ViewCardFound" DataType="{x:Type vm:FoundNumberFsspViewModel}">
+            <uc:CardsFound />
         </DataTemplate>
     </UserControl.Resources>
     <Grid>

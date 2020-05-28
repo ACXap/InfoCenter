@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# CA1031: Не перехватывать исключения общих типов
+dotnet_diagnostic.CA1031.severity = none
+
+# IDE0058: Значение выражения никогда не используется
+csharp_style_unused_value_expression_statement_preference = discard_variable:none
+
+# IDE0074: Использовать составной оператор назначения
+dotnet_style_prefer_compound_assignment = true:none

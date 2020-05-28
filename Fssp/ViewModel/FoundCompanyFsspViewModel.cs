@@ -2,10 +2,8 @@
 using Common.Settings.Service;
 using Fssp.Data;
 using Fssp.Service;
-using Fssp.Service.Interface;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace Fssp.ViewModel
 {
@@ -64,17 +62,14 @@ namespace Fssp.ViewModel
         _commandFoundPerson ?? (_commandFoundPerson = new RelayCommand(
             async () =>
             {
-                IsShowProgressBarFound = true;
-                ErrorStatus = null;
+                StartProcess();
 
-                var result = await _serviceFound.GetCompany(FoundCompany);
+                var result = await _serviceFound.GetCompany(FoundCompany).ConfigureAwait(true);
 
                 if (_collectionRequest == null) CollectionRequest = new ObservableCollection<RequestFoundPerson>();
-                if (result.Object != null) CollectionRequest.Add(result.Object);
+                if (result.Item != null) CollectionRequest.Add(result.Item);
 
-                ErrorStatus = result.ErrorResult;
-
-                IsShowProgressBarFound = false;
+                StopProcess(result.ErrorResult);
             }, () => !string.IsNullOrEmpty(FoundCompany.Name) && FoundCompany.Region != null));
         #endregion Command
 

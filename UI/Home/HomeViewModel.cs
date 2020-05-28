@@ -12,7 +12,7 @@ namespace UI.Home
         {
             GetName();
 
-            CollectionModule = new ReadOnlyCollection<EntityPlugin>(_pluginRegister.GetPlugin());
+            CollectionModule = new ReadOnlyCollection<EntityPlugin>(_pluginRegister.GetMenu());
         }
 
         #region PrivateField

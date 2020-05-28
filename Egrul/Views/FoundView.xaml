@@ -6,7 +6,7 @@
     xmlns:common="clr-namespace:Common.UserControls;assembly=Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Egrul.ViewModel"
-    xmlns:en="clr-namespace:Common.Data.Enum;assembly=Common"
+    xmlns:en="clr-namespace:Common.Data;assembly=Common"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:Egrul.UserControls"
     xmlns:vm="clr-namespace:Egrul.ViewModel"

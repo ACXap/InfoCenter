@@ -1,5 +1,4 @@
 ﻿using Common.Data;
-using Common.Data.Enum;
 using ControlzEx.Theming;
 using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
@@ -32,6 +31,15 @@ namespace Common.Settings.Data
             {
                 Set(ref _currentTheme, value);
                 ThemeManager.Current.ChangeTheme(Application.Current, value);
+
+                if (_typeGrid != null)
+                {
+                    var old = _typeGrid.TypeGridViewItem;
+                    _typeGrid.TypeGridViewItem = old == EnumTypeGridViewItem.Card? EnumTypeGridViewItem.DataGrid:EnumTypeGridViewItem.Card;
+
+                    _typeGrid.TypeGridViewItem = old;
+                }
+                
                 _service?.SaveSettings();
             }
         }

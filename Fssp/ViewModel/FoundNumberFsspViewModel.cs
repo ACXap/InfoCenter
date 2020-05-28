@@ -1,20 +1,19 @@
 ﻿using Common;
 using Common.Settings.Service;
 using Fssp.Data;
-using Fssp.Service.Interface;
+using Fssp.Service;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace Fssp.ViewModel
 {
     public class FoundNumberFsspViewModel : FoundViewModelBase
     {
-        public FoundNumberFsspViewModel(IFoundPersonFsspService foundervice, ISettingsService settings)
+        public FoundNumberFsspViewModel(IFoundPersonFsspService foundService, ISettingsService settings)
         {
             TypeGrid = settings?.GetSettings().TypeGrid;
 
-            _serviceFound = foundervice;
+            _serviceFound = foundService;
 
             FoundHeader = new Common.Data.FoundHeader()
             {
@@ -53,17 +52,14 @@ namespace Fssp.ViewModel
 
         private async void Found()
         {
-            IsShowProgressBarFound = true;
-            ErrorStatus = null;
+            StartProcess();
 
-            var result = await _serviceFound.GetNumber(FoundHeader.FoundText);
+            var result = await _serviceFound.GetNumber(FoundHeader.FoundText).ConfigureAwait(true);
 
             if (_collectionRequest == null) CollectionRequest = new ObservableCollection<RequestFoundPerson>();
-            if (result.Object != null) CollectionRequest.Add(result.Object);
+            if (result.Item != null) CollectionRequest.Add(result.Item);
 
-            ErrorStatus = result.ErrorResult;
-
-            IsShowProgressBarFound = false;
+            StopProcess(result.ErrorResult);
         }
     }
 }

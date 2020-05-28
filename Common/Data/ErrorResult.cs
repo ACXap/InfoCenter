@@ -1,6 +1,4 @@
-﻿using Common.Data.Enum;
-
-namespace Common.Data
+﻿namespace Common.Data
 {
     public class ErrorResult
     {

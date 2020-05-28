@@ -1,4 +1,4 @@
-﻿namespace Common.Data.Enum
+﻿namespace Common.Data
 {
     public enum EnumTypeError
     {

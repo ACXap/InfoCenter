@@ -9,26 +9,19 @@ namespace Spark.Repository
     public class RepositorySparkSite : IRepositorySpark
     {
         #region PrivateField
-        private readonly string _urlRequestPost = "http://dataport.rt.ru/mdm/ExtendedReportCDI";
-        private readonly string _urlRequestGetInn = "http://dataport.rt.ru";
-
-        private readonly HttpService _httpService = new HttpService();
+        private readonly HttpService _httpService = new HttpService("http://dataport.rt.ru");
         #endregion PrivateField
 
         #region PublicMethod
-        public List<EntityCompanyInfo> GetCollectionCompany(string query)
+        public List<EntityCompanyInfo> FoundCompany(string query)
         {
-            var list = new List<EntityCompanyInfo>();
-
             var requestBody = $"query={{\"query\":\"{query}\"}}";
 
-            var str = _httpService.RequestPost(_urlRequestPost, requestBody, HttpService.EnumContentType.Html);
+            var str = _httpService.RequestPost("mdm/ExtendedReportCDI", requestBody, HttpService.EnumContentType.Html);
+            
+            var c = GetItemsCompany(str);
 
-            var doc = new HtmlDocument();
-
-            doc.LoadHtml(str);
-
-            var c = doc.DocumentNode.Descendants("div").Where(x => x.HasClass("link"));
+            var list = new List<EntityCompanyInfo>();
 
             foreach (var item in c)
             {
@@ -53,7 +46,7 @@ namespace Spark.Repository
         public EntityCompany GetCompany(string quert)
         {
             EntityCompany company;
-            var str = _httpService.RequestGet(_urlRequestGetInn, quert, HttpService.EnumContentType.Html);
+            var str = _httpService.RequestGet(quert, HttpService.EnumContentType.Html);
             var doc = new HtmlDocument();
 
             doc.LoadHtml(str);
@@ -70,6 +63,15 @@ namespace Spark.Repository
         #endregion PublicMethod
 
         #region PrivateMethod 
+        private static IEnumerable<HtmlNode> GetItemsCompany(string str)
+        {
+            var doc = new HtmlDocument();
+
+            doc.LoadHtml(str);
+
+            var c = doc.DocumentNode.Descendants("div").Where(x => x.HasClass("link"));
+            return c;
+        }
         private static void RemoveControlsByClass(HtmlDocument doc, string className)
         {
             var a = doc.DocumentNode.Descendants(0).Where(n => n.HasClass(className)).First();

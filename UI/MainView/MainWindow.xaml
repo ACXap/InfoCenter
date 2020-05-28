@@ -5,6 +5,7 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:Converters="clr-namespace:UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Информационный центр"
     Width="1000"
@@ -16,6 +17,13 @@
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
     Icon="../Image/logo.png"
     mc:Ignorable="d">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Command="{Binding CommandOpenFolder}">
+                <iconPacks:PackIconFontAwesome Kind="FolderSolid" ToolTip="Папка приложения" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Controls:MetroWindow.Resources>
         <Converters:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter" />
         <Style BasedOn="{StaticResource MahApps.Styles.WindowButtonCommands.Win10}" TargetType="{x:Type Controls:WindowButtonCommands}" />

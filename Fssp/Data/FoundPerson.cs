@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using Fssp.Data.Interface;
 
 namespace Fssp.Data
 {
@@ -10,8 +9,8 @@ namespace Fssp.Data
         public string ThreeField { get =>_region.Name; }
 
 
-        private string _fio = string.Empty;
-        private string _date = string.Empty;
+        private string _fio;
+        private string _date;
         private Region _region;
 
         public string Fio

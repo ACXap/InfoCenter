@@ -1,4 +1,7 @@
-﻿namespace Fssp.Repository.Data
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Fssp.Repository.Data
 {
     public class EntityResult
     {
@@ -30,5 +33,24 @@
         /// Дата, причина окончания или прекращения ИП
         /// </summary>
         public string End { get; set; }
+
+        /// <summary>
+        /// Значение свойств одной строкой
+        /// </summary>
+        /// <returns>Строка значений свойств</returns>
+        public override string ToString()
+        {
+            return $"{Name};{Production};{Details};{Subject};{Department};{Bailiff};{End}";
+        }
+
+        /// <summary>
+        /// Получить описание свойств одной строкой
+        /// </summary>
+        /// <returns>Строка описаний свойств класса</returns>
+        public static string GetStringPropery()
+        {
+            return "Должник;Исполнительное производство;Реквизиты исполнительного документа;Предмет исполнения, сумма непогашенной задолженности;" +
+                "Отдел судебных приставов;Судебный пристав-исполнитель;Дата, причина окончания или прекращения ИП";
+        }
     }
 }

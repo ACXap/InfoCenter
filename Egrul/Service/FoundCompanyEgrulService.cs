@@ -1,10 +1,8 @@
 ﻿using Common.Data;
-using Common.Data.Enum;
+using Common.Service;
 using Egrul.Data.Model;
 using Egrul.Repository;
-using Egrul.Service.Interfaces;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,25 +10,21 @@ namespace Egrul.Service
 {
     public class FoundCompanyEgrulService : IFoundCompanyEgrulService
     {
-        private string _directoryLoadFile;
-
         public FoundCompanyEgrulService(IRepositoryEgrul rep)
         {
-            var curDir = Directory.GetCurrentDirectory();
-            _directoryLoadFile = curDir + @"\Egrul";
-            Directory.CreateDirectory(_directoryLoadFile);
-
+            _createFile = new CreateFileOffice("Egrul");
             _repositoryEgrul = rep;
         }
 
         #region PrivateField
         private readonly IRepositoryEgrul _repositoryEgrul;
+        private readonly ICreateFileOfResult _createFile;
         #endregion PrivateField
 
         #region PublicMethod
-        public async Task<Result<CompanyInfo>> GetCollectionCompany(string query)
+        public async Task<Result<CompanyInfo>> FoundCompany(string query)
         {
-            return await Task.Factory.StartNew(() =>
+            return await Task.Run(() =>
             {
                 Result<CompanyInfo> result = new Result<CompanyInfo>();
 
@@ -38,7 +32,7 @@ namespace Egrul.Service
                 {
                     var list = _repositoryEgrul. GetCollectionCompany(query);
 
-                    result.Objects = list.Select(x =>
+                    result.Items = list.Select(x =>
                     {
                         return new CompanyInfo()
                         {
@@ -55,7 +49,7 @@ namespace Egrul.Service
                         };
                     });
 
-                    if (!result.Objects.Any())
+                    if (!result.Items.Any())
                     {
                         result.ErrorResult = new ErrorResult("Данных нет", EnumTypeError.ResultNotFound);
                     }
@@ -67,7 +61,7 @@ namespace Egrul.Service
                 }
 
                 return result;
-            });
+            }).ConfigureAwait(false);
         }
         
         public async Task<Result<bool>> GetPdfFile(CompanyInfo company)
@@ -78,25 +72,24 @@ namespace Egrul.Service
 
                 try
                 {
-                    var file = _directoryLoadFile + @"\" + company.Ogrn + ".pdf";
-                    var a = _repositoryEgrul.GetFile(company.TokenLoadFile, file);
+                    var file = _createFile.CreateFileName(company.Ogrn, "pdf");
 
-                    if (a)
+                    result.Item = _repositoryEgrul.GetFile(company.TokenLoadFile, file);
+
+                    if (result.Item)
                     {
-                        System.Diagnostics.Process.Start("explorer", @"/select, " + file);
+                        _createFile.OpenFolderFile(file);
                     }
-
-                    result.Object = a;
                 }
                 catch (Exception ex)
                 {
                     // Тут будет логер
-                    result.Object = false;
+                    result.Item = false;
                     result.ErrorResult = new ErrorResult(ex.Message, EnumTypeError.ErrorBd); 
                 }
 
                 return result;
-            });
+            }).ConfigureAwait(false);
         }      
         #endregion PublicMethod
     }

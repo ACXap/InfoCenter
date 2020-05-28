@@ -2,7 +2,7 @@
 using Common.Settings.Service;
 using GalaSoft.MvvmLight.CommandWpf;
 using Spark.Data.Model;
-using Spark.Service.Interfaces;
+using Spark.Service;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -31,7 +31,7 @@ namespace Spark.ViewModel
 
         private ReadOnlyCollection<CompanyInfo> _collectionCompanyInfo;
 
-        private RelayCommand<CompanyInfo> _commandLoadPdf;
+        private  RelayCommand<CompanyInfo> _commandLoadPdf;
         #endregion PrivateField
 
         #region PublicProperties
@@ -48,30 +48,27 @@ namespace Spark.ViewModel
             async (company) =>
             {
                 company.IsLoadPdfFile = true;
-                IsShowProgressBarFound = true;
-                ErrorStatus = null;
+                StartProcess();
 
-                var result = await _foundService.GetPdfFile(company).ConfigureAwait(false);
-                
-                ErrorStatus = result.ErrorResult;
+                var result = await _foundService.GetFileCompany(company).ConfigureAwait(false);
+                            
                 company.IsLoadPdfFile = false;
-                IsShowProgressBarFound = false;
-            }, (company)=> !company.IsLoadPdfFile));
+                StopProcess(result.ErrorResult);
+            }, (company)=> company!=null && !company.IsLoadPdfFile));
 
         #endregion Command
 
         #region PrivateMethod
+
         private async void Found()
         {
-            IsShowProgressBarFound = true;
-            ErrorStatus = null;
+            StartProcess();
 
-            var result = await _foundService.GetCollectionCompany(FoundHeader.FoundText).ConfigureAwait(false);
+            var result = await _foundService.FoundCompany(FoundHeader.FoundText).ConfigureAwait(true);
 
-            CollectionCompanyInfo = result.Objects != null ? new ReadOnlyCollection<CompanyInfo>(result.Objects.ToList()) : null;
-            ErrorStatus = result.ErrorResult;
+            CollectionCompanyInfo = result.Items != null ? new ReadOnlyCollection<CompanyInfo>(result.Items.ToList()) : null;
 
-            IsShowProgressBarFound = false;
+            StopProcess(result.ErrorResult);
         }
         #endregion PrivateMethod
     }
