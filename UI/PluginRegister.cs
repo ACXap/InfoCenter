@@ -40,7 +40,7 @@ namespace UI
             SimpleIoc.Default.Register<MainEgrulViewModel>();
 
             SimpleIoc.Default.Register<IRepositoryFssp, RepositoryFsspApi>();
-            SimpleIoc.Default.Register<IFoundPersonFsspService, FoundPersonFsspService>();
+            SimpleIoc.Default.Register<IFoundFsspService, FoundFsspService>();
             SimpleIoc.Default.Register<FoundPersonFsspViewModel>();
             SimpleIoc.Default.Register<FoundCompanyFsspViewModel>();
             SimpleIoc.Default.Register<FoundNumberFsspViewModel>();

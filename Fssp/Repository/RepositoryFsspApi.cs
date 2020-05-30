@@ -1,10 +1,8 @@
 ﻿using Common.Service;
 using Fssp.Repository.Data;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 
 namespace Fssp.Repository
 {
@@ -57,7 +55,7 @@ namespace Fssp.Repository
             var result = new EntityResponsResult()
             {
                 Exception = res.Exception,
-                Code = (int)res.Code,
+                Code = res.Code,
                 CollectionQuery = res.Response.Result.Select(x =>
                 {
                     return new EntityQuery()
@@ -69,7 +67,8 @@ namespace Fssp.Repository
                         Number = x.Query.Params.Number,
                         Region = x.Query.Params.Region,
                         Status = x.Status,
-                        CollectionResult = x.Result.Select(y =>
+                        Error = x.Result.FluffyResult?.Message,
+                        CollectionResult = x.Result.PurpleResultArray?.Select(y =>
                         {
                             return new EntityResult()
                             {
@@ -92,7 +91,69 @@ namespace Fssp.Repository
         public EntityResultSearch SearchGroopPerson(IEnumerable<EntityPerson> persons, string key)
         {
             var str = _httpService.RequestPost(_urlSearchGroop, GetRequestBodyPerson(persons, key), HttpService.EnumContentType.Json);
-            var res = JsonConvert.DeserializeObject<JsonResponseSearch>(str);
+            var res = JsonConvert.DeserializeObject<JsonResponsResult>(str);
+
+            var result = new EntityResultSearch()
+            {
+                Exception = res.Exception,
+                TokenTask = res.Response.Task
+            };
+
+            return result;
+        }
+
+        public EntityResultSearch SearchGroopCompany(IEnumerable<EntityCompany> companys, string key)
+        {
+            var str = _httpService.RequestPost(_urlSearchGroop, GetRequestBodyCompany(companys, key), HttpService.EnumContentType.Json);
+            var res = JsonConvert.DeserializeObject<JsonResponsResult>(str);
+
+            var result = new EntityResultSearch()
+            {
+                Exception = res.Exception,
+                TokenTask = res.Response.Task
+            };
+
+            return result;
+        }
+
+        public EntityResultSearch SearchGroopNumber(IEnumerable<string> numbers, string key)
+        {
+            var str = _httpService.RequestPost(_urlSearchGroop, GetRequestBodyNumber(numbers, key), HttpService.EnumContentType.Json);
+            var res = JsonConvert.DeserializeObject<JsonResponsResult>(str);
+
+            var result = new EntityResultSearch()
+            {
+                Exception = res.Exception,
+                TokenTask = res.Response.Task
+            };
+
+            return result;
+        }
+
+        public EntityResultSearch Status(string token, string key)
+        {
+            var url = $"status?token={key}&task={token}";
+
+            var str = _httpService.RequestGet(url, HttpService.EnumContentType.Json);
+            System.Diagnostics.Debug.WriteLine(str);
+            var res = JsonConvert.DeserializeObject<JsonResponsResult>(str);
+
+            var result = new EntityResultSearch()
+            {
+                Exception = res.Exception,
+                Code = res.Code,
+                Progress = res.Response?.Progress
+            };
+
+            return result;
+        }
+        #endregion PublicMethod
+
+        #region PrivateMethod
+        private EntityResultSearch GetResultSearch(string url)
+        {
+            var str = _httpService.RequestGet(url, HttpService.EnumContentType.Json);
+            var res = JsonConvert.DeserializeObject<JsonResponsResult>(str);
 
             var result = new EntityResultSearch()
             {
@@ -127,48 +188,48 @@ namespace Fssp.Repository
             return JsonConvert.SerializeObject(b);
         }
 
-        public EntityResultSearch SearchGroopCompany(IEnumerable<EntityCompany> companys, string key)
+        private static string GetRequestBodyCompany(IEnumerable<EntityCompany> companys, string key)
         {
-            throw new NotImplementedException();
-        }
-
-        public EntityResultSearch SearchGroopNumber(IEnumerable<string> numbers, string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public EntityStatus Status(string token, string key)
-        {
-            var url = $"status?token={key}&task={token}";
-
-            var str = _httpService.RequestGet(url, HttpService.EnumContentType.Json);
-            System.Diagnostics.Debug.WriteLine(str);
-            var res = JsonConvert.DeserializeObject<JsonResponseStatus>(str);
-
-            var result = new EntityStatus()
+            var b = new JsonGroopPerson()
             {
-                Exception = res.Exception,
-                Code = (int)res.Code,
-                Progress = res.Response?.Progress
+                Token = key,
+                Request = companys.Select(x =>
+                {
+                    return new Request()
+                    {
+                        Type = 2,
+                        Params = new Params()
+                        {
+                            Name = x.Name,
+                            Region = x.Region,
+                            Address = x.Address
+                        }
+                    };
+                }).ToList()
             };
 
-            return result;
+            return JsonConvert.SerializeObject(b);
         }
-        #endregion PublicMethod
 
-        #region PrivateMethod
-        private EntityResultSearch GetResultSearch(string url)
+        private static string GetRequestBodyNumber(IEnumerable<string> numbers, string key)
         {
-            var str = _httpService.RequestGet(url, HttpService.EnumContentType.Json);
-            var res = JsonConvert.DeserializeObject<JsonResponseSearch>(str);
-
-            var result = new EntityResultSearch()
+            var b = new JsonGroopPerson()
             {
-                Exception = res.Exception,
-                TokenTask = res.Response.Task
+                Token = key,
+                Request = numbers.Select(x =>
+                {
+                    return new Request()
+                    {
+                        Type = 3,
+                        Params = new Params()
+                        {
+                            Number = x
+                        }
+                    };
+                }).ToList()
             };
 
-            return result;
+            return JsonConvert.SerializeObject(b);
         }
         #endregion PrivateMethod
     }

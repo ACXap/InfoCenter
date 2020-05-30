@@ -4,5 +4,7 @@
     {
         public string Exception { get; set; }
         public string TokenTask { get; set; }
+        public int Code { get; set; }
+        public string Progress { get; set; }
     }
 }

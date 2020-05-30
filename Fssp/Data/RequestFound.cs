@@ -2,13 +2,14 @@
 
 namespace Fssp.Data
 {
-    public class RequestFoundPerson : ViewModelBase
+    public class RequestFound : ViewModelBase
     {
-        public RequestFoundPerson(IRequestQuery query)
+        public RequestFound(IRequestQuery query)
         {
             Query = query;
 
             StatusRequest = new StatusRequest();
+            StartRequest();
         }
 
         public void StartRequest()

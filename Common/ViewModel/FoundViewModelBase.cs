@@ -55,7 +55,7 @@ namespace Common
             IsShowProgressBarFound = true;
         }
 
-        public void StopProcess(ErrorResult error)
+        public void StopProcess(ErrorResult error = null)
         {
             ErrorStatus = error;
             IsShowProgressBarFound = false;

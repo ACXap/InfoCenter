@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Fssp.Repository.Data
@@ -7,13 +8,10 @@ namespace Fssp.Repository.Data
     {
         [JsonProperty("status")]
         public string Status { get; set; }
-
         [JsonProperty("code")]
-        public long Code { get; set; }
-
+        public int Code { get; set; }
         [JsonProperty("exception")]
         public string Exception { get; set; }
-
         [JsonProperty("response")]
         public Response Response { get; set; }
     }
@@ -22,15 +20,16 @@ namespace Fssp.Repository.Data
     {
         [JsonProperty("status")]
         public int Status { get; set; }
-
         [JsonProperty("task_start")]
         public string TaskStart { get; set; }
-
         [JsonProperty("task_end")]
         public string TaskEnd { get; set; }
-
         [JsonProperty("result")]
         public List<ResponseResult> Result { get; set; }
+        [JsonProperty("task")]
+        public string Task { get; set; }
+        [JsonProperty("progress")]
+        public string Progress { get; set; }
     }
 
     public partial class ResponseResult
@@ -42,7 +41,26 @@ namespace Fssp.Repository.Data
         public Query Query { get; set; }
 
         [JsonProperty("result")]
-        public List<ResultResult> Result { get; set; }
+        [JsonConverter(typeof(ResultUnionConverter))]
+        public ResultUnion Result { get; set; }
+
+    }
+    public struct ResultUnion
+    {
+        public FluffyResult FluffyResult;
+        public List<ResultResult> PurpleResultArray;
+    }
+
+    public class FluffyResult
+    {
+        [JsonProperty("code")]
+        public long Code { get; set; }
+
+        [JsonProperty("message")]
+        public string Message { get; set; }
+
+        [JsonProperty("errors")]
+        public Errors Errors { get; set; }
     }
 
     public class Query
@@ -71,6 +89,27 @@ namespace Fssp.Repository.Data
         public string Secondname { get; set; }
         [JsonProperty("number", NullValueHandling = NullValueHandling.Ignore)]
         public string Number { get; set; }
+        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
+        public string Address { get; set; }
+    }
+
+    public class Errors
+    {
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Name { get; set; }
+
+        [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Region { get; set; }
+
+        [JsonProperty("firstname", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Firstname { get; set; }
+
+        [JsonProperty("lastname", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Lastname { get; set; }
+        [JsonProperty("secondname", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Secondname { get; set; }
+        [JsonProperty("number", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Number { get; set; }
     }
 
     public class ResultResult
@@ -95,5 +134,42 @@ namespace Fssp.Repository.Data
 
         [JsonProperty("ip_end")]
         public string IpEnd { get; set; }
+    }
+
+    internal class ResultUnionConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(ResultUnion) || t == typeof(ResultUnion?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            switch (reader.TokenType)
+            {
+                case JsonToken.StartObject:
+                    var objectValue = serializer.Deserialize<FluffyResult>(reader);
+                    return new ResultUnion { FluffyResult = objectValue };
+                case JsonToken.StartArray:
+                    var arrayValue = serializer.Deserialize<List<ResultResult>>(reader);
+                    return new ResultUnion { PurpleResultArray = arrayValue };
+            }
+            throw new Exception("Cannot unmarshal type ResultUnion");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            var value = (ResultUnion)untypedValue;
+            if (value.PurpleResultArray != null)
+            {
+                serializer.Serialize(writer, value.PurpleResultArray);
+                return;
+            }
+            if (value.FluffyResult != null)
+            {
+                serializer.Serialize(writer, value.FluffyResult);
+                return;
+            }
+            throw new Exception("Cannot marshal type ResultUnion");
+        }
+
+        public static readonly ResultUnionConverter Singleton = new ResultUnionConverter();
     }
 }

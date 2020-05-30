@@ -21,15 +21,16 @@ namespace Fssp.Data
 
         public TypeData(string str)
         {
-            switch (str)
+            var s = str.ToLower();
+            switch (s)
             {
-                case "ФИО;Дата рождения;Регион":
+                case "фио;дата рождения;регион":
                     Title = "Физические лица";
                     break;
-                case "Название;Адрес;Регион":
+                case "название;адрес;регион":
                     Title = "Юридические лица";
                     break;
-                case "Номер":
+                case "номер":
                     Title = "Номера исполнительных производств";
                     break;
                 default:

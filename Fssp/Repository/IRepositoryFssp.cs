@@ -48,7 +48,7 @@ namespace Fssp.Repository
         /// <param name="token"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        EntityStatus Status(string token, string key);
+        EntityResultSearch Status(string token, string key);
 
         /// <summary>
         /// Отправить запрос на получение результата выполнения задачи

@@ -17,8 +17,7 @@
         </Style>
     </d:DesignerProperties.DesignStyle>
     <Controls:MetroHeader
-        Grid.Row="1"
-        Margin="0,10,0,0"
+        Margin="0,5,0,0"
         HorizontalAlignment="Center"
         VerticalAlignment="Top"
         Header="{Binding Header}">

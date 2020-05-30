@@ -2,9 +2,9 @@
 
 namespace Fssp.UserControls
 {
-    public partial class DataGridViewFoundPerson : UserControl
+    public partial class DataGridFound : UserControl
     {
-        public DataGridViewFoundPerson()
+        public DataGridFound()
         {
             InitializeComponent();
         }

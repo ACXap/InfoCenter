@@ -1,6 +1,5 @@
 ﻿using Fssp.Data;
 using Fssp.Repository.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -68,6 +67,25 @@ namespace Fssp.Service
             return list;
         }
 
+        public static List<EntityCompany> ConvertStringToEntityCompany(IEnumerable<string> data)
+        {
+            var list = new List<EntityCompany>();
+
+            foreach (var item in data)
+            {
+                var str = item.Split(';');
+
+                list.Add(new EntityCompany()
+                {
+                    Name = str[0],
+                    Address = str[1],
+                    Region = int.Parse(str[2])
+                });
+            }
+
+            return list;
+        }
+
         public static IEnumerable<string> ConvertEntityResultsToStrings(EntityResponsResult result)
         {
             var list = new List<string>()
@@ -77,12 +95,15 @@ namespace Fssp.Service
 
             foreach(var item in result.CollectionQuery)
             {
-                list.Add($"{item.Lastname} {item.Firstname} {item.Secondname} {item.Name} {item.Region} {item.Number}");
+                list.Add($"{item.Lastname} {item.Firstname} {item.Secondname} {item.Name} {item.Number} {(item.Region == 0 ? "":item.Region.ToString())};{item.Error} ");
 
-                list.AddRange(item.CollectionResult.Select(x =>
+                if (item.CollectionResult != null)
                 {
-                    return x.ToString();
-                }));
+                    list.AddRange(item.CollectionResult.Select(x =>
+                    {
+                        return x.ToString();
+                    }));
+                }
             }
 
             return list;

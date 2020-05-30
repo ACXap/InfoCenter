@@ -19,6 +19,7 @@ namespace Fssp.Repository.Data
         public string Secondname { get; set; }
         public string Lastname { get; set; }
         public string Number { get; set; }
+        public string Error { get; set; }
 
         public List<EntityResult> CollectionResult { get; set; }
     }

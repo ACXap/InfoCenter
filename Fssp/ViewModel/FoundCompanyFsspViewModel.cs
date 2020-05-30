@@ -9,29 +9,30 @@ namespace Fssp.ViewModel
 {
     public class FoundCompanyFsspViewModel : FoundViewModelBase
     {
-        public FoundCompanyFsspViewModel(IFoundPersonFsspService foundervice, ISettingsService settings)
+        public FoundCompanyFsspViewModel(IFoundFsspService foundervice, ISettingsService settings)
         {
             TypeGrid = settings?.GetSettings().TypeGrid;
 
             _serviceFound = foundervice;
 
             CollectionRegion = new ReadOnlyCollection<Region>(_serviceRegion.GetRegion());
+            CollectionRequest = _serviceFound?.CollectionRequest;
         }
 
         #region PrivateField
-        private readonly IFoundPersonFsspService _serviceFound;
+        private readonly IFoundFsspService _serviceFound;
         private readonly IServiceRegion _serviceRegion = new ServiceRegion();
 
-        private ObservableCollection<RequestFoundPerson> _collectionRequest;
+        private ObservableCollection<RequestFound> _collectionRequest;
         private ReadOnlyCollection<Region> _collectionRegion;
         private Region _currentRegion;
 
         private RelayCommand _commandFoundPerson;
-        private RelayCommand<RequestFoundPerson> _commandGetFile;
+        private RelayCommand<RequestFound> _commandGetFile;
         #endregion PrivateField
 
         #region PublicProperties
-        public ObservableCollection<RequestFoundPerson> CollectionRequest
+        public ObservableCollection<RequestFound> CollectionRequest
         {
             get => _collectionRequest;
             private set => Set(ref _collectionRequest, value);
@@ -64,17 +65,14 @@ namespace Fssp.ViewModel
             {
                 StartProcess();
 
-                var result = await _serviceFound.GetCompany(FoundCompany).ConfigureAwait(true);
+                await _serviceFound.GetCompany(FoundCompany).ConfigureAwait(false);
 
-                if (_collectionRequest == null) CollectionRequest = new ObservableCollection<RequestFoundPerson>();
-                if (result.Item != null) CollectionRequest.Add(result.Item);
-
-                StopProcess(result.ErrorResult);
+                StopProcess();
             }, () => !string.IsNullOrEmpty(FoundCompany.Name) && FoundCompany.Region != null));
         #endregion Command
 
-        public RelayCommand<RequestFoundPerson> CommandGetFile =>
-        _commandGetFile ?? (_commandGetFile = new RelayCommand<RequestFoundPerson>(
+        public RelayCommand<RequestFound> CommandGetFile =>
+        _commandGetFile ?? (_commandGetFile = new RelayCommand<RequestFound>(
             req =>
             {
                 _serviceFound.GetPersonFile(req.FileResult);

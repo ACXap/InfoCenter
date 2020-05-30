@@ -9,7 +9,7 @@ namespace Fssp.ViewModel
 {
     public class FoundListFsspViewModel: FoundViewModelBase
     {
-        public FoundListFsspViewModel(IFoundPersonFsspService foundervice, ISettingsService settings)
+        public FoundListFsspViewModel(IFoundFsspService foundervice, ISettingsService settings)
         {
             TypeGrid = settings?.GetSettings().TypeGrid;
 
@@ -22,21 +22,23 @@ namespace Fssp.ViewModel
                 Header = "Обработка списков",
                 Watermark = "Выбрать файл с данными для обработки"
             };
+
+            CollectionRequest = _serviceFound?.CollectionRequest;
         }
 
         #region PrivateField
-        private readonly IFoundPersonFsspService _serviceFound;
+        private readonly IFoundFsspService _serviceFound;
 
-        private ObservableCollection<RequestFoundPerson> _collectionRequest;
+        private ObservableCollection<RequestFound> _collectionRequest;
 
         private TypeData _typeData;
 
         private RelayCommand _commandStart;
-        private RelayCommand<RequestFoundPerson> _commandGetFile;
+        private RelayCommand<RequestFound> _commandGetFile;
         #endregion PrivateField
 
         #region PublicProperties
-        public ObservableCollection<RequestFoundPerson> CollectionRequest
+        public ObservableCollection<RequestFound> CollectionRequest
         {
             get => _collectionRequest;
             private set => Set(ref _collectionRequest, value);
@@ -60,26 +62,11 @@ namespace Fssp.ViewModel
 
                         var result = await _serviceFound.ProcessingList(file).ConfigureAwait(true);
 
-                        if (result.Items != null)
-                        {
-                            if (_collectionRequest == null)
-                            {
-                                CollectionRequest = new ObservableCollection<RequestFoundPerson>(result.Items);
-                            }
-                            else
-                            {
-                                foreach (var item in result.Items)
-                                {
-                                    CollectionRequest.Add(item);
-                                }
-                            }
-                        }
-
-                        StopProcess(result.ErrorResult);
+                        StopProcess();
                     }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1));
 
-        public RelayCommand<RequestFoundPerson> CommandGetFile =>
-        _commandGetFile ?? (_commandGetFile = new RelayCommand<RequestFoundPerson>(
+        public RelayCommand<RequestFound> CommandGetFile =>
+        _commandGetFile ?? (_commandGetFile = new RelayCommand<RequestFound>(
             req =>
             {
                 _serviceFound.GetPersonFile(req.FileResult);

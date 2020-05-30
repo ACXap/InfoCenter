@@ -25,7 +25,7 @@ namespace Common.Service
 
             var sourceFile = CreateHtml(text, file, _folder);
 
-            file = CreateFileName(fileName, "docx");
+            file = CreateFileName(file, "docx");
 
             ConvertWord(Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatDocumentDefault, file, sourceFile);
             return file;
@@ -39,7 +39,7 @@ namespace Common.Service
 
             var sourceFile = CreateHtml(text, file, _folder);
 
-            file = CreateFileName(fileName, "pdf");
+            file = CreateFileName(file, "pdf");
 
             ConvertWord(Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF, file, sourceFile);
             return file;
@@ -53,7 +53,7 @@ namespace Common.Service
 
             var sourceFile = CreateTxt(text, file, _folder);
 
-            file = CreateFileName(fileName, "xlsx");
+            file = CreateFileName(file, "xlsx");
 
             ConvertExcel(file, sourceFile);
             return file;
@@ -77,7 +77,7 @@ namespace Common.Service
 
             foreach (char c in charsInvalid)
             {
-                fileName = fileName.Replace(c.ToString(), "");
+                fileName = fileName.Replace(c.ToString(), "_");
             }
 
             return fileName;

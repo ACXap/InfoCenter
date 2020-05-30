@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:Fssp.UserControls"
     xmlns:vm="clr-namespace:Fssp.ViewModel"
+    xmlns:vmm="clr-namespace:Common;assembly=Common"
     x:Name="MainViewFssp"
     d:DataContext="{d:DesignInstance dtvm:MainViewModelDesignTime,
                                      IsDesignTimeCreatable=True}"
@@ -35,6 +36,14 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:FoundListFsspViewModel}">
             <local:FoundList />
+        </DataTemplate>
+
+        <DataTemplate x:Key="ViewDataGridFound" DataType="{x:Type vmm:FoundViewModelBase}">
+            <uc:DataGridFound />
+        </DataTemplate>
+
+        <DataTemplate x:Key="ViewCardFound" DataType="{x:Type vmm:FoundViewModelBase}">
+            <uc:CardsFound />
         </DataTemplate>
     </UserControl.Resources>
 
@@ -65,5 +74,28 @@
                 <ContentControl Content="{Binding CurrentViewModel}" />
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
+
+        <ContentControl Grid.Row="2" Content="{Binding CurrentViewModel}">
+            <ContentControl.Style>
+                <Style TargetType="{x:Type ContentControl}">
+                    <Setter Property="ContentTemplate" Value="{StaticResource ViewDataGridFound}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentViewModel.TypeGrid.TypeGridViewItem}" Value="{x:Static en:EnumTypeGridViewItem.Card}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource ViewCardFound}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
+        <common:TypeGridItem
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            DataContext="{Binding CurrentViewModel.TypeGrid}" />
+
+        <Controls:ProgressRing Grid.Row="2" IsActive="{Binding CurrentViewModel.IsShowProgressBarFound, FallbackValue=False}" />
+
+        <common:ErrorView Grid.Row="2" DataContext="{Binding CurrentViewModel}" />
     </Grid>
 </UserControl>

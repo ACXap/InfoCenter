@@ -1,21 +1,23 @@
 ﻿<UserControl
-    x:Class="Fssp.UserControls.DataGridViewFoundNumber"
+    x:Class="Fssp.UserControls.DataGridFound"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:Views="clr-namespace:Fssp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Fssp.Data.DesignTime"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:local="clr-namespace:Fssp.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance dtvm:CollectionPersonInfoDesignTime}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Style/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <d:DesignerProperties.DesignStyle>
         <Style TargetType="UserControl">
@@ -44,22 +46,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
-                                Margin="5"
-                                Padding="0"
-                                Command="{Binding DataContext.CommandGetFile, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundNumber}}}"
+                                Command="{Binding DataContext.CurrentViewModel.CommandGetFile, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainFsspView}}}"
                                 CommandParameter="{Binding}"
-                                ToolTip="Загрузить данные">
-                                <Button.Style>
-                                    <Style BasedOn="{StaticResource MahApps.Styles.Button.WindowCommands}" TargetType="{x:Type Button}">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                        <Setter Property="Opacity" Value="0.9" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding FileResult}" Value="">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
+                                Style="{StaticResource ButtonLoadFile}">
                                 <iconPack:FontAwesome Kind="FileExcelSolid" />
                             </Button>
                         </DataTemplate>
@@ -86,12 +75,21 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn
+                <DataGridTemplateColumn
                     Width="*"
-                    Binding="{Binding Query.FirstField}"
                     CanUserSort="True"
-                    Header="Номер исполнительного производства"
-                    SortMemberPath="Query.FirstField" />
+                    Header="Запрос"
+                    SortMemberPath="Query.FirstField">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" Text="{Binding Query.FirstField}" />
+                                <TextBlock Margin="5" Text="{Binding Query.ThreeField}" />
+                                <TextBlock Margin="5" Text="{Binding Query.TowField}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

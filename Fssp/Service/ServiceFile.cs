@@ -46,7 +46,7 @@ namespace Fssp.Service
 
         public static IEnumerable<string> ReadFile(string file)
         {
-            return File.ReadLines(file);
+            return File.ReadAllLines(file);
         }
     }
 }

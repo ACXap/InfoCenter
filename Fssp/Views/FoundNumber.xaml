@@ -2,15 +2,10 @@
     x:Class="Fssp.Views.FoundNumber"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:common="clr-namespace:Common.UserControls;assembly=Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Fssp.ViewModel"
-    xmlns:en="clr-namespace:Common.Data;assembly=Common"
-    xmlns:local="clr-namespace:Fssp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uc="clr-namespace:Fssp.UserControls"
-    xmlns:vm="clr-namespace:Fssp.ViewModel"
     d:DataContext="{d:DesignInstance dtvm:FoundNumberFsspViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -20,48 +15,6 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
-    <UserControl.Resources>
-        <DataTemplate x:Key="ViewDataGridFound" DataType="{x:Type vm:FoundNumberFsspViewModel}">
-            <uc:DataGridViewFoundPerson />
-        </DataTemplate>
 
-        <DataTemplate x:Key="ViewCardFound" DataType="{x:Type vm:FoundNumberFsspViewModel}">
-            <uc:CardsFound />
-        </DataTemplate>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <common:FoundSimpleText
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            DataContext="{Binding FoundHeader}" />
-
-        <common:TypeGridItem
-            Grid.Row="0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            DataContext="{Binding TypeGrid}" />
-
-        <ContentControl Grid.Row="1" Content="{Binding}">
-            <ContentControl.Style>
-                <Style TargetType="{x:Type ContentControl}">
-                    <Setter Property="ContentTemplate" Value="{StaticResource ViewDataGridFound}" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding TypeGrid.TypeGridViewItem}" Value="{x:Static en:EnumTypeGridViewItem.Card}">
-                            <Setter Property="ContentTemplate" Value="{StaticResource ViewCardFound}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
-
-        <Controls:ProgressRing Grid.Row="1" IsActive="{Binding IsShowProgressBarFound, FallbackValue=False}" />
-
-        <common:ErrorView Grid.Row="1" />
-    </Grid>
+    <common:FoundSimpleText DataContext="{Binding FoundHeader}" />
 </UserControl>

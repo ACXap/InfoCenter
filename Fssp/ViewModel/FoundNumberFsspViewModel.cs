@@ -9,7 +9,7 @@ namespace Fssp.ViewModel
 {
     public class FoundNumberFsspViewModel : FoundViewModelBase
     {
-        public FoundNumberFsspViewModel(IFoundPersonFsspService foundService, ISettingsService settings)
+        public FoundNumberFsspViewModel(IFoundFsspService foundService, ISettingsService settings)
         {
             TypeGrid = settings?.GetSettings().TypeGrid;
 
@@ -22,18 +22,20 @@ namespace Fssp.ViewModel
                 Header = "Поиск номера исполнительного производства",
                 Watermark = "Номер исполнительного производства в формате n…n/yy/dd/rr или n…n/yy/ddddd-ИП"
             };
+
+            CollectionRequest = _serviceFound?.CollectionRequest;
         }
 
         #region PrivateField
-        private readonly IFoundPersonFsspService _serviceFound;
+        private readonly IFoundFsspService _serviceFound;
 
-        private ObservableCollection<RequestFoundPerson> _collectionRequest;
+        private ObservableCollection<RequestFound> _collectionRequest;
 
-        private RelayCommand<RequestFoundPerson> _commandGetFile;
+        private RelayCommand<RequestFound> _commandGetFile;
         #endregion PrivateField
 
         #region PublicProperties
-        public ObservableCollection<RequestFoundPerson> CollectionRequest
+        public ObservableCollection<RequestFound> CollectionRequest
         {
             get => _collectionRequest;
             private set => Set(ref _collectionRequest, value);
@@ -42,8 +44,8 @@ namespace Fssp.ViewModel
         #endregion PublicProperties
 
         #region Command
-        public RelayCommand<RequestFoundPerson> CommandGetFile =>
-        _commandGetFile ?? (_commandGetFile = new RelayCommand<RequestFoundPerson>(
+        public RelayCommand<RequestFound> CommandGetFile =>
+        _commandGetFile ?? (_commandGetFile = new RelayCommand<RequestFound>(
             req =>
             {
                 _serviceFound.GetPersonFile(req.FileResult);
@@ -54,12 +56,9 @@ namespace Fssp.ViewModel
         {
             StartProcess();
 
-            var result = await _serviceFound.GetNumber(FoundHeader.FoundText).ConfigureAwait(true);
+            await _serviceFound.GetNumber(FoundHeader.FoundText).ConfigureAwait(false);
 
-            if (_collectionRequest == null) CollectionRequest = new ObservableCollection<RequestFoundPerson>();
-            if (result.Item != null) CollectionRequest.Add(result.Item);
-
-            StopProcess(result.ErrorResult);
+            StopProcess();
         }
     }
 }

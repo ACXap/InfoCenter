@@ -96,9 +96,8 @@
     <Compile Include="Data\FoundNumber.cs" />
     <Compile Include="Data\FoundPerson.cs" />
     <Compile Include="Data\Interface\IRequestQuery.cs" />
-    <Compile Include="Data\Model\Person.cs" />
     <Compile Include="Data\Region.cs" />
-    <Compile Include="Data\RequestFoundPerson.cs" />
+    <Compile Include="Data\RequestFound.cs" />
     <Compile Include="Data\StatusRequest.cs" />
     <Compile Include="Data\TypeData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,15 +106,12 @@
     <Compile Include="Repository\Data\EntityResponsResult.cs" />
     <Compile Include="Repository\Data\EntityResult.cs" />
     <Compile Include="Repository\Data\EntityResultSearch.cs" />
-    <Compile Include="Repository\Data\EntityStatus.cs" />
     <Compile Include="Repository\Data\Json\JsonGroopPerson.cs" />
     <Compile Include="Repository\Data\Json\JsonResponseResult.cs" />
-    <Compile Include="Repository\Data\Json\JsonResponseSearch.cs" />
-    <Compile Include="Repository\Data\Json\JsonResponseStatus.cs" />
     <Compile Include="Repository\IRepositoryFssp.cs" />
     <Compile Include="Repository\RepositoryFsspApi.cs" />
-    <Compile Include="Service\FoundPersonFsspService.cs" />
-    <Compile Include="Service\Interface\IFoundPersonFsspService.cs" />
+    <Compile Include="Service\FoundFsspService.cs" />
+    <Compile Include="Service\Interface\IFoundFsspService.cs" />
     <Compile Include="Service\Interface\IServiceRegion.cs" />
     <Compile Include="Service\ServiceConvert.cs" />
     <Compile Include="Service\ServiceFile.cs" />
@@ -127,14 +123,8 @@
     <Compile Include="UserControls\CardsFound.xaml.cs">
       <DependentUpon>CardsFound.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DataGridViewFoundCompany.xaml.cs">
-      <DependentUpon>DataGridViewFoundCompany.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\DataGridViewFoundNumber.xaml.cs">
-      <DependentUpon>DataGridViewFoundNumber.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\DataGridViewFoundPerson.xaml.cs">
-      <DependentUpon>DataGridViewFoundPerson.xaml</DependentUpon>
+    <Compile Include="UserControls\DataGridFound.xaml.cs">
+      <DependentUpon>DataGridFound.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\FoundCompanyFsspViewModel.cs" />
     <Compile Include="ViewModel\FoundListFsspViewModel.cs" />
@@ -179,15 +169,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\DataGridViewFoundCompany.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\DataGridViewFoundNumber.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\DataGridViewFoundPerson.xaml">
+    <Page Include="UserControls\DataGridFound.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

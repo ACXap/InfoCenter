@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Fssp.Repository.Data
+﻿namespace Fssp.Repository.Data
 {
     public class EntityResult
     {

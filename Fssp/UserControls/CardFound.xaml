@@ -9,7 +9,7 @@
     xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Fssp.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext="{d:DesignInstance dtvm:RequestFoundPerson}"
+    d:DataContext="{d:DesignInstance dtvm:RequestFound}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -20,7 +20,7 @@
     </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style BasedOn="{StaticResource TextBlockCard}" TargetType="{x:Type TextBlock}" />
+            <!--<Style BasedOn="{StaticResource TextBlockCard}" TargetType="{x:Type TextBlock}" />-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Style/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -39,12 +39,12 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock Text="Запрос:" />
-            <TextBlock Grid.Row="1" Text="Статус:" />
-            <TextBlock Grid.Row="2" Text="Прогресс:" />
+            <TextBlock Grid.Row="1" Text="Статус:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="2" Text="Прогресс:" VerticalAlignment="Center"/>
 
             <Grid Grid.Row="0" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
@@ -56,13 +56,13 @@
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="2"
-                Text="{Binding StatusRequest.Progress}" />
+                Text="{Binding StatusRequest.Progress}" VerticalAlignment="Center"/>
 
             <WrapPanel
                 Grid.Row="1"
                 Grid.Column="2"
                 VerticalAlignment="Center">
-                <TextBlock Text="{Binding StatusRequest.Status}" ToolTip="{Binding StatusRequest.Error}" />
+                <TextBlock Text="{Binding StatusRequest.Status}" ToolTip="{Binding StatusRequest.Error}" VerticalAlignment="Center"/>
                 <Controls:ProgressRing
                     Width="30"
                     Height="30"
