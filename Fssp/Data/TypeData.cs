@@ -4,7 +4,6 @@ namespace Fssp.Data
 {
     public class TypeData:ViewModelBase
     {
-
         private string _title = string.Empty;
         public string Title
         {

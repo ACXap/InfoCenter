@@ -39,8 +39,14 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock Text="Запрос:" />
-            <TextBlock Grid.Row="1" Text="Статус:" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="2" Text="Прогресс:" VerticalAlignment="Center"/>
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Text="Статус:" />
+            <TextBlock
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                Text="Прогресс:" />
 
             <Grid Grid.Row="0" Grid.Column="2">
                 <Grid.RowDefinitions>
@@ -56,13 +62,17 @@
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="2"
-                Text="{Binding StatusRequest.Progress}" VerticalAlignment="Center"/>
+                VerticalAlignment="Center"
+                Text="{Binding StatusRequest.Progress}" />
 
             <WrapPanel
                 Grid.Row="1"
                 Grid.Column="2"
                 VerticalAlignment="Center">
-                <TextBlock Text="{Binding StatusRequest.Status}" ToolTip="{Binding StatusRequest.Error}" VerticalAlignment="Center"/>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Text="{Binding StatusRequest.Status}"
+                    ToolTip="{Binding StatusRequest.Error}" />
                 <Controls:ProgressRing
                     Width="30"
                     Height="30"

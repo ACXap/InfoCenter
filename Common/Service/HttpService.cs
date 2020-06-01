@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web;
 
 namespace Common.Service
 {
@@ -26,7 +27,7 @@ namespace Common.Service
             request.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
             request.Method = method;
             request.UserAgent = USER_AGENT;
-            request.Timeout = 10000;
+            request.Timeout = 60000;
 
             return request;
         }
@@ -85,6 +86,12 @@ namespace Common.Service
                 return name;
             }
         }
+        
+        public string UrlEncode(string query)
+        {
+            return HttpUtility.UrlEncode(query);
+        }
+
         #endregion PublicMethod
 
         public enum EnumContentType

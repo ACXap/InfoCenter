@@ -15,6 +15,8 @@
         Padding="5"
         Command="{Binding DataContext.CommandLoadPdf, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundView}}}"
         CommandParameter="{Binding}"
+        Opacity="1"
+        Style="{DynamicResource MahApps.Styles.Button.WindowCommands}"
         ToolTip="Загрузить файл с информацией о предприятии">
         <iconPack:FontAwesome Kind="FilePdfSolid" />
     </Button>

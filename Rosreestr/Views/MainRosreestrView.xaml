@@ -1,0 +1,53 @@
+﻿<UserControl
+    x:Class="Rosreestr.Views.MainRosreestrView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:common="clr-namespace:Common.UserControls;assembly=Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Rosreestr.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Rosreestr.ViewModel"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource Locator}, Path=PluginViewModel.MainRosreestrViewModel}"
+    mc:Ignorable="d">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="White" />
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:FoundNumberRosreestrViewModel}">
+            <local:FoundNumber />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:FoundListRosreestrViewModel}">
+            <local:FoundList />
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <common:Header Grid.Row="0" DataContext="{Binding Header}" />
+
+        <Controls:MetroAnimatedSingleRowTabControl
+            Grid.Row="1"
+            Controls:TabControlHelper.UnderlinePlacement="Bottom"
+            Controls:TabControlHelper.Underlined="TabPanel"
+            SelectedIndex="{Binding CurrentIndexTab}">
+            <TabItem Header="Номер">
+                <ContentControl Content="{Binding CurrentViewModel}" />
+            </TabItem>
+            <TabItem Header="Списки">
+                <ContentControl Content="{Binding CurrentViewModel}" />
+            </TabItem>
+        </Controls:MetroAnimatedSingleRowTabControl>
+
+        <Controls:ProgressRing Grid.Row="1" IsActive="{Binding CurrentViewModel.IsShowProgressBarFound, FallbackValue=False}" />
+
+        <common:ErrorView Grid.Row="1" DataContext="{Binding CurrentViewModel}" />
+    </Grid>
+</UserControl>

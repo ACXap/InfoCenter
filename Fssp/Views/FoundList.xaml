@@ -21,7 +21,6 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Top"
         Header="{Binding FoundHeader.Header}">
-
         <WrapPanel Orientation="Vertical">
             <WrapPanel Orientation="Horizontal">
                 <ToggleButton
@@ -41,14 +40,15 @@
                 <Popup
                     AllowsTransparency="True"
                     IsOpen="{Binding IsChecked, ElementName=button}"
-                    Placement="Mouse" 
+                    Placement="Mouse"
                     StaysOpen="False"
                     TextBlock.FontSize="18">
-                    <Border Opacity="1"
+                    <Border
                         Padding="10"
                         Background="{DynamicResource MahApps.Brushes.Control.Background}"
                         BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
-                        BorderThickness="1">
+                        BorderThickness="1"
+                        Opacity="1">
                         <WrapPanel Orientation="Vertical">
                             <TextBlock
                                 Grid.Row="0"

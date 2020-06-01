@@ -73,7 +73,7 @@ namespace Spark.Service
                     var resultDoc = _createFile.CreateDocx(str.Html, company.Ogrn);
                     var resultPdf = _createFile.CreatePdf(str.Html, company.Ogrn);
 
-                    System.Diagnostics.Process.Start("explorer", @"/select, " + resultDoc);
+                    _createFile.OpenFolderFile(resultDoc);
 
                     result.Item = !string.IsNullOrEmpty(resultDoc) && !string.IsNullOrEmpty(resultPdf);
                 }

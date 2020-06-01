@@ -15,83 +15,76 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
-    <Border
-        Width="200"
-        Height="100"
-        Margin="5"
-        Padding="15"
-        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
-        BorderThickness="1"
-        CornerRadius="10"
-        SnapsToDevicePixels="True">
-        <Border.Style>
-            <Style TargetType="{x:Type Border}">
-                <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
-                <Setter Property="Cursor" Value="Hand" />
-                <Style.Triggers>
-                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                        <BeginStoryboard>
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Border}">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Width="250" Height="150">
+        <Border x:Name="bb" Background="{DynamicResource MahApps.Brushes.Accent}" />
+        <Border
+            Background="Transparent"
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+            BorderThickness="1"
+            Cursor="Hand">
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="bb"
+                                Storyboard.TargetProperty="Opacity"
+                                From="1"
+                                To="0"
+                                Duration="00:00:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
                             <Storyboard>
                                 <DoubleAnimation
                                     BeginTime="00:00:00"
-                                    Storyboard.TargetProperty="Height"
-                                    From="100"
-                                    To="150"
-                                    Duration="00:00:0.1" />
-                                <DoubleAnimation
-                                    BeginTime="00:00:00"
-                                    Storyboard.TargetProperty="Width"
-                                    From="200"
-                                    To="300"
-                                    Duration="00:00:0.1" />
+                                    Storyboard.TargetName="bb"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0"
+                                    To="1"
+                                    Duration="00:00:0.3" />
                             </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation
-                                    BeginTime="00:00:00"
-                                    Storyboard.TargetProperty="Height"
-                                    From="150"
-                                    To="100"
-                                    Duration="00:00:0.1" />
-                                <DoubleAnimation
-                                    BeginTime="00:00:00"
-                                    Storyboard.TargetProperty="Width"
-                                    From="300"
-                                    To="200"
-                                    Duration="00:00:0.1" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
-        <Border.InputBindings>
-            <MouseBinding
-                Command="{Binding Source={StaticResource Locator}, Path=MainViewModel.CommandOpenMenu}"
-                CommandParameter="{Binding}"
-                MouseAction="LeftClick" />
-        </Border.InputBindings>
-        <Grid ToolTip="{Binding ToolTip}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Viewbox Grid.Column="0">
-                <ContentControl
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+            <Border.InputBindings>
+                <MouseBinding
+                    Command="{Binding Source={StaticResource Locator}, Path=MainViewModel.CommandOpenMenu}"
+                    CommandParameter="{Binding}"
+                    MouseAction="LeftClick" />
+            </Border.InputBindings>
+            <Grid ToolTip="{Binding ToolTip}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Viewbox Grid.Column="0">
+                    <ContentControl
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{Binding Icon}"
+                        Focusable="False" />
+                </Viewbox>
+                <TextBlock
+                    Grid.Row="1"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="{Binding Icon}"
-                    Focusable="False" />
-            </Viewbox>
-            <TextBlock
-                Grid.Row="1"
-                HorizontalAlignment="Center"
-                FontSize="18"
-                FontWeight="Bold"
-                Text="{Binding Label, FallbackValue=Название}" />
-        </Grid>
-    </Border>
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="{Binding Label, FallbackValue=Название}" />
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

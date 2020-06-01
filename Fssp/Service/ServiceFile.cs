@@ -48,5 +48,10 @@ namespace Fssp.Service
         {
             return File.ReadAllLines(file);
         }
+
+        public static string GetOnlyFileName(string file)
+        {
+            return Path.GetFileNameWithoutExtension(file);
+        }
     }
 }
