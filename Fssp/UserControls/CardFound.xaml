@@ -20,9 +20,9 @@
     </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
         <ResourceDictionary>
-            <!--<Style BasedOn="{StaticResource TextBlockCard}" TargetType="{x:Type TextBlock}" />-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Style/Styles.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Styles.xaml" />-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

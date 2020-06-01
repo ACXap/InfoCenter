@@ -29,12 +29,6 @@
         BorderBrush="{StaticResource MahApps.Brushes.Accent}"
         BorderThickness="1"
         CornerRadius="10">
-        <!--<Border.InputBindings>
-            <MouseBinding
-                Command="{Binding DataContext.CommandOpenCompanyCard, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainEgrulView}}}"
-                CommandParameter="{Binding}"
-                MouseAction="LeftDoubleClick" />
-        </Border.InputBindings>-->
         <Border.Style>
             <Style TargetType="{x:Type Border}">
                 <Setter Property="Background" Value="Transparent" />
@@ -109,10 +103,9 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center">
                 <Button
-                    Margin="5"
-                    Padding="5"
                     Command="{Binding DataContext.CommandLoadPdf, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundView}}}"
                     CommandParameter="{Binding}"
+                    Style="{StaticResource ButtonLoadFile}"
                     ToolTip="Получить выписку">
                     <iconPack:FontAwesome Kind="FilePdfSolid" />
                 </Button>

@@ -118,6 +118,9 @@
     <Compile Include="Service\FoundServiceRosresstr.cs" />
     <Compile Include="Service\Interface\IFoundRosreestrService.cs" />
     <Compile Include="Service\ServiceFile.cs" />
+    <Compile Include="UserControls\ButtonLoadFile.xaml.cs">
+      <DependentUpon>ButtonLoadFile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CardFound.xaml.cs">
       <DependentUpon>CardFound.xaml</DependentUpon>
     </Compile>
@@ -154,9 +157,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Style\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="UserControls\ButtonLoadFile.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CardFound.xaml">
       <Generator>MSBuild:Compile</Generator>
