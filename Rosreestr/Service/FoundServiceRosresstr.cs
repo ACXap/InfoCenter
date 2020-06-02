@@ -160,7 +160,8 @@ namespace Rosreestr.Service
                         };
                     }));
 
-                    _fileName = _serviceFile.GetOnlyFileName(file);
+                    // _fileName = _serviceFile.GetOnlyFileName(file);
+                    _fileName = file;
                 }
                 catch (Exception ex)
                 {

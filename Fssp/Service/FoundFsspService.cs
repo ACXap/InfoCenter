@@ -267,7 +267,8 @@ namespace Fssp.Service
                     var str = _serviceFile.ReadFile(file).Skip(1);
 
                     var t = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
-                    var fileName = _serviceFile.GetUniqueOnlyFileName(file);
+                    //var fileName = _serviceFile.GetUniqueOnlyFileName(file);
+                    var fileName = file;
 
                     if (t.Title == "Физические лица")
                     {

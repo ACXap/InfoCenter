@@ -108,16 +108,16 @@ namespace Common.Service
 
             return fileName;
         }
-        private static string CreateTxt(IEnumerable<string> text, string fileName, string path)
+        private string CreateTxt(IEnumerable<string> text, string fileName)
         {
-            var fileTemp = Path.Combine(path, fileName + ".txt");
+            var fileTemp = CreateFileName(fileName, "txt");
             File.WriteAllLines(fileTemp, text, Encoding.Default);
             return fileTemp;
         }
 
-        private static string AppendTxt(IEnumerable<string> text, string fileName, string path)
+        private string AppendTxt(IEnumerable<string> text, string fileName)
         {
-            var fileTemp = Path.Combine(path, fileName + ".txt");
+            var fileTemp = CreateFileName(fileName, "txt");
             if (File.Exists(fileTemp))
             {
                 File.AppendAllLines(fileTemp, text.Skip(1), Encoding.Default);
@@ -130,22 +130,34 @@ namespace Common.Service
             return fileTemp;
         }
 
-        private static string CreateHtml(string text, string fileName, string path)
+        private string CreateHtml(string text, string fileName)
         {
-            var fileTemp = Path.Combine(path, fileName + ".html");
+            var fileTemp = CreateFileName(fileName, "html");
             File.WriteAllText(fileTemp, text);
             return fileTemp;
         }
+
+        private static string GetUniqueOnlyFileName(string file)
+        {
+            var f = Path.GetFileNameWithoutExtension(file);
+
+            if (File.Exists(file))
+            {
+                f = $"{f}_{DateTime.Now:yyMMddHHmmssfff}";
+            }
+
+            return f;
+        }
+
         #endregion PrivateMethod
 
         #region PublicMethod
         public string CreateDocx(string text, string fileName)
         {
             CreateFolder();
+            var file = fileName;
 
-            var file = RemoveInvalidChar(fileName);
-
-            var sourceFile = CreateHtml(text, file, _folder);
+            var sourceFile = CreateHtml(text, file);
 
             file = CreateFileName(file, "docx");
 
@@ -156,10 +168,9 @@ namespace Common.Service
         public string CreatePdf(string text, string fileName)
         {
             CreateFolder();
+            var file = fileName;
 
-            var file = RemoveInvalidChar(fileName);
-
-            var sourceFile = CreateHtml(text, file, _folder);
+            var sourceFile = CreateHtml(text, file);
 
             file = CreateFileName(file, "pdf");
 
@@ -170,10 +181,9 @@ namespace Common.Service
         public string CreateXlsx(IEnumerable<string> text, string fileName)
         {
             CreateFolder();
+            var file = fileName;
 
-            var file = RemoveInvalidChar(fileName);
-
-            var sourceFile = CreateTxt(text, file, _folder);
+            var sourceFile = CreateTxt(text, file);
 
             file = CreateFileName(file, "xlsx");
 
@@ -184,12 +194,11 @@ namespace Common.Service
         public string AppendXlsx(IEnumerable<string> text, string fileName)
         {
             CreateFolder();
-
-            var file = RemoveInvalidChar(fileName);
+            var file = fileName;
 
             lock (_lock)
             {
-                var sourceFile = AppendTxt(text, file, _folder);
+                var sourceFile = AppendTxt(text, file);
 
                 file = CreateFileName(file, "xlsx");
 
@@ -201,7 +210,15 @@ namespace Common.Service
 
         public string CreateFileName(string fileName, string expansionFile)
         {
-            return Path.Combine(_folder, fileName + $".{expansionFile}");
+            var f = Path.GetFileNameWithoutExtension(fileName);
+
+            f = RemoveInvalidChar(f);
+
+            var file = Path.Combine(_folder, f + $".{expansionFile}");
+
+            file = GetUniqueOnlyFileName(file);
+
+            return Path.Combine(_folder, file + $".{expansionFile}");
         }
 
         public void OpenFolderFile(string file)

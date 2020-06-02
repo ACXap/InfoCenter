@@ -52,22 +52,5 @@ namespace Common.Service
         {
             return File.ReadAllLines(file);
         }
-
-        public string GetOnlyFileName(string file)
-        {
-            return Path.GetFileNameWithoutExtension(file);
-        }
-
-        public string GetUniqueOnlyFileName(string file)
-        {
-            var f = Path.GetFileNameWithoutExtension(file);
-
-            if (File.Exists(file))
-            {
-                f = $"{f}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}";
-            }
-
-            return f;
-        }
     }
 }
