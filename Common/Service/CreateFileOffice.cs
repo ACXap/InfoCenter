@@ -175,6 +175,8 @@ namespace Common.Service
 
             var sourceFile = CreateTxt(text, file, _folder);
 
+            file = CreateFileName(file, "xlsx");
+
             ConvertExcel(file, sourceFile);
             return file;
         }
