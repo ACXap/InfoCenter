@@ -63,11 +63,7 @@ namespace Fssp.ViewModel
         _commandFoundPerson ?? (_commandFoundPerson = new RelayCommand(
             async () =>
             {
-                StartProcess();
-
                 await _serviceFound.GetCompany(FoundCompany).ConfigureAwait(false);
-
-                StopProcess();
             }, () => !string.IsNullOrEmpty(FoundCompany.Name) && FoundCompany.Region != null));
         #endregion Command
 

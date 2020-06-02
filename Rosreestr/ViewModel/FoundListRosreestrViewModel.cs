@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Service;
 using Common.Settings.Service;
 using GalaSoft.MvvmLight.CommandWpf;
 using Rosreestr.Data;
@@ -30,14 +31,20 @@ namespace Rosreestr.ViewModel
 
         private ReadOnlyCollection<EntityRealEstate> _collectionRealEstate;
 
-        private TypeData _typeData;
+        private ServiceFile<TypeDataRosreestr> _serviceFile = new ServiceFile<TypeDataRosreestr>();
+        private TypeDataRosreestr _typeData;
 
-        // private RelayCommand<EntityFoundRealEstate> _commandGetFile;
+
         private RelayCommand _commandStart;
         #endregion PrivateField
 
         #region PublicProperties
-        public TypeData TypeData
+        public ReadOnlyCollection<EntityRealEstate> CollectionRealEstate
+        {
+            get => _collectionRealEstate;
+            set => Set(ref _collectionRealEstate, value);
+        }
+        public TypeDataRosreestr TypeData
         {
             get => _typeData;
             set => Set(ref _typeData, value);
@@ -62,12 +69,12 @@ namespace Rosreestr.ViewModel
         #region PrivateMethod
         private async void OpenFile()
         {
-            var file = ServiceFile.GetFile();
+            var file = _serviceFile.GetFile();
 
             if (string.IsNullOrEmpty(file) == false)
             {
                 FoundHeader.FoundText = file;
-                TypeData = await ServiceFile.GetTypeData(file).ConfigureAwait(false);
+                TypeData = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
 
                 var resultCol = await _foundService.GetList(file).ConfigureAwait(true);
 
@@ -78,13 +85,5 @@ namespace Rosreestr.ViewModel
             }
         }
         #endregion PrivateMethod
-
-        #region PublicMethod
-        public ReadOnlyCollection<EntityRealEstate> CollectionRealEstate
-        {
-            get => _collectionRealEstate;
-            set => Set(ref _collectionRealEstate, value);
-        }
-        #endregion PublicMethod
     }
 }

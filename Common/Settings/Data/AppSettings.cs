@@ -35,11 +35,11 @@ namespace Common.Settings.Data
                 if (_typeGrid != null)
                 {
                     var old = _typeGrid.TypeGridViewItem;
-                    _typeGrid.TypeGridViewItem = old == EnumTypeGridViewItem.Card? EnumTypeGridViewItem.DataGrid:EnumTypeGridViewItem.Card;
+                    _typeGrid.TypeGridViewItem = old == EnumTypeGridViewItem.Card ? EnumTypeGridViewItem.DataGrid : EnumTypeGridViewItem.Card;
 
                     _typeGrid.TypeGridViewItem = old;
                 }
-                
+
                 _service?.SaveSettings();
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Common.Data;
 using Common.Service;
+using Rosreestr.Data;
 using Rosreestr.Repository;
 using Rosreestr.Repository.Data;
 using Rosreestr.Repository.Data.Json;
@@ -23,6 +24,7 @@ namespace Rosreestr.Service
         #region PrivateField
         private readonly IRepositoryRosreestr _repositoryRosreestr;
         private readonly ICreateFileOfResult _createFile;
+        private ServiceFile<TypeDataRosreestr> _serviceFile = new ServiceFile<TypeDataRosreestr>();
 
         private string _fileName;
         #endregion PrivateField
@@ -149,7 +151,7 @@ namespace Rosreestr.Service
             {
                 try
                 {
-                    var str = ServiceFile.ReadFile(file).Skip(1);
+                    var str = _serviceFile.ReadFile(file).Skip(1);
                     CollectionEstate.AddRange(str.Select(x =>
                     {
                         return new EntityRealEstate()
@@ -158,7 +160,7 @@ namespace Rosreestr.Service
                         };
                     }));
 
-                    _fileName = ServiceFile.GetOnlyFileName(file);
+                    _fileName = _serviceFile.GetOnlyFileName(file);
                 }
                 catch (Exception ex)
                 {

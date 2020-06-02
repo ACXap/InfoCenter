@@ -63,7 +63,7 @@
                             <TextBlock
                                 Grid.Row="1"
                                 Margin="20,0,0,0"
-                                Text="ФИО;Дата рождения;Регион" />
+                                Text="id;ФИО;Дата рождения;Регион" />
                             <TextBlock
                                 Grid.Row="1"
                                 FontWeight="Bold"
@@ -71,7 +71,7 @@
                             <TextBlock
                                 Grid.Row="2"
                                 Margin="20,0,0,0"
-                                Text="Название;Адрес;Регион" />
+                                Text="id;Название;Адрес;Регион" />
                             <TextBlock
                                 Grid.Row="1"
                                 FontWeight="Bold"
@@ -79,7 +79,7 @@
                             <TextBlock
                                 Grid.Row="3"
                                 Margin="20,0,0,0"
-                                Text="Номер" />
+                                Text="id;Номер" />
 
                         </WrapPanel>
                     </Border>

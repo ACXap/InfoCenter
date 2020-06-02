@@ -5,6 +5,18 @@ namespace Rosreestr.Repository.Data.Json.Data
 {
     public class JsonData
     {
+        [JsonProperty("dateRemoved", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? DateRemoved { get; set; }
+
+        [JsonProperty("reestrContractor", NullValueHandling = NullValueHandling.Ignore)]
+        public ReestrContractor ReestrContractor { get; set; }
+
+        [JsonProperty("objectAddress", NullValueHandling = NullValueHandling.Ignore)]
+        public string ObjectAddress { get; set; }
+
+        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
+        public Address Address { get; set; }
+
         [JsonProperty("objectId", NullValueHandling = NullValueHandling.Ignore)]
         public string ObjectId { get; set; }
 

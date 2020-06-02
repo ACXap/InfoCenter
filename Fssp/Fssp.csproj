@@ -99,9 +99,10 @@
     <Compile Include="Data\Region.cs" />
     <Compile Include="Data\RequestFound.cs" />
     <Compile Include="Data\StatusRequest.cs" />
-    <Compile Include="Data\TypeData.cs" />
+    <Compile Include="Data\TypeDataFssp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Data\EntityCompany.cs" />
+    <Compile Include="Repository\Data\EntityNumber.cs" />
     <Compile Include="Repository\Data\EntityPerson.cs" />
     <Compile Include="Repository\Data\EntityResponsResult.cs" />
     <Compile Include="Repository\Data\EntityResult.cs" />
@@ -114,7 +115,6 @@
     <Compile Include="Service\Interface\IFoundFsspService.cs" />
     <Compile Include="Service\Interface\IServiceRegion.cs" />
     <Compile Include="Service\ServiceConvert.cs" />
-    <Compile Include="Service\ServiceFile.cs" />
     <Compile Include="Service\ServiceFio.cs" />
     <Compile Include="Service\ServiceRegion.cs" />
     <Compile Include="UserControls\CardFound.xaml.cs">

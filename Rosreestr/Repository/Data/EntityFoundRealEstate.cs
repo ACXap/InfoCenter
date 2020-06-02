@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Rosreestr.Repository.Data
+﻿namespace Rosreestr.Repository.Data
 {
     public class EntityFoundRealEstate
     {

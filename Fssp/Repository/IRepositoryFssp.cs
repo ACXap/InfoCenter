@@ -40,7 +40,7 @@ namespace Fssp.Repository
         /// Отправить групповой запрос
         /// </summary>
         /// <returns></returns>
-        EntityResultSearch SearchGroopNumber(IEnumerable<string> numbers, string key);
+        EntityResultSearch SearchGroopNumber(IEnumerable<EntityNumber> numbers, string key);
 
         /// <summary>
         /// Отправить запрос на получение статуса выполнения задачи

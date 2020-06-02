@@ -29,7 +29,11 @@ namespace Fssp.Data
         public string Progress
         {
             get => _progress;
-            set => Set(ref _progress, value);
+            set
+            {
+                var v = value.Replace("of", "из");
+                Set(ref _progress, v);
+            }
         }
 
         private EnumTypeStatusRequest _typeStatusRequest;

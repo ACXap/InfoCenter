@@ -66,6 +66,7 @@ namespace Fssp.Repository
                         Name = x.Query.Params.Name,
                         Number = x.Query.Params.Number,
                         Region = x.Query.Params.Region,
+                        Id = x.Query.Params.Id,
                         Status = x.Status,
                         Error = x.Result.FluffyResult?.Message,
                         CollectionResult = x.Result.PurpleResultArray?.Select(y =>
@@ -116,7 +117,7 @@ namespace Fssp.Repository
             return result;
         }
 
-        public EntityResultSearch SearchGroopNumber(IEnumerable<string> numbers, string key)
+        public EntityResultSearch SearchGroopNumber(IEnumerable<EntityNumber> numbers, string key)
         {
             var str = _httpService.RequestPost(_urlSearchGroop, GetRequestBodyNumber(numbers, key), HttpService.EnumContentType.Json);
             var res = JsonConvert.DeserializeObject<JsonResponsResult>(str);
@@ -179,7 +180,8 @@ namespace Fssp.Repository
                             Firstname = x.Firstname,
                             Lastname = x.Lastname,
                             Region = x.Region,
-                            Secondname = x.Secondname
+                            Secondname = x.Secondname,
+                            Id = x.Id
                         }
                     };
                 }).ToList()
@@ -202,7 +204,8 @@ namespace Fssp.Repository
                         {
                             Name = x.Name,
                             Region = x.Region,
-                            Address = x.Address
+                            Address = x.Address,
+                            Id = x.Id
                         }
                     };
                 }).ToList()
@@ -211,7 +214,7 @@ namespace Fssp.Repository
             return JsonConvert.SerializeObject(b);
         }
 
-        private static string GetRequestBodyNumber(IEnumerable<string> numbers, string key)
+        private static string GetRequestBodyNumber(IEnumerable<EntityNumber> numbers, string key)
         {
             var b = new JsonGroopPerson()
             {
@@ -223,7 +226,8 @@ namespace Fssp.Repository
                         Type = 3,
                         Params = new Params()
                         {
-                            Number = x
+                            Number = x.Number,
+                            Id = x.Id
                         }
                     };
                 }).ToList()

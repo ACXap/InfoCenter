@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Service;
 using Common.Settings.Service;
 using Fssp.Data;
 using Fssp.Service;
@@ -31,7 +32,8 @@ namespace Fssp.ViewModel
 
         private ObservableCollection<RequestFound> _collectionRequest;
 
-        private TypeData _typeData;
+        private readonly ServiceFile<TypeDataFssp> _serviceFile = new ServiceFile<TypeDataFssp>();
+        private TypeDataFssp _typeData;
 
         private RelayCommand _commandStart;
         private RelayCommand<RequestFound> _commandGetFile;
@@ -44,7 +46,7 @@ namespace Fssp.ViewModel
             private set => Set(ref _collectionRequest, value);
         }
 
-        public TypeData TypeData
+        public TypeDataFssp TypeData
         {
             get => _typeData;
             set => Set(ref _typeData, value);
@@ -76,12 +78,12 @@ namespace Fssp.ViewModel
         #region PrivateMethod
         private async void OpenFile()
         {
-            var file = ServiceFile.GetFile();
+            var file = _serviceFile.GetFile();
 
             if(string.IsNullOrEmpty(file) == false)
             {
                 FoundHeader.FoundText = file;
-                TypeData = await ServiceFile.GetTypeData(file).ConfigureAwait(false);
+                TypeData = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
             }
         }
         #endregion PrivateMethod

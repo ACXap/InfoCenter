@@ -1,16 +1,16 @@
-﻿using Microsoft.Win32;
-using Rosreestr.Data;
+﻿using Common.Data;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rosreestr.Service
+namespace Common.Service
 {
-    public static class ServiceFile
+    public class ServiceFile<T> where T : TypeData, new()
     {
-        public static string GetFile()
+        public string GetFile()
         {
             OpenFileDialog fd = new OpenFileDialog()
             {
@@ -24,32 +24,50 @@ namespace Rosreestr.Service
 
             return null;
         }
-        public static IEnumerable<string> ReadFile(string file)
-        {
-            return File.ReadAllLines(file);
-        }
-        public async static Task<TypeData> GetTypeData(string file)
+
+        public async Task<T> GetTypeData(string file)
         {
             if (string.IsNullOrEmpty(file)) return null;
             if (File.Exists(file) == false) return null;
 
             return await Task.Run(() =>
             {
+                var t = new T();
+
                 try
                 {
                     var str = File.ReadLines(file).ElementAt(0);
-                    return new TypeData(str);
+                    t.Init(str);
                 }
                 catch (Exception ex)
                 {
-                    return new TypeData(ex.Message);
+                    t.Init(ex.Message);
                 }
+
+                return t;
             }).ConfigureAwait(false);
         }
 
-        public static string GetOnlyFileName(string file)
+        public IEnumerable<string> ReadFile(string file)
+        {
+            return File.ReadAllLines(file);
+        }
+
+        public string GetOnlyFileName(string file)
         {
             return Path.GetFileNameWithoutExtension(file);
+        }
+
+        public string GetUniqueOnlyFileName(string file)
+        {
+            var f = Path.GetFileNameWithoutExtension(file);
+
+            if (File.Exists(file))
+            {
+                f = $"{f}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}";
+            }
+
+            return f;
         }
     }
 }

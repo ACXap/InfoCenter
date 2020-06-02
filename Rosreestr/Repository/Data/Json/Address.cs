@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Rosreestr.Repository.Data.Json.Address
+namespace Rosreestr.Repository.Data.Json
 {
     public class Address
     {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Fssp.Service
 {
+    /// <summary>
+    /// Работа с регионами
+    /// </summary>
     public class ServiceRegion : IServiceRegion
     {
         public List<Region> GetRegion()

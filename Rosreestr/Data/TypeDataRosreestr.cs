@@ -1,27 +1,12 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Common.Data;
 
 namespace Rosreestr.Data
 {
-    public class TypeData:ViewModelBase
+    public class TypeDataRosreestr : TypeData
     {
-        private string _title = string.Empty;
-        public string Title
+        public override void Init(string str)
         {
-            get => _title;
-            private set => Set(ref _title, value);
-        }
-
-        private int _code = 1;
-        public int Code
-        {
-            get => _code;
-            private set => Set(ref _code, value);
-        }
-
-        public TypeData(string str)
-        {
-            var s = str.ToLower();
-            switch (s)
+            switch (str.ToLower())
             {
                 case "кадастровый номер":
                     Title = "Кадастровые номера";

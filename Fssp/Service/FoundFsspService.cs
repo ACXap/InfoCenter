@@ -5,10 +5,10 @@ using Common.Settings.Service;
 using Fssp.Data;
 using Fssp.Repository;
 using Fssp.Repository.Data;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,17 +28,19 @@ namespace Fssp.Service
             BindingOperations.EnableCollectionSynchronization(CollectionRequest, _personCollectionLock);
         }
 
-        #region PublicProperties
-        public ObservableCollection<RequestFound> CollectionRequest { get; } = new ObservableCollection<RequestFound>();
-        #endregion PublicProperties
-
         #region PrivateField
         private readonly IRepositoryFssp _repository;
         private readonly ICreateFileOfResult _createFile;
+        private readonly ServiceFile<TypeDataFssp> _serviceFile = new ServiceFile<TypeDataFssp>();
         private readonly object _personCollectionLock = new object();
 
         private readonly string _key;
         #endregion PrivateField
+
+        #region PublicProperties
+        public ObservableCollection<RequestFound> CollectionRequest { get; } = new ObservableCollection<RequestFound>();
+        #endregion PublicProperties
+
 
         #region PrivateMethod
         private static bool CheckResultStatus(EntityResultSearch res)
@@ -58,7 +60,57 @@ namespace Fssp.Service
             return req;
         }
 
-        private Task Found(Func<EntityResultSearch> entityResultSearch, RequestFound req)
+        private async Task<EntityResponsResult> GetResult(RequestFound req)
+        {
+            if (req == null || string.IsNullOrEmpty(req.Token)) return null;
+
+            int count = 60;
+            string error = null;
+            EntityResponsResult result = null;
+
+            return await Task.Run(() =>
+             {
+                 while (count-- > 0)
+                 {
+                     Thread.Sleep(5000);
+                     error = string.Empty;
+                     try
+                     {
+                         var res = _repository.Status(req.Token, _key);
+
+                         if(string.IsNullOrEmpty(res.Exception) == false) error = res.Exception;
+                         else
+                         {
+                             req.StatusRequest.Progress = res.Progress;
+
+                             if (CheckResultStatus(res) == false) error = "Не выполнено";
+                             else
+                             {
+                                 result = _repository.Result(req.Token, _key);
+
+                                 if (string.IsNullOrEmpty(result.Exception) == false) error = result.Exception;
+                                 else
+                                 {
+                                     error = null;
+                                     break;
+                                 }
+                             }
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         error = ex.Message;
+                     }
+                 }
+
+                 req.ErrorRequest(error);
+
+                 return result;
+
+             }).ConfigureAwait(false);
+        }
+
+        private static Task Found(Func<EntityResultSearch> entityResultSearch, RequestFound req)
         {
             return Task.Run(() =>
             {
@@ -68,7 +120,6 @@ namespace Fssp.Service
                     if (string.IsNullOrEmpty(res.Exception))
                     {
                         req.Token = res.TokenTask;
-                        GetResult(req);
                     }
                     else
                     {
@@ -84,15 +135,22 @@ namespace Fssp.Service
 
         private void FoundGroopNumber(string fileName, IEnumerable<string> str)
         {
-            var p = str.SplitCollection(50).ToList();
+            var numbers = ServiceConvert.ConvertStringToEntityNumber(str);
 
-            int i = 1;
+            var p = numbers.SplitCollection(50).ToList();
 
             foreach (var item in p)
             {
-                var req = GetRequestFound(new FoundNumber() { Number = $"{fileName}_{i++}" });
+                var req = GetRequestFound(new FoundNumber() { Number = fileName });
 
-                Found(() => _repository.SearchGroopNumber(item, _key), req);
+                Task.Run(async () =>
+                {
+                    await Found(() => _repository.SearchGroopNumber(item, _key), req).ConfigureAwait(false);
+                    var result = await GetResult(req).ConfigureAwait(false);
+                    await AppendSaveFile(req, result).ConfigureAwait(false);
+                });
+
+                Thread.Sleep(5000);
             }
         }
 
@@ -102,13 +160,17 @@ namespace Fssp.Service
 
             var p = company.SplitCollection(50);
 
-            int i = 1;
-
             foreach (var item in p)
             {
-                var req = GetRequestFound(new FoundNumber() { Number = $"{fileName}_{i++}" });
+                var req = GetRequestFound(new FoundNumber() { Number = fileName });
+                Task.Run(async () =>
+                {
+                    await Found(() => _repository.SearchGroopCompany(item, _key), req).ConfigureAwait(false);
+                    var result = await GetResult(req).ConfigureAwait(false);
+                    await AppendSaveFile(req, result).ConfigureAwait(false);
+                });
 
-                Found(() => _repository.SearchGroopCompany(item, _key), req);
+                Thread.Sleep(5000);
             }
         }
 
@@ -118,32 +180,71 @@ namespace Fssp.Service
 
             var p = persons.SplitCollection(50);
 
-            int i = 1;
-
             foreach (var item in p)
             {
-                var req = GetRequestFound(new FoundNumber() { Number = $"{fileName}_{i++}" });
+                var req = GetRequestFound(new FoundNumber() { Number = fileName });
 
-                Found(() => _repository.SearchGroopPerson(item, _key), req);
+                Task.Run(async () =>
+                {
+                    await Found(() => _repository.SearchGroopPerson(item, _key), req).ConfigureAwait(false);
+                    var result = await GetResult(req).ConfigureAwait(false);
+                    await AppendSaveFile(req, result).ConfigureAwait(false);
+                });
+
+                Thread.Sleep(5000);
             }
+       }
+
+        private Task AppendSaveFile(RequestFound req, EntityResponsResult result)
+        {
+            return Task.Run(() =>
+            {
+                if (result != null)
+                {
+                    if (result.CollectionQuery[0].CollectionResult.Any() == false) req.ErrorRequest("Ничего не найдено");
+                    else
+                    {
+                        req.FileResult = _createFile.AppendXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
+                        req.StopRequest();
+                    }
+                }
+            });
+        }
+
+        private Task SaveFile(RequestFound req, EntityResponsResult result)
+        {
+            return Task.Run(() =>
+            {
+                if (result != null)
+                {
+                    if (result.CollectionQuery[0].CollectionResult.Any() == false) req.ErrorRequest("Ничего не найдено");
+                    else
+                    {
+                        req.FileResult = _createFile.CreateXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
+                        req.StopRequest();
+                    }
+                }
+            });
         }
         #endregion PrivateMethod
 
         #region PublicMethod
         public async Task GetPerson(FoundPerson person)
         {
-            var req = new RequestFound(person);
-            CollectionRequest.Add(req);
+            var req = GetRequestFound(person);
 
             await Found(() => _repository.SearchPerson(ServiceConvert.ConvertFoundPersonToEntityPerson(person), _key), req).ConfigureAwait(false);
+            var result = await GetResult(req).ConfigureAwait(false);
+            await SaveFile(req, result).ConfigureAwait(false);
         }
 
         public async Task GetCompany(FoundCompany company)
         {
-            var req = new RequestFound(company);
-            CollectionRequest.Add(req);
+            var req = GetRequestFound(company);
 
             await Found(() => _repository.SearchCompany(ServiceConvert.ConvertFoundCompanyToEntityCompany(company), _key), req).ConfigureAwait(false);
+            var result = await GetResult(req).ConfigureAwait(false);
+            await SaveFile(req, result).ConfigureAwait(false);
         }
 
         public async Task GetNumber(string number)
@@ -151,6 +252,8 @@ namespace Fssp.Service
             var req = GetRequestFound(new FoundNumber() { Number = number });
 
             await Found(() => _repository.SearchIp(number, _key), req).ConfigureAwait(false);
+            var result = await GetResult(req).ConfigureAwait(false);
+            await SaveFile(req, result).ConfigureAwait(false);
         }
 
         public async Task<Result<RequestFound>> ProcessingList(string file)
@@ -161,10 +264,10 @@ namespace Fssp.Service
             {
                 try
                 {
-                    var str = ServiceFile.ReadFile(file).Skip(1);
+                    var str = _serviceFile.ReadFile(file).Skip(1);
 
-                    var t = await ServiceFile.GetTypeData(file).ConfigureAwait(false);
-                    var fileName = ServiceFile.GetOnlyFileName(file);
+                    var t = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
+                    var fileName = _serviceFile.GetUniqueOnlyFileName(file);
 
                     if (t.Title == "Физические лица")
                     {
@@ -191,58 +294,6 @@ namespace Fssp.Service
                 return result;
 
             }).ConfigureAwait(false);
-        }
-
-        public void GetResult(RequestFound req)
-        {
-            int count = 60;
-            string error = null;
-
-            Task.Run(() =>
-            {
-                while (count-- > 0)
-                {
-                    Thread.Sleep(5000);
-                    error = string.Empty;
-                    try
-                    {
-                        var res = _repository.Status(req.Token, _key);
-
-                        if (string.IsNullOrEmpty(res.Exception))
-                        {
-                            req.StatusRequest.Progress = res.Progress.Replace("of", "из");
-
-                            if (CheckResultStatus(res))
-                            {
-                                var result = _repository.Result(req.Token, _key);
-
-                                if (string.IsNullOrEmpty(result.Exception))
-                                {
-                                    var str = _createFile.CreateXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
-                                    req.FileResult = str;
-                                    break;
-                                }
-                                else
-                                {
-                                    error = result.Exception;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            error = res.Exception;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        error = ex.Message;
-                    }
-
-                    error = "Время ожидания истекло.";
-                }
-
-                req.ErrorRequest(error);
-            });
         }
 
         public void GetPersonFile(string file)

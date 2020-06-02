@@ -95,9 +95,11 @@
     <Compile Include="Data\ErrorResult.cs" />
     <Compile Include="Data\FoundHeader.cs" />
     <Compile Include="Data\Result.cs" />
+    <Compile Include="Data\TypeData.cs" />
     <Compile Include="Data\TypeGrid.cs" />
     <Compile Include="Expansion\SplitCollection.cs" />
     <Compile Include="IModule.cs" />
+    <Compile Include="Service\ServiceFile.cs" />
     <Compile Include="ViewModel\FoundViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CreateFileOffice.cs" />

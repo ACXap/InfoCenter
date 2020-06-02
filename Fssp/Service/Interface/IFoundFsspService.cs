@@ -12,7 +12,6 @@ namespace Fssp.Service
         Task GetPerson(FoundPerson person);
         Task GetCompany(FoundCompany company);
         Task GetNumber(string number);
-        void GetResult(RequestFound request);
         void GetPersonFile(string file);
         Task<Result<RequestFound>> ProcessingList(string file);
     }

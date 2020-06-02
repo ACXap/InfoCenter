@@ -2,8 +2,15 @@
 
 namespace Fssp.Service
 {
+    /// <summary>
+    /// Работа с ФИО
+    /// </summary>
     public static class ServiceFio
     {
+        /// <summary>
+        /// Проверка фамилии на корректность
+        /// </summary>
+        /// <param name="fio">ФИО строкой</param>
         public static bool CheckFio(string fio)
         {
             //если пусто
@@ -28,11 +35,17 @@ namespace Fssp.Service
             return true;
         }
 
+        /// <summary>
+        /// Разделяем ФИО на части
+        /// </summary>
+        /// <param name="fio"></param>
         public static string[] GetFio(string fio)
         {
             if (string.IsNullOrEmpty(fio)) return new string[2];
 
             var s = fio.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if(s.Length<2) return new string[] { s[0]};
+            
             return new string[] { s[0], s[1], s.Length == 3 ? s[2] : "" };
         }
     }

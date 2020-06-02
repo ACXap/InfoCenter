@@ -54,11 +54,7 @@ namespace Fssp.ViewModel
 
         private async void Found()
         {
-            StartProcess();
-
             await _serviceFound.GetNumber(FoundHeader.FoundText).ConfigureAwait(false);
-
-            StopProcess();
         }
     }
 }

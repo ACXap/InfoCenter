@@ -84,15 +84,12 @@
   <ItemGroup>
     <Compile Include="Data\DesignTime\CollectionEntityFoundRealEstate.cs" />
     <Compile Include="Data\DesignTime\CollectionRealEstate.cs" />
-    <Compile Include="Data\TypeData.cs" />
+    <Compile Include="Data\TypeDataRosreestr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Data\EntityFoundRealEstate.cs" />
     <Compile Include="Repository\Data\EntityRealEstate.cs" />
     <Compile Include="Repository\Data\IRealEstate.cs" />
-    <Compile Include="Repository\Data\Json\Address\Address.cs" />
-    <Compile Include="Repository\Data\Json\Address\AddressConstruction.cs" />
-    <Compile Include="Repository\Data\Json\Address\AddressFlat.cs" />
-    <Compile Include="Repository\Data\Json\Address\AddressParcel.cs" />
+    <Compile Include="Repository\Data\Json\Address.cs" />
     <Compile Include="Repository\Data\Json\Building.cs" />
     <Compile Include="Repository\Data\Json\Construction.cs" />
     <Compile Include="Repository\Data\Json\Data\JsonData.cs" />
@@ -108,7 +105,6 @@
     <Compile Include="Repository\Data\Json\JsonFoundRealEstate.cs" />
     <Compile Include="Repository\Data\Json\JsonObject.cs" />
     <Compile Include="Repository\Data\Json\JsonParcel.cs" />
-    <Compile Include="Repository\Data\Json\ObjectEstate.cs" />
     <Compile Include="Repository\Data\Json\OldNumber.cs" />
     <Compile Include="Repository\Data\Json\Parcel.cs" />
     <Compile Include="Repository\Data\Json\ReestrContractor.cs" />
@@ -117,7 +113,6 @@
     <Compile Include="Service\ServiceConvert.cs" />
     <Compile Include="Service\FoundServiceRosresstr.cs" />
     <Compile Include="Service\Interface\IFoundRosreestrService.cs" />
-    <Compile Include="Service\ServiceFile.cs" />
     <Compile Include="UserControls\ButtonLoadFile.xaml.cs">
       <DependentUpon>ButtonLoadFile.xaml</DependentUpon>
     </Compile>

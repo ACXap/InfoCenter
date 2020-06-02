@@ -36,7 +36,7 @@ namespace Common.Settings.Service
                     CollectionTheme = ThemeManager.Current.Themes,
                     CurrentTheme = ThemeManager.Current.ChangeTheme(Application.Current, set.Theme),
                     ApiKeyFssp = set.ApiKeyFssp,
-                    TypeGrid = new Common.Data.TypeGrid(this) { TypeGridViewItem = (EnumTypeGridViewItem)Enum.Parse(typeof(EnumTypeGridViewItem), set.TypeGrid) }
+                    TypeGrid = new TypeGrid(this) { TypeGridViewItem = (EnumTypeGridViewItem)Enum.Parse(typeof(EnumTypeGridViewItem), set.TypeGrid) }
                 };
             }
             catch (Exception ex)

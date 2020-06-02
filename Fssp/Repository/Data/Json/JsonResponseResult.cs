@@ -91,6 +91,9 @@ namespace Fssp.Repository.Data
         public string Number { get; set; }
         [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
         public string Address { get; set; }
+
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+        public string Id { get; set; }
     }
 
     public class Errors

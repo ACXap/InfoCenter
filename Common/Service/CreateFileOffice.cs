@@ -15,88 +15,20 @@ namespace Common.Service
             CreateFolder();
         }
 
+        #region PrivateField
+        private readonly object _lock = new object();
         private readonly string _folder;
 
-        public string CreateDocx(string text, string fileName)
+        #endregion PrivateField
+
+        #region PrivateMethod
+        private void CreateFolder()
         {
-            CreateFolder();
-
-            var file = RemoveInvalidChar(fileName);
-
-            var sourceFile = CreateHtml(text, file, _folder);
-
-            file = CreateFileName(file, "docx");
-
-            ConvertWord(Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatDocumentDefault, file, sourceFile);
-            return file;
-        }
-
-        public string CreatePdf(string text, string fileName)
-        {
-            CreateFolder();
-
-            var file = RemoveInvalidChar(fileName);
-
-            var sourceFile = CreateHtml(text, file, _folder);
-
-            file = CreateFileName(file, "pdf");
-
-            ConvertWord(Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF, file, sourceFile);
-            return file;
-        }
-
-        public string CreateXlsx(IEnumerable<string> text, string fileName)
-        {
-            CreateFolder();
-
-            var file = RemoveInvalidChar(fileName);
-
-            var sourceFile = CreateTxt(text, file, _folder);
-
-            file = CreateFileName(file, "xlsx");
-
-            ConvertExcel(file, sourceFile);
-            return file;
-        }
-
-        public string CreateFileName(string fileName, string expansionFile)
-        {
-            return Path.Combine(_folder, fileName + $".{expansionFile}");
-        }
-
-        public void OpenFolderFile(string file)
-        {
-            System.Diagnostics.Process.Start("explorer", @"/select, " + file);
-        }
-
-        private static string RemoveInvalidChar(string fileName)
-        {
-            if (string.IsNullOrEmpty(fileName)) throw new ArgumentException("Имя файла нулл",nameof(fileName));
-
-            var charsInvalid = Path.GetInvalidFileNameChars().Union(Path.GetInvalidPathChars());
-
-            foreach (char c in charsInvalid)
+            if (!Directory.Exists(_folder))
             {
-                fileName = fileName.Replace(c.ToString(), "_");
+                Directory.CreateDirectory(_folder);
             }
-
-            return fileName;
         }
-
-        private static string CreateTxt(IEnumerable<string> text, string fileName, string path)
-        {
-            var fileTemp = Path.Combine(path, fileName + ".txt");
-            File.WriteAllLines(fileTemp, text, Encoding.Default);
-            return fileTemp;
-        }
-
-        private static string CreateHtml(string text, string fileName, string path)
-        {
-            var fileTemp = Path.Combine(path, fileName + ".html");
-            File.WriteAllText(fileTemp, text);
-            return fileTemp;
-        }
-
         private static void ConvertExcel(string fileName, string sourceFile)
         {
             Microsoft.Office.Interop.Excel.Workbook excelDoc = null;
@@ -133,7 +65,6 @@ namespace Common.Service
                 throw;
             }
         }
-
         private static void ConvertWord(Microsoft.Office.Interop.Word.WdSaveFormat format, string fileName, string sourceFile)
         {
             Microsoft.Office.Interop.Word.Document wordDoc = null;
@@ -164,12 +95,117 @@ namespace Common.Service
             }
         }
 
-        private void CreateFolder()
+        private static string RemoveInvalidChar(string fileName)
         {
-            if (!Directory.Exists(_folder))
+            if (string.IsNullOrEmpty(fileName)) throw new ArgumentException("Имя файла нулл", nameof(fileName));
+
+            var charsInvalid = Path.GetInvalidFileNameChars().Union(Path.GetInvalidPathChars());
+
+            foreach (char c in charsInvalid)
             {
-                Directory.CreateDirectory(_folder);
+                fileName = fileName.Replace(c.ToString(), "_");
             }
+
+            return fileName;
         }
+        private static string CreateTxt(IEnumerable<string> text, string fileName, string path)
+        {
+            var fileTemp = Path.Combine(path, fileName + ".txt");
+            File.WriteAllLines(fileTemp, text, Encoding.Default);
+            return fileTemp;
+        }
+
+        private static string AppendTxt(IEnumerable<string> text, string fileName, string path)
+        {
+            var fileTemp = Path.Combine(path, fileName + ".txt");
+            if (File.Exists(fileTemp))
+            {
+                File.AppendAllLines(fileTemp, text.Skip(1), Encoding.Default);
+            }
+            else
+            {
+                File.WriteAllLines(fileTemp, text, Encoding.Default);
+            }
+            
+            return fileTemp;
+        }
+
+        private static string CreateHtml(string text, string fileName, string path)
+        {
+            var fileTemp = Path.Combine(path, fileName + ".html");
+            File.WriteAllText(fileTemp, text);
+            return fileTemp;
+        }
+        #endregion PrivateMethod
+
+        #region PublicMethod
+        public string CreateDocx(string text, string fileName)
+        {
+            CreateFolder();
+
+            var file = RemoveInvalidChar(fileName);
+
+            var sourceFile = CreateHtml(text, file, _folder);
+
+            file = CreateFileName(file, "docx");
+
+            ConvertWord(Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatDocumentDefault, file, sourceFile);
+            return file;
+        }
+
+        public string CreatePdf(string text, string fileName)
+        {
+            CreateFolder();
+
+            var file = RemoveInvalidChar(fileName);
+
+            var sourceFile = CreateHtml(text, file, _folder);
+
+            file = CreateFileName(file, "pdf");
+
+            ConvertWord(Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF, file, sourceFile);
+            return file;
+        }
+
+        public string CreateXlsx(IEnumerable<string> text, string fileName)
+        {
+            CreateFolder();
+
+            var file = RemoveInvalidChar(fileName);
+
+            var sourceFile = CreateTxt(text, file, _folder);
+
+            ConvertExcel(file, sourceFile);
+            return file;
+        }
+
+        public string AppendXlsx(IEnumerable<string> text, string fileName)
+        {
+            CreateFolder();
+
+            var file = RemoveInvalidChar(fileName);
+
+            lock (_lock)
+            {
+                var sourceFile = AppendTxt(text, file, _folder);
+
+                file = CreateFileName(file, "xlsx");
+
+                ConvertExcel(file, sourceFile);
+            }
+
+            return file;
+        }
+
+        public string CreateFileName(string fileName, string expansionFile)
+        {
+            return Path.Combine(_folder, fileName + $".{expansionFile}");
+        }
+
+        public void OpenFolderFile(string file)
+        {
+            System.Diagnostics.Process.Start("explorer", @"/select, " + file);
+        }
+        #endregion PublicMethod
     }
 }

@@ -45,22 +45,41 @@ namespace Fssp.Service
             return list;
         }
 
+        public static List<EntityNumber> ConvertStringToEntityNumber(IEnumerable<string> data)
+        {
+            var list = new List<EntityNumber>();
+
+            foreach (var item in data)
+            {
+                var str = item.Split(';');
+
+                list.Add(new EntityNumber()
+                {
+                    Id = str[0],
+                    Number = str[1]
+                });
+            }
+
+            return list;
+        }
+
         public static List<EntityPerson> ConvertStringToEntityPerson(IEnumerable<string> data)
         {
             var list = new List<EntityPerson>();
 
-            foreach(var item in data)
+            foreach (var item in data)
             {
                 var str = item.Split(';');
-                var fio = ServiceFio.GetFio(str[0]);
+                var fio = ServiceFio.GetFio(str[1]);
 
                 list.Add(new EntityPerson()
                 {
+                    Id = str[0],
                     Lastname = fio[0],
                     Firstname = fio[1],
                     Secondname = fio[2],
-                    Birthdate = str[1],
-                    Region = int.Parse(str[2])
+                    Birthdate = str[2],
+                    Region = int.Parse(str[3])
                 });
             }
 
@@ -77,9 +96,10 @@ namespace Fssp.Service
 
                 list.Add(new EntityCompany()
                 {
-                    Name = str[0],
-                    Address = str[1],
-                    Region = int.Parse(str[2])
+                    Id = str[0],
+                    Name = str[1],
+                    Address = str[2],
+                    Region = int.Parse(str[3])
                 });
             }
 
@@ -90,21 +110,25 @@ namespace Fssp.Service
         {
             var list = new List<string>()
             {
-                EntityResult.GetStringPropery()
+                $"id;{EntityResult.GetStringPropery()}"
             };
 
-            foreach(var item in result.CollectionQuery)
+            foreach (var item in result?.CollectionQuery)
             {
-                list.Add($"{item.Lastname} {item.Firstname} {item.Secondname} {item.Name} {item.Number} {(item.Region == 0 ? "":item.Region.ToString())};{item.Error} ");
-
-                if (item.CollectionResult != null)
+                if (item.CollectionResult != null && item.CollectionResult.Any())
                 {
                     list.AddRange(item.CollectionResult.Select(x =>
                     {
-                        return x.ToString();
+                        return $"{item.Id};{x}";
                     }));
                 }
+                else
+                {
+                    list.Add($"{item.Id};Ничего не найдено");
+                }
             }
+
+
 
             return list;
         }
