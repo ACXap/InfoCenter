@@ -35,6 +35,10 @@ namespace Fssp.Service
         private readonly object _personCollectionLock = new object();
 
         private readonly string _key;
+
+        private int _secondPauseGetResult = 60;
+        private int _secondPauseRequest = 60;
+
         #endregion PrivateField
 
         #region PublicProperties
@@ -60,7 +64,7 @@ namespace Fssp.Service
             return req;
         }
 
-        private async Task<EntityResponsResult> GetResult(RequestFound req)
+        private async Task<EntityResponsResult> GetResult(RequestFound req, int pauseSecond = 5)
         {
             if (req == null || string.IsNullOrEmpty(req.Token)) return null;
 
@@ -72,7 +76,7 @@ namespace Fssp.Service
              {
                  while (count-- > 0)
                  {
-                     Thread.Sleep(5000);
+                     Thread.Sleep(pauseSecond * 1000);
                      error = string.Empty;
                      try
                      {
@@ -133,7 +137,7 @@ namespace Fssp.Service
             });
         }
 
-        private void FoundGroopNumber(string fileName, IEnumerable<string> str)
+        private async void FoundGroopNumber(string fileName, IEnumerable<string> str)
         {
             var numbers = ServiceConvert.ConvertStringToEntityNumber(str);
 
@@ -143,18 +147,18 @@ namespace Fssp.Service
             {
                 var req = GetRequestFound(new FoundNumber() { Number = fileName });
 
-                Task.Run(async () =>
+                await Task.Run(async () =>
                 {
                     await Found(() => _repository.SearchGroopNumber(item, _key), req).ConfigureAwait(false);
-                    var result = await GetResult(req).ConfigureAwait(false);
+                    var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);
                     await AppendSaveFile(req, result).ConfigureAwait(false);
-                });
+                }).ConfigureAwait(false);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(_secondPauseRequest * 1000);
             }
         }
 
-        private void FoundGroopCompany(string fileName, IEnumerable<string> str)
+        private async void FoundGroopCompany(string fileName, IEnumerable<string> str)
         {
             var company = ServiceConvert.ConvertStringToEntityCompany(str);
 
@@ -163,18 +167,18 @@ namespace Fssp.Service
             foreach (var item in p)
             {
                 var req = GetRequestFound(new FoundNumber() { Number = fileName });
-                Task.Run(async () =>
+                await Task.Run(async () =>
                 {
                     await Found(() => _repository.SearchGroopCompany(item, _key), req).ConfigureAwait(false);
-                    var result = await GetResult(req).ConfigureAwait(false);
+                    var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);
                     await AppendSaveFile(req, result).ConfigureAwait(false);
-                });
+                }).ConfigureAwait(false);
 
-                Thread.Sleep(5000);
+                //Thread.Sleep(_secondPauseRequest * 1000);
             }
         }
 
-        private void FoundGroopPerson(string fileName, IEnumerable<string> str)
+        private async void FoundGroopPerson(string fileName, IEnumerable<string> str)
         {
             var persons = ServiceConvert.ConvertStringToEntityPerson(str);
 
@@ -184,14 +188,14 @@ namespace Fssp.Service
             {
                 var req = GetRequestFound(new FoundNumber() { Number = fileName });
 
-                Task.Run(async () =>
+                await Task.Run(async () =>
                 {
                     await Found(() => _repository.SearchGroopPerson(item, _key), req).ConfigureAwait(false);
-                    var result = await GetResult(req).ConfigureAwait(false);
+                    var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);
                     await AppendSaveFile(req, result).ConfigureAwait(false);
-                });
+                }).ConfigureAwait(false);
 
-                Thread.Sleep(5000);
+                //Thread.Sleep(_secondPauseRequest * 1000);
             }
        }
 

@@ -82,6 +82,7 @@
                                 Text="id*;Номер*" />
 
                             <TextBlock Text="* - обязательные поля"/>
+                            <TextBlock Text="Кодировка UTF-8"/>
 
                         </WrapPanel>
                     </Border>
