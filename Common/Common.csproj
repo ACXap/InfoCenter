@@ -99,6 +99,9 @@
     <Compile Include="Data\TypeGrid.cs" />
     <Compile Include="Expansion\SplitCollection.cs" />
     <Compile Include="IModule.cs" />
+    <Compile Include="Service\Interface\ILoggerService.cs" />
+    <Compile Include="Service\LoggerDebug.cs" />
+    <Compile Include="Service\LoggerFile.cs" />
     <Compile Include="Service\ServiceFile.cs" />
     <Compile Include="ViewModel\FoundViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

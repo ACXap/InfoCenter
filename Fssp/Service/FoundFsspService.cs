@@ -36,8 +36,8 @@ namespace Fssp.Service
 
         private readonly string _key;
 
-        private int _secondPauseGetResult = 60;
-        private int _secondPauseRequest = 60;
+        private readonly int _secondPauseGetResult = 60;
+        private readonly int _secondPauseRequest = 60;
 
         #endregion PrivateField
 

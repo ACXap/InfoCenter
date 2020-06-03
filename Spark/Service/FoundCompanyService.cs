@@ -1,5 +1,6 @@
 ﻿using Common.Data;
 using Common.Service;
+using Common.Service.Interface;
 using Spark.Data.Model;
 using Spark.Repository;
 using System;
@@ -10,16 +11,17 @@ namespace Spark.Service
 {
     public class FoundCompanyService : IFoundCompanySparkService
     {
-        public FoundCompanyService(IRepositorySpark rep)
+        public FoundCompanyService(IRepositorySpark rep, ILoggerService logger)
         {
-            _repositorySpark = rep;
-
             _createFile = new CreateFileOffice("Spark");
+            _repositorySpark = rep;
+            _logger = logger;
         }
 
         #region PrivateField
         private readonly IRepositorySpark _repositorySpark;
         private readonly ICreateFileOfResult _createFile;
+        private readonly ILoggerService _logger;
         #endregion PrivateField
 
         #region PublicMethod
@@ -54,7 +56,7 @@ namespace Spark.Service
                 catch (Exception ex)
                 {
                     result.ErrorResult = new ErrorResult(ex.Message, EnumTypeError.ErrorBd);
-                    // Тут будет логер
+                    _logger.AddLog(ex.Message);
                 }
 
                 return result;
@@ -79,8 +81,8 @@ namespace Spark.Service
                 }
                 catch (Exception ex)
                 {
-                    // Тут будет логер
                     result.ErrorResult = new ErrorResult(ex.Message, EnumTypeError.ErrorBd);
+                    _logger.AddLog(ex.Message);
                 }
 
                 return result;

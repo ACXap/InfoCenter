@@ -1,5 +1,6 @@
 ﻿using Common.Data;
 using Common.Service;
+using Common.Service.Interface;
 using Egrul.Data.Model;
 using Egrul.Repository;
 using System;
@@ -10,15 +11,17 @@ namespace Egrul.Service
 {
     public class FoundCompanyEgrulService : IFoundCompanyEgrulService
     {
-        public FoundCompanyEgrulService(IRepositoryEgrul rep)
+        public FoundCompanyEgrulService(IRepositoryEgrul rep, ILoggerService logger)
         {
             _createFile = new CreateFileOffice("Egrul");
             _repositoryEgrul = rep;
+            _logger = logger;
         }
 
         #region PrivateField
         private readonly IRepositoryEgrul _repositoryEgrul;
         private readonly ICreateFileOfResult _createFile;
+        private readonly ILoggerService _logger;
         #endregion PrivateField
 
         #region PublicMethod
@@ -57,7 +60,7 @@ namespace Egrul.Service
                 catch (Exception ex)
                 {
                     result.ErrorResult = new ErrorResult(ex.Message, EnumTypeError.ErrorSite);
-                    // Тут будет логер
+                    _logger.AddLog(ex.Message);
                 }
 
                 return result;
@@ -83,8 +86,7 @@ namespace Egrul.Service
                 }
                 catch (Exception ex)
                 {
-                    // Тут будет логер
-                    result.Item = false;
+                    _logger.AddLog(ex.Message);
                     result.ErrorResult = new ErrorResult(ex.Message, EnumTypeError.ErrorBd); 
                 }
 

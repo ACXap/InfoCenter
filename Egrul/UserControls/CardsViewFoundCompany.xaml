@@ -15,20 +15,20 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding CollectionCompanyInfo}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <local:CardCompanyInfo />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
+    <ListBox
+        ItemContainerStyle="{StaticResource ListBoxCardItem}"
+        ItemsSource="{Binding CollectionCompanyInfo}"
+        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+        SelectedItem="{Binding CurrentCompany}">
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <local:CardCompanyInfo />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ListBox>
 </UserControl>

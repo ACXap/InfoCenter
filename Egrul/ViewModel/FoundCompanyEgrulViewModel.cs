@@ -30,6 +30,7 @@ namespace Egrul.ViewModel
         private readonly IFoundCompanyEgrulService _foundService;
 
         private ReadOnlyCollection<CompanyInfo> _collectionCompanyInfo;
+        private CompanyInfo _currentCompany;
 
         private RelayCommand<CompanyInfo> _commandLoadPdf;
         #endregion PrivateField
@@ -39,6 +40,11 @@ namespace Egrul.ViewModel
         {
             get => _collectionCompanyInfo;
             private set => Set(ref _collectionCompanyInfo, value);
+        }
+        public CompanyInfo CurrentCompany
+        {
+            get => _currentCompany;
+            set => Set(ref _currentCompany, value);
         }
         #endregion PublicProperties
 
