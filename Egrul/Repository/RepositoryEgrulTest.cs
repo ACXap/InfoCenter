@@ -14,13 +14,13 @@ namespace Egrul.Repository
                 {
                     Address = "603116 НИЖЕГОРОДСКАЯ ОБЛАСТЬ ГОРОД НИЖНИЙ НОВГОРОД УЛИЦА ТОНКИНСКАЯ 12 1",
                     Title = "ТСЖ-345",
-                    CountRecords = "105",
+                    //CountRecords = "105",
                     Director = "ПРЕДСЕДАТЕЛЬ: Железнова Галина Семеновна",
                     Inn = "5257081603",
                     FullTitle = "ТОВАРИЩЕСТВО СОБСТВЕННИКОВ ЖИЛЬЯ №  345",
                     Ogrn = "1065200047330",
                     TokenLoadFile = "955EE8C127BCFCCB969C2A88348E37C636CE5B86B4AFD3950FE9729B30468C98F34BA8BA0DC391D38DC3DF6180D2B0A3EE3A184C60265485380845CB9831B7A8",
-                    Page = "1",
+                    //Page = "1",
                     DateOgrn = "30.05.2006",
                     Kpp ="525701001"
                 },
@@ -28,7 +28,7 @@ namespace Egrul.Repository
                 {
                     Address = "454021 ЧЕЛЯБИНСКАЯ ОБЛАСТЬ ГОРОД ЧЕЛЯБИНСК УЛИЦА МОЛДАВСКАЯ 25 Б ",
                     Title = "МУП   \"АПТЕКА  № 345\"",
-                    CountRecords = "105",
+                    //CountRecords = "105",
                     Director = "Директор: Шишкова Зоя Павловна",
                     Inn = "7448006960",
                     FullTitle = "МУНИЦИПАЛЬНОЕ УНИТАРНОЕ ПРЕДПРИЯТИЕ \"АПТЕКА  № 345\"",

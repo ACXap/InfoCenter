@@ -1,0 +1,73 @@
+﻿<UserControl
+    x:Class="Egrul.UserControls.InfoCompany"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dtvm="clr-namespace:Egrul.Data.Model"
+    xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:Egrul.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Egrul.Views"
+    d:DataContext="{d:DesignInstance {x:Type dtvm:CompanyInfo}}"
+    d:DesignHeight="650"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <GroupBox Header="Подробная информация о предприятии">
+        <GroupBox.Style>
+            <Style BasedOn="{StaticResource MahApps.Styles.GroupBox}" TargetType="{x:Type GroupBox}">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Width" Value="300" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </GroupBox.Style>
+        <ScrollViewer>
+            <StackPanel Margin="5" Orientation="Vertical">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="IsReadOnly" Value="True" />
+                        <Setter Property="TextWrapping" Value="Wrap" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Margin" Value="15,6,0,6" />
+                    </Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="Название:" />
+                <TextBox Text="{Binding Title, Mode=OneWay}" />
+                <TextBlock Text="Руководитель:" />
+                <TextBox Text="{Binding Director, Mode=OneWay}" />
+                <TextBlock Text="Адрес:" />
+                <TextBox Text="{Binding Address, Mode=OneWay}" />
+                <TextBlock Text="Полное название:" />
+                <TextBox Text="{Binding FullTitle, Mode=OneWay}" />
+                <TextBlock Text="ИНН:" />
+                <TextBox Text="{Binding Inn, Mode=OneWay}" />
+                <TextBlock Text="ОГРН:" />
+                <TextBox Text="{Binding Ogrn, Mode=OneWay}" />
+                <TextBlock Text="Дата присвоения ОГРН:" />
+                <TextBox Text="{Binding DateOgrn, Mode=OneWay}" />
+                <TextBlock Text="КПП:" />
+                <TextBox Text="{Binding Kpp, Mode=OneWay}" />
+                <TextBlock Text="Дата прекращения деятельности:" />
+                <TextBox Text="{Binding DateRemove, Mode=OneWay, FallbackValue=-, TargetNullValue=-}" />
+                <TextBlock Text="Получить выписку:" />
+                <Button
+                    Command="{Binding DataContext.CommandLoadPdf, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:FoundView}}}"
+                    CommandParameter="{Binding}"
+                    Style="{StaticResource ButtonLoadFile}"
+                    ToolTip="Получить выписку">
+                    <iconPack:FontAwesome
+                        Width="80"
+                        Height="80"
+                        Kind="FilePdfSolid" />
+                </Button>
+            </StackPanel>
+        </ScrollViewer>
+    </GroupBox>
+</UserControl>

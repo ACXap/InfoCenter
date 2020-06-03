@@ -16,31 +16,32 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
-    <Controls:MetroHeader
-        Margin="0,5,0,0"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Top"
-        Header="{Binding Header}">
-        <WrapPanel Orientation="Horizontal">
-            <TextBox
-                Width="600"
-                Height="30"
-                Margin="5"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Controls:TextBoxHelper.ClearTextButton="True"
-                Controls:TextBoxHelper.IsWaitingForData="True"
-                Controls:TextBoxHelper.Watermark="{Binding Watermark}"
-                Text="{Binding FoundText, UpdateSourceTrigger=PropertyChanged}">
-                <TextBox.InputBindings>
-                    <KeyBinding Key="Return" Command="{Binding CommandFound}" />
-                </TextBox.InputBindings>
-            </TextBox>
-            <Button
-                Margin="5,0,0,0"
-                Padding="16"
-                Command="{Binding CommandFound}"
-                Content="Поиск" />
-        </WrapPanel>
-    </Controls:MetroHeader>
+    <Border
+        Padding="5"
+        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+        BorderThickness="0,0,0,1">
+        <Controls:MetroHeader HorizontalAlignment="Center" Header="{Binding Header}">
+            <WrapPanel Orientation="Horizontal">
+                <TextBox
+                    Width="600"
+                    Height="30"
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Controls:TextBoxHelper.ClearTextButton="True"
+                    Controls:TextBoxHelper.IsWaitingForData="True"
+                    Controls:TextBoxHelper.Watermark="{Binding Watermark}"
+                    Text="{Binding FoundText, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding CommandFound}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button
+                    Margin="5,0,0,0"
+                    Padding="16"
+                    Command="{Binding CommandFound}"
+                    Content="Поиск" />
+            </WrapPanel>
+        </Controls:MetroHeader>
+    </Border>
 </UserControl>

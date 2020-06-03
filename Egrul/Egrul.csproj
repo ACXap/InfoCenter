@@ -111,6 +111,12 @@
     <Compile Include="UserControls\DataGridViewFoundCompany.xaml.cs">
       <DependentUpon>DataGridViewFoundCompany.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\InfoCompany.xaml.cs">
+      <DependentUpon>InfoCompany.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ViewFoundCollection.xaml.cs">
+      <DependentUpon>ViewFoundCollection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\FoundCompanyEgrulViewModel.cs" />
     <Compile Include="ViewModel\MainEgrulViewModel.cs" />
     <Compile Include="Views\FoundView.xaml.cs">
@@ -136,6 +142,14 @@
     <Page Include="UserControls\DataGridViewFoundCompany.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\InfoCompany.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ViewFoundCollection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FoundView.xaml">
       <Generator>MSBuild:Compile</Generator>

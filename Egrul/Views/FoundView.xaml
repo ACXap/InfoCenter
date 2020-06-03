@@ -5,10 +5,6 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:common="clr-namespace:Common.UserControls;assembly=Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dtvm="clr-namespace:Egrul.ViewModel"
-    xmlns:en="clr-namespace:Common.Data;assembly=Common"
-    xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:local="clr-namespace:Egrul.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:Egrul.UserControls"
     xmlns:vm="clr-namespace:Egrul.ViewModel"
@@ -16,15 +12,6 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <DataTemplate x:Key="ViewDataGridFound" DataType="{x:Type vm:FoundCompanyEgrulViewModel}">
-            <uc:DataGridViewFoundCompany />
-        </DataTemplate>
-
-        <DataTemplate x:Key="ViewCardFound" DataType="{x:Type vm:FoundCompanyEgrulViewModel}">
-            <uc:CardsViewFoundCompany />
-        </DataTemplate>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -36,8 +23,6 @@
 
         <common:FoundSimpleText
             Grid.Row="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
             DataContext="{Binding FoundHeader}" />
 
         <common:TypeGridItem
@@ -46,106 +31,15 @@
             VerticalAlignment="Bottom"
             DataContext="{Binding TypeGrid}" />
 
-
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <ContentControl
-                Grid.Row="2"
-                Grid.Column="0"
-                Content="{Binding}">
-                <ContentControl.Style>
-                    <Style TargetType="{x:Type ContentControl}">
-                        <Setter Property="ContentTemplate" Value="{StaticResource ViewDataGridFound}" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding TypeGrid.TypeGridViewItem}" Value="{x:Static en:EnumTypeGridViewItem.Card}">
-                                <Setter Property="ContentTemplate" Value="{StaticResource ViewCardFound}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
 
-            <GroupBox
-                Grid.Column="1"
-                Width="300"
-                Margin="5"
-                Header="Подробная информация о предприятии">
-                <GroupBox.Style>
-                    <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MahApps.Styles.GroupBox}">
-                        <Setter Property="Visibility" Value="Visible" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurrentCompany}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </GroupBox.Style>
-                <ScrollViewer>
-                    <StackPanel
-                        Margin="5"
-                        DataContext="{Binding CurrentCompany}"
-                        Orientation="Vertical">
-                        <TextBlock Text="Название:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding Title, Mode=OneWay}" />
-                        <TextBlock Text="Руководитель:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding Director, Mode=OneWay}" />
-                        <TextBlock Text="Адрес:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding Address, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock Text="Полное название:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding FullTitle, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock Text="ИНН:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding Inn, Mode=OneWay}" />
-                        <TextBlock Text="ОГРН:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding Ogrn, Mode=OneWay}" />
-                        <TextBlock Text="Дата присвоения ОГРН:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding DateOgrn, Mode=OneWay}" />
-                        <TextBlock Text="КПП:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding Kpp, Mode=OneWay}" />
-                        <TextBlock Text="Дата прекращения деятельности:" />
-                        <TextBox
-                            Margin="15,0,0,0"
-                            BorderBrush="Transparent"
-                            Text="{Binding DateRemove, Mode=OneWay}" />
-                        <TextBlock Text="Получить выписку:" />
-                        <Button
-                            Command="{Binding DataContext.CommandLoadPdf, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FoundView}}}"
-                            CommandParameter="{Binding}"
-                            Style="{StaticResource ButtonLoadFile}"
-                            ToolTip="Получить выписку">
-                            <iconPack:FontAwesome Kind="FilePdfSolid" Height="90" Width="90"/>
-                        </Button>
-                    </StackPanel>
-                </ScrollViewer>
-            </GroupBox>
+            <uc:ViewFoundCollection Grid.Row="1" />
+
+            <uc:InfoCompany Grid.Column="1" DataContext="{Binding CurrentCompany}"/>
 
             <Controls:ProgressRing Grid.ColumnSpan="2" IsActive="{Binding IsShowProgressBarFound, FallbackValue=False}" />
 

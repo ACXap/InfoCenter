@@ -7,8 +7,8 @@ namespace Egrul.Repository.Data
         [JsonProperty("g")]
         public string Director { get; set; }
         
-        [JsonProperty("cnt")]
-        public string CountRecords { get; set; }
+        //[JsonProperty("cnt")]
+        //public string CountRecords { get; set; }
        
         [JsonProperty("c")]
         public string Title { get; set; }
@@ -31,8 +31,8 @@ namespace Egrul.Repository.Data
         [JsonProperty("t")]
         public string TokenLoadFile { get; set; }
         
-        [JsonProperty("pg")]
-        public string Page { get; set; }
+        //[JsonProperty("pg")]
+        //public string Page { get; set; }
         
         //public string tot { get; set; }
         

@@ -37,11 +37,7 @@
 
         <common:Header Grid.Row="0" DataContext="{Binding Header}" />
 
-        <common:FoundSimpleText
-            Grid.Row="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            DataContext="{Binding FoundHeader}" />
+        <common:FoundSimpleText Grid.Row="1" DataContext="{Binding FoundHeader}" />
 
         <common:TypeGridItem
             Grid.Row="1"

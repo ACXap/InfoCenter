@@ -8,9 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Egrul.ViewModel"
     x:Name="MainViewSpark"
-    d:DataContext="{d:DesignInstance dtvm:MainViewModelDesignTime}"
+    d:DataContext="{d:DesignInstance dtvm:MainViewModelDesignTime,
+                                     IsDesignTimeCreatable=True}"
     d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignWidth="900"
     DataContext="{Binding Source={StaticResource Locator}, Path=PluginViewModel.MainEgrulViewModel}"
     mc:Ignorable="d">
     <d:DesignerProperties.DesignStyle>

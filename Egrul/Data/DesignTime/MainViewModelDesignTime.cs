@@ -1,18 +1,12 @@
-﻿using Egrul.Service;
-using Egrul.ViewModel;
+﻿using Egrul.ViewModel;
 using GalaSoft.MvvmLight;
 
 namespace Egrul.Data.DesignTime
 {
     public class MainViewModelDesignTime : ViewModelBase
     {
-        public MainViewModelDesignTime()
-        {
-            CurrentViewModel = new FoundCompanyEgrulViewModel(null,null);
-        }
-
         #region PrivateField
-        private ViewModelBase _currentViewModel;
+        private ViewModelBase _currentViewModel = new FoundCompanyEgrulViewModel(null, null);
         #endregion PrivateField
 
         #region PublicProperties

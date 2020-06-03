@@ -21,7 +21,7 @@
             <Setter Property="Margin" Value="2" />
         </Style>
     </UserControl.Resources>
-    <Border  Style="{DynamicResource BorderCard}">
+    <Border Style="{DynamicResource BorderCard}">
         <Grid Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
