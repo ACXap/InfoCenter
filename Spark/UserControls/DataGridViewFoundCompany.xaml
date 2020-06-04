@@ -17,7 +17,7 @@
     </d:DesignerProperties.DesignStyle>
     <Grid>
         <DataGrid
-            x:Name="dg"
+            x:Name="dg" GridLinesVisibility="Horizontal"
             Grid.Row="2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"

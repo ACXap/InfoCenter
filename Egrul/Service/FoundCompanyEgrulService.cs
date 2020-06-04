@@ -33,28 +33,30 @@ namespace Egrul.Service
 
                 try
                 {
-                    var list = _repositoryEgrul. GetCollectionCompany(query);
+                    var list = _repositoryEgrul.GetCollectionCompany(query);
 
-                    result.Items = list.Select(x =>
-                    {
-                        return new CompanyInfo()
-                        {
-                            Address = x.Address,
-                            Director = x.Director,
-                            Inn = x.Inn,
-                            Ogrn = x.Ogrn,
-                            Title = x.Title,
-                            DateOgrn = x.DateOgrn,
-                            DateRemove = x.DateRemove,
-                            FullTitle = x.FullTitle,
-                            Kpp = x.Kpp,
-                            TokenLoadFile = x.TokenLoadFile
-                        };
-                    });
-
-                    if (!result.Items.Any())
+                    if (list == null || !list.Any())
                     {
                         result.ErrorResult = new ErrorResult("Данных нет", EnumTypeError.ResultNotFound);
+                    }
+                    else
+                    {
+                        result.Items = list.Select(x =>
+                        {
+                            return new CompanyInfo()
+                            {
+                                Address = x.Address,
+                                Director = x.Director,
+                                Inn = x.Inn,
+                                Ogrn = x.Ogrn,
+                                Title = x.Title,
+                                DateOgrn = x.DateOgrn,
+                                DateRemove = x.DateRemove,
+                                FullTitle = x.FullTitle,
+                                Kpp = x.Kpp,
+                                TokenLoadFile = x.TokenLoadFile
+                            };
+                        });
                     }
                 }
                 catch (Exception ex)

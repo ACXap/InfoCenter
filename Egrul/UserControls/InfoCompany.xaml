@@ -16,7 +16,7 @@
         <GroupBox.Style>
             <Style BasedOn="{StaticResource MahApps.Styles.GroupBox}" TargetType="{x:Type GroupBox}">
                 <Setter Property="Visibility" Value="Visible" />
-                <Setter Property="Margin" Value="5" />
+                <Setter Property="Margin" Value="2" />
                 <Setter Property="Width" Value="300" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding}" Value="{x:Null}">

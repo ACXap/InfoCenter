@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Egrul.Data.DesignTime"
     xmlns:en="clr-namespace:Common.Data;assembly=Common"
-    xmlns:local="clr-namespace:Egrul.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:Egrul.UserControls"
     xmlns:vm="clr-namespace:Egrul.ViewModel"

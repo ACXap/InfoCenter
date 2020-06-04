@@ -21,9 +21,7 @@
 
         <common:Header Grid.Row="0" DataContext="{Binding Header}" />
 
-        <common:FoundSimpleText
-            Grid.Row="1"
-            DataContext="{Binding FoundHeader}" />
+        <common:FoundSimpleText Grid.Row="1" DataContext="{Binding FoundHeader}" />
 
         <common:TypeGridItem
             Grid.Row="1"
@@ -37,9 +35,9 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
-            <uc:ViewFoundCollection Grid.Row="1" />
+            <uc:ViewFoundCollection Grid.Column="0" />
 
-            <uc:InfoCompany Grid.Column="1" DataContext="{Binding CurrentCompany}"/>
+            <uc:InfoCompany Grid.Column="1" DataContext="{Binding CurrentCompany}" />
 
             <Controls:ProgressRing Grid.ColumnSpan="2" IsActive="{Binding IsShowProgressBarFound, FallbackValue=False}" />
 

@@ -24,7 +24,7 @@
     </UserControl.Resources>
 
     <Grid Width="250" Height="150">
-        <Border x:Name="bb" Background="{DynamicResource MahApps.Brushes.Accent}" />
+        <Border x:Name="bb" Background="{DynamicResource MahApps.Brushes.Accent}" Opacity="0.2" />
         <Border
             Background="Transparent"
             BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
@@ -38,9 +38,9 @@
                                 BeginTime="00:00:00"
                                 Storyboard.TargetName="bb"
                                 Storyboard.TargetProperty="Opacity"
-                                From="1"
-                                To="0"
-                                Duration="00:00:0.3" />
+                                From="0.2"
+                                To="1"
+                                Duration="00:00:0.5" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -52,9 +52,9 @@
                                     BeginTime="00:00:00"
                                     Storyboard.TargetName="bb"
                                     Storyboard.TargetProperty="Opacity"
-                                    From="0"
-                                    To="1"
-                                    Duration="00:00:0.3" />
+                                    From="1"
+                                    To="0.2"
+                                    Duration="00:00:0.5" />
                             </Storyboard>
                         </Storyboard>
                     </BeginStoryboard>

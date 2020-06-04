@@ -16,16 +16,22 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
-    <Grid>
+    <Border
+        Margin="2"
+        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+        BorderThickness="1"
+        SnapsToDevicePixels="True">
         <DataGrid
             x:Name="dg"
             Grid.Row="2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            GridLinesVisibility="Horizontal"
             IsReadOnly="True"
             ItemsSource="{Binding CollectionCompanyInfo}"
             SelectedItem="{Binding CurrentCompany}"
-            SelectionMode="Single">
+            SelectionMode="Single"
+            SnapsToDevicePixels="True">
             <DataGrid.Style>
                 <Style BasedOn="{StaticResource MahApps.Styles.DataGrid}" TargetType="{x:Type DataGrid}">
                     <Setter Property="Visibility" Value="Visible" />
@@ -74,5 +80,5 @@
                     SortMemberPath="Title" />
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+    </Border>
 </UserControl>
