@@ -23,39 +23,7 @@
             <Setter Property="Margin" Value="2" />
         </Style>
     </UserControl.Resources>
-    <Border
-        Margin="5"
-        Padding="5"
-        BorderBrush="{StaticResource MahApps.Brushes.Accent}"
-        BorderThickness="1"
-        CornerRadius="10">
-        <Border.Style>
-            <Style TargetType="{x:Type Border}">
-                <Setter Property="Background" Value="Transparent" />
-                <Style.Triggers>
-                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation
-                                    Storyboard.TargetProperty="Background.Color"
-                                    To="{StaticResource MahApps.Colors.Accent3}"
-                                    Duration="0:0:0.2" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation
-                                    Storyboard.TargetProperty="Background.Color"
-                                    To="Transparent"
-                                    Duration="0:0:0.2" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
+    <Border Style="{DynamicResource BorderCard}">
         <Grid Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -69,7 +37,7 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            <TextBlock VerticalAlignment="Center" Text="Название:" />
+            <TextBlock Text="Название:" />
             <TextBlock Grid.Row="1" Text="Руководитель:" />
             <TextBlock Grid.Row="2" Text="Адрес:" />
             <TextBlock Grid.Row="3" Text="ОГРН:" />

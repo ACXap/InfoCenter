@@ -15,62 +15,67 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
-    <Controls:MetroHeader
-        Margin="0,5,0,0"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Top"
-        Header="Поиск юридических лиц">
-        <WrapPanel Margin="0" Orientation="Horizontal">
-            <WrapPanel Margin="0" Orientation="Vertical">
-                <TextBox
-                    Width="600"
-                    Height="30"
-                    Margin="5"
-                    VerticalContentAlignment="Center"
-                    Controls:TextBoxHelper.ClearTextButton="True"
-                    Controls:TextBoxHelper.IsWaitingForData="True"
-                    Controls:TextBoxHelper.Watermark="Наименование предприятия"
-                    Text="{Binding FoundCompany.Name, UpdateSourceTrigger=PropertyChanged}">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Return" Command="{Binding CommandFoundPerson}" />
-                    </TextBox.InputBindings>
-                </TextBox>
-
-                <WrapPanel Margin="5" Orientation="Horizontal">
-                    <ComboBox
-                        Width="300"
-                        Controls:TextBoxHelper.IsWaitingForData="True"
-                        Controls:TextBoxHelper.Watermark="Регион"
-                        DisplayMemberPath="Name"
-                        IsEditable="True"
-                        IsTextSearchEnabled="True"
-                        ItemsSource="{Binding CollectionRegion}"
-                        SelectedItem="{Binding CurrentRegion, UpdateSourceTrigger=PropertyChanged}"
-                        TextSearch.TextPath="Name">
-                        <ComboBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding CommandFoundPerson}" />
-                        </ComboBox.InputBindings>
-                    </ComboBox>
+    <Border
+        Padding="5"
+        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+        BorderThickness="0,0,0,1">
+        <Controls:MetroHeader
+            Margin="0,5,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Header="Поиск юридических лиц">
+            <WrapPanel Margin="0" Orientation="Horizontal">
+                <WrapPanel Margin="0" Orientation="Vertical">
                     <TextBox
-                        Width="300"
+                        Width="600"
                         Height="30"
+                        Margin="5"
                         VerticalContentAlignment="Center"
                         Controls:TextBoxHelper.ClearTextButton="True"
-                        Controls:TextBoxHelper.Watermark="Адрес предприятия - должника"
-                        Text="{Binding FoundCompany.Address, UpdateSourceTrigger=PropertyChanged}">
+                        Controls:TextBoxHelper.IsWaitingForData="True"
+                        Controls:TextBoxHelper.Watermark="Наименование предприятия"
+                        Text="{Binding FoundCompany.Name, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Return" Command="{Binding CommandFoundPerson}" />
                         </TextBox.InputBindings>
                     </TextBox>
-                </WrapPanel>
 
+                    <WrapPanel Margin="5" Orientation="Horizontal">
+                        <ComboBox
+                            Width="300"
+                            Controls:TextBoxHelper.IsWaitingForData="True"
+                            Controls:TextBoxHelper.Watermark="Регион"
+                            DisplayMemberPath="Name"
+                            IsEditable="True"
+                            IsTextSearchEnabled="True"
+                            ItemsSource="{Binding CollectionRegion}"
+                            SelectedItem="{Binding CurrentRegion, UpdateSourceTrigger=PropertyChanged}"
+                            TextSearch.TextPath="Name">
+                            <ComboBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding CommandFoundPerson}" />
+                            </ComboBox.InputBindings>
+                        </ComboBox>
+                        <TextBox
+                            Width="300"
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            Controls:TextBoxHelper.ClearTextButton="True"
+                            Controls:TextBoxHelper.Watermark="Адрес предприятия - должника"
+                            Text="{Binding FoundCompany.Address, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding CommandFoundPerson}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </WrapPanel>
+
+                </WrapPanel>
+                <Button
+                    Margin="5,0,0,0"
+                    Padding="16"
+                    VerticalAlignment="Center"
+                    Command="{Binding CommandFoundPerson}"
+                    Content="Поиск" />
             </WrapPanel>
-            <Button
-                Margin="5,0,0,0"
-                Padding="16"
-                VerticalAlignment="Center"
-                Command="{Binding CommandFoundPerson}"
-                Content="Поиск" />
-        </WrapPanel>
-    </Controls:MetroHeader>
+        </Controls:MetroHeader>
+    </Border>
 </UserControl>

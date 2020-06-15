@@ -16,14 +16,22 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
-    <Grid>
+    <Border
+        Margin="2"
+        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+        BorderThickness="1"
+        SnapsToDevicePixels="True">
         <DataGrid
             x:Name="dg"
             Grid.Row="2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            GridLinesVisibility="Horizontal"
             IsReadOnly="True"
-            ItemsSource="{Binding CollectionCompanyInfo}">
+            ItemsSource="{Binding CollectionCompanyInfo}"
+            SelectedItem="{Binding CurrentCompany}"
+            SelectionMode="Single"
+            SnapsToDevicePixels="True">
             <DataGrid.Style>
                 <Style BasedOn="{StaticResource MahApps.Styles.DataGrid}" TargetType="{x:Type DataGrid}">
                     <Setter Property="Visibility" Value="Visible" />
@@ -34,20 +42,14 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.Style>
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <cmd:EventToCommand Command="{Binding DataContext.CommandOpenCompanyCard, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainEgrulView}}}" CommandParameter="{Binding ElementName=dg, Path=SelectedItem}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
-                                Margin="5"
-                                Padding="5"
                                 Command="{Binding DataContext.CommandLoadPdf, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:FoundView}}}"
                                 CommandParameter="{Binding}"
+                                Style="{DynamicResource ButtonLoadFile}"
                                 ToolTip="Получить выписку">
                                 <iconPack:FontAwesome Kind="FilePdfSolid" />
                             </Button>
@@ -76,12 +78,7 @@
                     CanUserSort="True"
                     Header="Название"
                     SortMemberPath="Title" />
-                <DataGridTextColumn
-                    Binding="{Binding Director}"
-                    CanUserSort="True"
-                    Header="Руководитель"
-                    SortMemberPath="Director" />
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+    </Border>
 </UserControl>

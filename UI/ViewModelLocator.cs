@@ -1,4 +1,6 @@
-﻿using Common.Settings;
+﻿using Common.Service;
+using Common.Service.Interface;
+using Common.Settings;
 using Common.Settings.Repository;
 using Common.Settings.Service;
 using CommonServiceLocator;
@@ -15,6 +17,8 @@ namespace UI
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+            SimpleIoc.Default.Register<ILoggerService, LoggerFile>();
 
             SimpleIoc.Default.Register<IRepositorySettings, RepositoryJsonSettings>();
             SimpleIoc.Default.Register<ISettingsService, SettingsService>();

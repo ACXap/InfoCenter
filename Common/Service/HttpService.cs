@@ -14,7 +14,6 @@ namespace Common.Service
         }
 
         #region PrivateField
-        private const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36";
         private readonly string _url;
         #endregion PrivateField
 
@@ -26,7 +25,7 @@ namespace Common.Service
             request.AutomaticDecompression = DecompressionMethods.GZip;
             request.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
             request.Method = method;
-            request.UserAgent = USER_AGENT;
+            request.UserAgent = UserAgentService.GetUserAgent();
             request.Timeout = 60000;
 
             return request;

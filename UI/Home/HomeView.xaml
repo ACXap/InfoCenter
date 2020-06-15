@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:UI.Home"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:UI.Home.UserControls"
-    d:DataContext="{d:DesignInstance local:HomeViewModel, IsDesignTimeCreatable=True}"
+    d:DataContext="{d:DesignInstance local:HomeViewModel,
+                                     IsDesignTimeCreatable=True}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
