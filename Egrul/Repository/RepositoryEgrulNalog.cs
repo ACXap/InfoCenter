@@ -49,7 +49,7 @@ namespace Egrul.Repository
         }
         private bool CheckStatusFile(string token)
         {
-           // отправляем запрос на подготовку файла
+            // отправляем запрос на подготовку файла
             _httpService.RequestGet(GetStringUrlRequestSt(token), HttpService.EnumContentType.Json);
 
             int count = 10;
@@ -83,6 +83,13 @@ namespace Egrul.Repository
             var str1 = _httpService.RequestGet(GetStringUrlRequest(token.t), HttpService.EnumContentType.Json);
 
             var obj = JsonConvert.DeserializeObject<FoundCompany>(str1);
+
+            if (obj.status == "wait")
+            {
+                Thread.Sleep(3000);
+                str1 = _httpService.RequestGet(GetStringUrlRequest(token.t), HttpService.EnumContentType.Json);
+                obj = JsonConvert.DeserializeObject<FoundCompany>(str1);
+            }
 
             return obj.rows;
         }
