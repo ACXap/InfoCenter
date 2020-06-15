@@ -32,8 +32,8 @@ namespace UI
     {
         public static void Register()
         {
-            SimpleIoc.Default.Register<IRepositorySpark, RepositorySparkTest>();
-            //SimpleIoc.Default.Register<IRepositorySpark, RepositorySparkSite>();
+            //SimpleIoc.Default.Register<IRepositorySpark, RepositorySparkTest>();
+            SimpleIoc.Default.Register<IRepositorySpark, RepositorySparkSite>();
             SimpleIoc.Default.Register<IFoundCompanySparkService, FoundCompanyService>();
             SimpleIoc.Default.Register<FoundCompanySparkViewModel>();
             SimpleIoc.Default.Register<MainSparkViewModel>();

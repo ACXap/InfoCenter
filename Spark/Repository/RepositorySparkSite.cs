@@ -9,7 +9,7 @@ namespace Spark.Repository
     public class RepositorySparkSite : IRepositorySpark
     {
         #region PrivateField
-        private readonly HttpService _httpService = new HttpService("http://dataport.rt.ru");
+        private readonly HttpService _httpService = new HttpService("https://dataport.rt.ru");
         #endregion PrivateField
 
         #region PublicMethod
