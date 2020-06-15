@@ -64,7 +64,15 @@ namespace Fssp.ViewModel
 
                         var result = await _serviceFound.ProcessingList(file).ConfigureAwait(true);
 
-                        StopProcess();
+                        if (result.ErrorResult != null)
+                        {
+                            StopProcess(result.ErrorResult);
+                        }
+                        else
+                        {
+                            StopProcess();
+                        }
+                        
                     }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1));
 
         public RelayCommand<RequestFound> CommandGetFile =>

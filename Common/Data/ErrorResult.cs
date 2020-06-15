@@ -18,6 +18,9 @@
                 case EnumTypeError.ResultNotFound:
                     Error = "Ничего не найдено.\nПопробуйте изменить запрос.";
                     break;
+                case EnumTypeError.ErrorFileFormat:
+                    Error = "Неверные данные в входном файле.\nНеобходимо проверить данные и попробуйте снова.";
+                    break;
                 default:
                     break;
             }

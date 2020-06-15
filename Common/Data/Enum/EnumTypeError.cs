@@ -4,6 +4,7 @@
     {
         ErrorBd,
         ErrorSite,
-        ResultNotFound
+        ResultNotFound,
+        ErrorFileFormat
     }
 }

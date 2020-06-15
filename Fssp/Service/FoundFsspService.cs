@@ -5,7 +5,6 @@ using Common.Settings.Service;
 using Fssp.Data;
 using Fssp.Repository;
 using Fssp.Repository.Data;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -82,7 +81,7 @@ namespace Fssp.Service
                      {
                          var res = _repository.Status(req.Token, _key);
 
-                         if(string.IsNullOrEmpty(res.Exception) == false) error = res.Exception;
+                         if (string.IsNullOrEmpty(res.Exception) == false) error = res.Exception;
                          else
                          {
                              req.StatusRequest.Progress = res.Progress;
@@ -137,7 +136,7 @@ namespace Fssp.Service
             });
         }
 
-        private async void FoundGroopNumber(string fileName, IEnumerable<string> str)
+        private async Task FoundGroopNumber(string fileName, IEnumerable<string> str)
         {
             var numbers = ServiceConvert.ConvertStringToEntityNumber(str);
 
@@ -158,7 +157,7 @@ namespace Fssp.Service
             }
         }
 
-        private async void FoundGroopCompany(string fileName, IEnumerable<string> str)
+        private async Task FoundGroopCompany(string fileName, IEnumerable<string> str)
         {
             var company = ServiceConvert.ConvertStringToEntityCompany(str);
 
@@ -178,7 +177,7 @@ namespace Fssp.Service
             }
         }
 
-        private async void FoundGroopPerson(string fileName, IEnumerable<string> str)
+        private async Task FoundGroopPerson(string fileName, IEnumerable<string> str)
         {
             var persons = ServiceConvert.ConvertStringToEntityPerson(str);
 
@@ -197,7 +196,7 @@ namespace Fssp.Service
 
                 //Thread.Sleep(_secondPauseRequest * 1000);
             }
-       }
+        }
 
         private Task AppendSaveFile(RequestFound req, EntityResponsResult result)
         {
@@ -271,25 +270,28 @@ namespace Fssp.Service
                     var str = _serviceFile.ReadFile(file).Skip(1);
 
                     var t = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
-                    //var fileName = _serviceFile.GetUniqueOnlyFileName(file);
                     var fileName = file;
 
                     if (t.Title == "Физические лица")
                     {
-                        FoundGroopPerson(fileName, str);
+                        await FoundGroopPerson(fileName, str).ConfigureAwait(false);
                     }
                     else if (t.Title == "Юридические лица")
                     {
-                        FoundGroopCompany(fileName, str);
+                        await FoundGroopCompany(fileName, str).ConfigureAwait(false);
                     }
                     else if (t.Title == "Номера исполнительных производств")
                     {
-                        FoundGroopNumber(fileName, str);
+                       await FoundGroopNumber(fileName, str).ConfigureAwait(false);
                     }
                     else
                     {
                         throw new Exception("Неверный тип данных");
                     }
+                }
+                catch (FormatException fex)
+                {
+                    result.ErrorResult = new ErrorResult(fex.Message, EnumTypeError.ErrorFileFormat);
                 }
                 catch (Exception ex)
                 {
