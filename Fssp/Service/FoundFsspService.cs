@@ -204,12 +204,12 @@ namespace Fssp.Service
             {
                 if (result != null)
                 {
-                    if (result.CollectionQuery[0].CollectionResult.Any() == false) req.ErrorRequest("Ничего не найдено");
-                    else
-                    {
+                    //if (result.CollectionQuery[0].CollectionResult.Any() == false) req.ErrorRequest("Ничего не найдено");
+                    //else
+                   // {
                         req.FileResult = _createFile.AppendXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
                         req.StopRequest();
-                    }
+                    //}
                 }
             });
         }
