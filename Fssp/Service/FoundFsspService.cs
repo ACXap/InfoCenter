@@ -152,8 +152,6 @@ namespace Fssp.Service
                     var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);
                     await AppendSaveFile(req, result).ConfigureAwait(false);
                 }).ConfigureAwait(false);
-
-                Thread.Sleep(_secondPauseRequest * 1000);
             }
         }
 
@@ -172,8 +170,6 @@ namespace Fssp.Service
                     var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);
                     await AppendSaveFile(req, result).ConfigureAwait(false);
                 }).ConfigureAwait(false);
-
-                //Thread.Sleep(_secondPauseRequest * 1000);
             }
         }
 
@@ -190,11 +186,9 @@ namespace Fssp.Service
                 await Task.Run(async () =>
                 {
                     await Found(() => _repository.SearchGroopPerson(item, _key), req).ConfigureAwait(false);
-                    var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);
+                    var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);                  
                     await AppendSaveFile(req, result).ConfigureAwait(false);
                 }).ConfigureAwait(false);
-
-                //Thread.Sleep(_secondPauseRequest * 1000);
             }
         }
 
@@ -204,12 +198,8 @@ namespace Fssp.Service
             {
                 if (result != null)
                 {
-                    //if (result.CollectionQuery[0].CollectionResult.Any() == false) req.ErrorRequest("Ничего не найдено");
-                    //else
-                   // {
-                        req.FileResult = _createFile.AppendXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
-                        req.StopRequest();
-                    //}
+                    req.FileResult = _createFile.AppendXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
+                    req.StopRequest();
                 }
             });
         }
@@ -270,7 +260,7 @@ namespace Fssp.Service
                     var str = _serviceFile.ReadFile(file).Skip(1);
 
                     var t = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
-                    var fileName = file;
+                    var fileName = CreateFileOffice.GetUniqueOnlyFileName(file);
 
                     if (t.Title == "Физические лица")
                     {
@@ -282,7 +272,7 @@ namespace Fssp.Service
                     }
                     else if (t.Title == "Номера исполнительных производств")
                     {
-                       await FoundGroopNumber(fileName, str).ConfigureAwait(false);
+                        await FoundGroopNumber(fileName, str).ConfigureAwait(false);
                     }
                     else
                     {

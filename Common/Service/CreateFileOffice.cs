@@ -117,7 +117,7 @@ namespace Common.Service
 
         private string AppendTxt(IEnumerable<string> text, string fileName)
         {
-            var fileTemp = CreateFileName(fileName, "txt");
+            var fileTemp = Path.Combine(_folder, $"{fileName}.txt");
             if (File.Exists(fileTemp))
             {
                 File.AppendAllLines(fileTemp, text.Skip(1), Encoding.Default);
@@ -137,7 +137,7 @@ namespace Common.Service
             return fileTemp;
         }
 
-        private static string GetUniqueOnlyFileName(string file)
+        public static string GetUniqueOnlyFileName(string file)
         {
             var f = Path.GetFileNameWithoutExtension(file);
 
@@ -200,7 +200,7 @@ namespace Common.Service
             {
                 var sourceFile = AppendTxt(text, file);
 
-                file = CreateFileName(file, "xlsx");
+                file = Path.Combine(_folder, $"{file}.xlsx");
 
                 ConvertExcel(file, sourceFile);
             }
