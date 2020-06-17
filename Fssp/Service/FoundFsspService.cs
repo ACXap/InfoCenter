@@ -198,7 +198,8 @@ namespace Fssp.Service
             {
                 if (result != null)
                 {
-                    req.FileResult = _createFile.AppendXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
+                    //req.FileResult = _createFile.AppendXlsx(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
+                    req.FileResult = _createFile.AppendCsv(ServiceConvert.ConvertEntityResultsToStrings(result), req.Query.FirstField);
                     req.StopRequest();
                 }
             });

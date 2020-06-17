@@ -191,6 +191,25 @@ namespace Common.Service
             return file;
         }
 
+        public string AppendCsv(IEnumerable<string> text, string fileName)
+        {
+            CreateFolder();
+
+            var fileTemp = Path.Combine(_folder, $"{fileName}.csv");
+            if (File.Exists(fileTemp))
+            {
+                File.AppendAllLines(fileTemp, text.Skip(1), Encoding.Default);
+            }
+            else
+            {
+                File.WriteAllLines(fileTemp, text, Encoding.Default);
+            }
+
+            return fileTemp;
+        }
+
+
+
         public string AppendXlsx(IEnumerable<string> text, string fileName)
         {
             CreateFolder();

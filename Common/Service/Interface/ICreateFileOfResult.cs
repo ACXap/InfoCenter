@@ -11,5 +11,6 @@ namespace Common.Service
         string CreateFileName(string fileName, string expansionFile);
         void OpenFolderFile(string file);
         string AppendXlsx(IEnumerable<string> text, string fileName);
+        string AppendCsv(IEnumerable<string> text, string fileName);
     }
 }
