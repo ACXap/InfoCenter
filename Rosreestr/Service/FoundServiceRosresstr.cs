@@ -30,6 +30,7 @@ namespace Rosreestr.Service
         #endregion PrivateField
 
         #region PublicProperties
+        public List<EntityRealEstate> CollectionEstate { get; private set; }
         #endregion PublicProperties
 
         #region PrivateMethod
@@ -94,9 +95,7 @@ namespace Rosreestr.Service
             }).ConfigureAwait(false);
         }
         #endregion PublicMethod
-
-        public List<EntityRealEstate> CollectionEstate { get; private set; }
-
+ 
         public async Task<Result<bool>> ProcessList()
         {
             Result<bool> result = new Result<bool>();
@@ -124,7 +123,6 @@ namespace Rosreestr.Service
                             item.Estate = new ErrorEstate(ex.Message);
                         }
                     });
-
 
                     var file = _createFile.CreateXlsx(ServiceConvert.ConvertCollectionEntityEstate(CollectionEstate), _fileName);
 
