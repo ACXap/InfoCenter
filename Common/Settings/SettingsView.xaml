@@ -72,9 +72,16 @@
             Grid.Column="2"
             DataContext="{Binding Settings.TypeGrid}" />
 
-        <TextBlock Grid.Row="2" Text="API-ключ для ФССП" />
-        <TextBox
+        <TextBlock Grid.Row="2" Text="Помнить последнюю вкладку" />
+        <CheckBox
             Grid.Row="2"
+            Grid.Column="2"
+            Margin="5"
+            IsChecked="{Binding Settings.CanMemorizeMenu, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Grid.Row="3" Text="API-ключ для ФССП" />
+        <TextBox
+            Grid.Row="3"
             Grid.Column="2"
             Width="300"
             Margin="5"

@@ -29,22 +29,6 @@
         <Style BasedOn="{StaticResource MahApps.Styles.WindowButtonCommands.Win10}" TargetType="{x:Type Controls:WindowButtonCommands}" />
     </Controls:MetroWindow.Resources>
 
-    <!--<Grid>
-        <Border BorderBrush="Black" BorderThickness="1"  >
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="5" />
-            </Border.Effect>
-        </Border>
-        <StackPanel Margin="35">
-            <TextBlock>This is some text</TextBlock>
-            <TextBlock>This is some text</TextBlock>
-            <TextBlock>This is some text</TextBlock>
-            <TextBlock>This is some text</TextBlock>
-            <TextBlock>This is some text</TextBlock>
-            <TextBlock>This is some text</TextBlock>
-        </StackPanel>
-    </Grid>-->
-
     <Grid>
         <Controls:HamburgerMenu
             DisplayMode="CompactOverlay"

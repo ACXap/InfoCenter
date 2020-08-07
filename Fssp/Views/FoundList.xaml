@@ -75,7 +75,7 @@
                                 <TextBlock
                                     Grid.Row="2"
                                     Margin="20,0,0,0"
-                                    Text="id*;*Название*;Адрес;Регион*" />
+                                    Text="id*;Название*;Адрес;Регион*" />
                                 <TextBlock
                                     Grid.Row="1"
                                     FontWeight="Bold"
@@ -86,7 +86,6 @@
                                     Text="id*;Номер*" />
 
                                 <TextBlock Text="* - обязательные поля" />
-                                <TextBlock Text="Кодировка UTF-8" />
 
                             </WrapPanel>
                         </Border>

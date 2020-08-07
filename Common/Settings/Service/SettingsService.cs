@@ -36,7 +36,9 @@ namespace Common.Settings.Service
                     CollectionTheme = ThemeManager.Current.Themes,
                     CurrentTheme = ThemeManager.Current.ChangeTheme(Application.Current, set.Theme),
                     ApiKeyFssp = set.ApiKeyFssp,
-                    TypeGrid = new TypeGrid(this) { TypeGridViewItem = (EnumTypeGridViewItem)Enum.Parse(typeof(EnumTypeGridViewItem), set.TypeGrid) }
+                    TypeGrid = new TypeGrid(this) { TypeGridViewItem = (EnumTypeGridViewItem)Enum.Parse(typeof(EnumTypeGridViewItem), set.TypeGrid) },
+                    CanMemorizeMenu = set.CanMemorizeMenu,
+                    LastMenu = set.LastMenu
                 };
             }
             catch (Exception ex)
@@ -46,7 +48,8 @@ namespace Common.Settings.Service
                 {
                     CollectionTheme = ThemeManager.Current.Themes,
                     CurrentTheme = ThemeManager.Current.DetectTheme(),
-                    TypeGrid = new Common.Data.TypeGrid(this)
+                    TypeGrid = new TypeGrid(this), 
+                    LastMenu = 0
                 };
             }
         }
@@ -70,7 +73,9 @@ namespace Common.Settings.Service
                     {
                         Theme = _settings.CurrentTheme.Name,
                         ApiKeyFssp = _settings.ApiKeyFssp,
-                        TypeGrid = _settings.TypeGrid.TypeGridViewItem.ToString()
+                        TypeGrid = _settings.TypeGrid.TypeGridViewItem.ToString(),
+                        CanMemorizeMenu = _settings.CanMemorizeMenu,
+                        LastMenu = _settings.LastMenu
                     };
                     lock (_lock)
                     {

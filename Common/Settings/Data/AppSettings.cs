@@ -19,6 +19,8 @@ namespace Common.Settings.Data
         private Theme _currentTheme;
         private string _apiKeyFssp = string.Empty;
         private TypeGrid _typeGrid;
+
+        private bool _canMemorizeMenu = false;
         #endregion PrivateField
 
         #region PublicProperties
@@ -60,6 +62,28 @@ namespace Common.Settings.Data
             set
             {
                 Set(ref _apiKeyFssp, value);
+                _service?.SaveSettings();
+            }
+        }
+       
+        public bool CanMemorizeMenu
+        {
+            get => _canMemorizeMenu;
+            set
+            {
+                Set(ref _canMemorizeMenu, value);
+                _service?.SaveSettings();
+            }
+        }
+
+
+        private int _lastMenu = 0;
+        public int LastMenu
+        {
+            get => _lastMenu;
+            set
+            {
+                Set(ref _lastMenu, value);
                 _service?.SaveSettings();
             }
         }

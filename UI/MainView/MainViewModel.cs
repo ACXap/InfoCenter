@@ -1,8 +1,11 @@
 ﻿using Common.Settings;
+using Common.Settings.Data;
+using Common.Settings.Service;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
+using System;
 using System.IO;
 using UI.About;
 using UI.Data;
@@ -12,20 +15,23 @@ namespace UI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel()
+        public MainViewModel(ISettingsService settingsService)
         {
+            _settings = settingsService.GetSettings();
             CreateMenuItems();
             LoadPlugin();
         }
 
         #region PrivateField
         private readonly PluginRegister _pluginRegister = new PluginRegister();
+        private readonly AppSettings _settings;
 
         private HamburgerMenuItemCollection _menuItems;
         private HamburgerMenuItemCollection _menuOptionItems;
 
-        private int _indexItem = 0;
+        private int _indexItem;
         private RelayCommand<EntityPlugin> _commandOpenMenu;
+        private RelayCommand _commandOpenFolder;
         #endregion PrivateField
 
         #region PublicProperties
@@ -50,7 +56,11 @@ namespace UI.ViewModels
         public int IndexItem
         {
             get => _indexItem;
-            set => Set(ref _indexItem, value);
+            set
+            {
+                Set(ref _indexItem, value);
+                _settings.LastMenu = _indexItem;
+            }
         }
         #endregion PublicProperties
 
@@ -60,21 +70,20 @@ namespace UI.ViewModels
             plugin =>
             {
                 IndexItem = plugin.Id;
+                
+            }));
+
+        public RelayCommand CommandOpenFolder =>
+       _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand(
+            () =>
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start("explorer", Directory.GetCurrentDirectory());
+                }
+                catch { }
             }));
         #endregion Command
-
-        private RelayCommand _commandOpenFolder;
-        public RelayCommand CommandOpenFolder =>
-        _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand(
-                    () =>
-                    {
-                        try
-                        {
-                            System.Diagnostics.Process.Start("explorer",  Directory.GetCurrentDirectory());
-                        }
-                        catch { }
-                    }));
-
 
         #region PrivateMethod
         private void CreateMenuItems()
@@ -120,6 +129,16 @@ namespace UI.ViewModels
                     Tag = item.Tag
                 });
             });
+
+            OpenFirstMenu();
+        }
+
+        private void OpenFirstMenu()
+        {
+            if(_settings.CanMemorizeMenu && _settings.LastMenu >-1 && _settings.LastMenu< MenuItems.Count)
+            {
+                IndexItem = _settings.LastMenu;
+            }
         }
         #endregion PrivateMethod
     }
