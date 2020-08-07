@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -177,7 +178,9 @@ namespace Fssp.Service
         {
             var persons = ServiceConvert.ConvertStringToEntityPerson(str);
 
-            var p = persons.SplitCollection(50);
+            await SaveErrorPerson(persons.Where(x => x.Id == "error").ToList(), fileName);
+
+            var p = persons.Where(x => x.Id != "error").SplitCollection(50);
 
             foreach (var item in p)
             {
@@ -186,10 +189,27 @@ namespace Fssp.Service
                 await Task.Run(async () =>
                 {
                     await Found(() => _repository.SearchGroopPerson(item, _key), req).ConfigureAwait(false);
-                    var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);                  
+                    var result = await GetResult(req, _secondPauseGetResult).ConfigureAwait(false);
                     await AppendSaveFile(req, result).ConfigureAwait(false);
                 }).ConfigureAwait(false);
             }
+        }
+
+        private async Task SaveErrorPerson(IEnumerable<EntityPerson> enumerable, string fileName)
+        {
+            if (!enumerable.Any()) return;
+
+            var req = GetRequestFound(new FoundNumber() { Number = $"{fileName}_ошибки_{enumerable.Count()}" });
+            var result = enumerable.Select(x =>
+            {
+                return x.Lastname;
+            });
+
+            await Task.Run(() =>
+            {
+                req.FileResult = _createFile.AppendCsv(result, req.Query.FirstField);
+                req.StopRequest();
+            });
         }
 
         private Task AppendSaveFile(RequestFound req, EntityResponsResult result)

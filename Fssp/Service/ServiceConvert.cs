@@ -2,6 +2,7 @@
 using Fssp.Repository.Data;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Fssp.Service
 {
@@ -70,17 +71,23 @@ namespace Fssp.Service
             foreach (var item in data)
             {
                 var str = item.Split(';');
-                var fio = ServiceFio.GetFio(str[1]);
-
-                list.Add(new EntityPerson()
+                try
                 {
-                    Id = str[0],
-                    Lastname = fio[0],
-                    Firstname = fio[1],
-                    Secondname = fio[2],
-                    Birthdate = str[2],
-                    Region = int.Parse(str[3])
-                });
+                    var fio = ServiceFio.GetFio(str[1]);
+                    list.Add(new EntityPerson()
+                    {
+                        Id = str[0],
+                        Lastname = fio[0],
+                        Firstname = fio[1],
+                        Secondname = fio[2],
+                        Birthdate = str[2],
+                        Region = int.Parse(str[3])
+                    });
+                }
+                catch (Exception ex)
+                {
+                    list.Add(new EntityPerson() { Id = "error", Lastname = $"{item}; {ex.Message}" });
+                }
             }
 
             return list;
@@ -127,8 +134,6 @@ namespace Fssp.Service
                     list.Add($"{item.Id};Ничего не найдено");
                 }
             }
-
-
 
             return list;
         }

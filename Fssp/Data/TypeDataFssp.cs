@@ -8,7 +8,8 @@ namespace Fssp.Data
 
         public override void Init(string str)
         {
-            switch (str.ToLower())
+            str = str.ToLower().TrimEnd(new char[] { ';' });
+            switch (str)
             {
                 case "id;фио;дата рождения;регион":
                     Title = "Физические лица";

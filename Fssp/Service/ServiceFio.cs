@@ -41,11 +41,11 @@ namespace Fssp.Service
         /// <param name="fio"></param>
         public static string[] GetFio(string fio)
         {
-            if (string.IsNullOrEmpty(fio)) return new string[2];
+            if (string.IsNullOrEmpty(fio) || string.IsNullOrWhiteSpace(fio)) throw new Exception("ФИО не заполнена");
 
             var s = fio.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if(s.Length<2) return new string[] { s[0]};
-            
+            if(s.Length<2) throw new Exception("Неверный формат ФИО");
+
             return new string[] { s[0], s[1], s.Length == 3 ? s[2] : "" };
         }
     }
