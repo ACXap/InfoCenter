@@ -1,4 +1,5 @@
 ﻿using Rosreestr.Repository.Data;
+using Rosreestr.Repository.Data.Json;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -75,6 +76,22 @@ namespace Rosreestr.Service
         public static string ConvertNameFildEntityEstateToString()
         {
             return $"Номер;{GetNameFildEsatet()}";
+        }
+
+        public static List<string> ConvertCollectionErrorEntityEstate(IEnumerable<EntityRealEstate> data)
+        {
+            var errors = data.Where(x => x.Estate is ErrorEstate);
+            var list = new List<string>
+            {
+                "Кадастровый номер"
+            };
+
+            list.AddRange(errors.Select(x =>
+            {
+                return x.Id;
+            }));
+
+            return list;
         }
 
         public static List<string> ConvertCollectionEntityEstate(IEnumerable<EntityRealEstate> data)

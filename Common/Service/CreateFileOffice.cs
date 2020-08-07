@@ -191,6 +191,13 @@ namespace Common.Service
             return file;
         }
 
+        public string CreateCsv(IEnumerable<string> text, string fileName)
+        {
+            var fileTemp = CreateFileName(fileName, "csv");
+            File.WriteAllLines(fileTemp, text, Encoding.UTF8);
+            return fileTemp;
+        }
+
         public string AppendCsv(IEnumerable<string> text, string fileName)
         {
             CreateFolder();
@@ -208,22 +215,22 @@ namespace Common.Service
             return fileTemp;
         }
 
-        public string AppendXlsx(IEnumerable<string> text, string fileName)
-        {
-            CreateFolder();
-            var file = fileName;
+        //public string AppendXlsx(IEnumerable<string> text, string fileName)
+        //{
+        //    CreateFolder();
+        //    var file = fileName;
 
-            lock (_lock)
-            {
-                var sourceFile = AppendTxt(text, file);
+        //    lock (_lock)
+        //    {
+        //        var sourceFile = AppendTxt(text, file);
 
-                file = Path.Combine(_folder, $"{file}.xlsx");
+        //        file = Path.Combine(_folder, $"{file}.xlsx");
 
-                ConvertExcel(file, sourceFile);
-            }
+        //        ConvertExcel(file, sourceFile);
+        //    }
 
-            return file;
-        }
+        //    return file;
+        //}
 
         public string CreateFileName(string fileName, string expansionFile)
         {
@@ -242,6 +249,15 @@ namespace Common.Service
         {
             System.Diagnostics.Process.Start("explorer", @"/select, " + file);
         }
+
+        public string CreateErrorName(string fileName)
+        {
+            var path = Path.GetDirectoryName(fileName);
+            var fn = Path.GetFileName(fileName);
+
+            return Path.Combine(path, $"Ошибки_{fn}");
+        }
+
         #endregion PublicMethod
     }
 }

@@ -125,6 +125,7 @@ namespace Rosreestr.Service
                     });
 
                     var file = _createFile.CreateXlsx(ServiceConvert.ConvertCollectionEntityEstate(CollectionEstate), _fileName);
+                    _createFile.CreateCsv(ServiceConvert.ConvertCollectionErrorEntityEstate(CollectionEstate), _createFile.CreateErrorName(_fileName));
 
                     _createFile.OpenFolderFile(file);
 
@@ -138,6 +139,8 @@ namespace Rosreestr.Service
                 return result;
             });
         }
+
+        
 
         public async Task<Result<EntityRealEstate>> GetList(string file)
         {
