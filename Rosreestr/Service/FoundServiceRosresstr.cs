@@ -24,7 +24,7 @@ namespace Rosreestr.Service
         #region PrivateField
         private readonly IRepositoryRosreestr _repositoryRosreestr;
         private readonly ICreateFileOfResult _createFile;
-        private ServiceFile<TypeDataRosreestr> _serviceFile = new ServiceFile<TypeDataRosreestr>();
+        private readonly ServiceFile<TypeDataRosreestr> _serviceFile = new ServiceFile<TypeDataRosreestr>();
 
         private string _fileName;
         #endregion PrivateField
@@ -32,9 +32,6 @@ namespace Rosreestr.Service
         #region PublicProperties
         public List<EntityRealEstate> CollectionEstate { get; private set; }
         #endregion PublicProperties
-
-        #region PrivateMethod
-        #endregion PrivateMethod
 
         #region PublicMethod
         public async Task<Result<EntityFoundRealEstate>> FoundRealEstate(string query)
@@ -94,8 +91,7 @@ namespace Rosreestr.Service
                 return result;
             }).ConfigureAwait(false);
         }
-        #endregion PublicMethod
- 
+
         public async Task<Result<bool>> ProcessList()
         {
             Result<bool> result = new Result<bool>();
@@ -118,7 +114,7 @@ namespace Rosreestr.Service
                                 item.Estate = new ErrorEstate("Ничего не найдено");
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             item.Estate = new ErrorEstate(ex.Message);
                         }
@@ -140,8 +136,6 @@ namespace Rosreestr.Service
             });
         }
 
-        
-
         public async Task<Result<EntityRealEstate>> GetList(string file)
         {
             Result<EntityRealEstate> result = new Result<EntityRealEstate>();
@@ -161,7 +155,6 @@ namespace Rosreestr.Service
                         };
                     }));
 
-                    // _fileName = _serviceFile.GetOnlyFileName(file);
                     _fileName = file;
                 }
                 catch (Exception ex)
@@ -172,5 +165,6 @@ namespace Rosreestr.Service
                 return result;
             });
         }
+        #endregion PublicMethod
     }
 }

@@ -1,10 +1,5 @@
 ﻿using Common;
 using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rosreestr.ViewModel
 {
@@ -14,8 +9,6 @@ namespace Rosreestr.ViewModel
                                 FoundListRosreestrViewModel foundList)
         {
             Header = "Справочная информация по объектам недвижимости";
-           // _foundPerson = foundPerson;
-           // _foundCompany = foundCompany;
             _foundNumber = foundNumber;
             _foundList = foundList;
 
@@ -46,12 +39,6 @@ namespace Rosreestr.ViewModel
                 Set(ref _currentIndexTab, value);
                 switch (value)
                 {
-                    //case 0:
-                    //    CurrentViewModel = _foundPerson;
-                    //    break;
-                    //case 1:
-                    //    CurrentViewModel = _foundCompany;
-                    //    break;
                     case 0:
                         CurrentViewModel = _foundNumber;
                         break;

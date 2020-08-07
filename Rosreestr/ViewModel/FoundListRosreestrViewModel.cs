@@ -4,14 +4,13 @@ using Common.Settings.Service;
 using GalaSoft.MvvmLight.CommandWpf;
 using Rosreestr.Data;
 using Rosreestr.Repository.Data;
-using Rosreestr.Service;
 using Rosreestr.Service.Interface;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Rosreestr.ViewModel
 {
-    public class FoundListRosreestrViewModel: FoundViewModelBase
+    public class FoundListRosreestrViewModel : FoundViewModelBase
     {
         public FoundListRosreestrViewModel(IFoundRosreestrService foundService, ISettingsService settings)
         {
@@ -54,16 +53,16 @@ namespace Rosreestr.ViewModel
         #region Command
         public RelayCommand CommandStart =>
        _commandStart ?? (_commandStart = new RelayCommand(
-                   async () =>
-                   {
-                       var file = FoundHeader.FoundText;
-                       FoundHeader.FoundText = "";
-                       StartProcess();
+            async () =>
+            {
+                var file = FoundHeader.FoundText;
+                FoundHeader.FoundText = "";
+                StartProcess();
 
-                       var result = await _foundService.ProcessList().ConfigureAwait(true);
+                var result = await _foundService.ProcessList().ConfigureAwait(true);
 
-                       StopProcess();
-                   }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1));
+                StopProcess();
+            }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1));
         #endregion Command
 
         #region PrivateMethod
