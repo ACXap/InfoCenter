@@ -208,8 +208,6 @@ namespace Common.Service
             return fileTemp;
         }
 
-
-
         public string AppendXlsx(IEnumerable<string> text, string fileName)
         {
             CreateFolder();
