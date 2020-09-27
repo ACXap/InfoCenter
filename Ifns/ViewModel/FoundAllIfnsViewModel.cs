@@ -36,7 +36,7 @@ namespace Ifns.ViewModel
                var result = await _foundService.GetAll().ConfigureAwait(true);
 
                StopProcess(result.ErrorResult);
-           }));
+           }, ()=> !IsShowProgressBarFound));
 
         public RelayCommand CommandSave =>
         _commandSave ?? (_commandSave = new RelayCommand(
