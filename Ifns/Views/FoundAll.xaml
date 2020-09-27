@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dtvm="clr-namespace:Ifns.Data.DesignTime"
     xmlns:local="clr-namespace:Ifns.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance dtvm:CollectionIfnsVM}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -24,15 +26,31 @@
             Padding="5"
             BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
             BorderThickness="0,0,0,1">
-            <Controls:MetroHeader
-                Margin="0,5,0,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Header="{Binding FoundHeader.Header}">
-                <WrapPanel Orientation="Vertical">
-                    <Button Content="Найти все"/>
-                </WrapPanel>
-            </Controls:MetroHeader>
+            <WrapPanel HorizontalAlignment="Center" Orientation="Vertical">
+                <Button
+                    Margin="10"
+                    Padding="10" Command="{Binding CommandStart}"
+                    Content="Найти все" />
+            </WrapPanel>
         </Border>
+
+        <DataGrid
+            Grid.Row="1"
+            AutoGenerateColumns="false"
+            ItemsSource="{Binding CollectionIfns}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Form.Ifns}" Header="Код ИФНС" />
+                <DataGridTextColumn Binding="{Binding Form.Oktmmf}" Header="Муниципальное образование" />
+                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsName}" Header="Наименование" />
+                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsAddr}" Header="Адрес" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeName}" Header="Получатель платежа" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeInn}" Header="ИНН" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeKpp}" Header="КПП" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.BankName}" Header="Банк" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.BankBic}" Header="БИК" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.CorrespAcc}" Header="Корр. счет" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeAcc}" Header="Счет" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

@@ -17,10 +17,11 @@
     </d:DesignerProperties.DesignStyle>
     <Grid>
         <DataGrid
-            x:Name="dg" GridLinesVisibility="Horizontal"
+            x:Name="dg"
             Grid.Row="2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            GridLinesVisibility="Horizontal"
             IsReadOnly="True"
             ItemsSource="{Binding CollectionCompanyInfo}">
             <DataGrid.Style>

@@ -44,9 +44,9 @@
             <TabItem Header="Сохранить все ИФНС">
                 <ContentControl Content="{Binding CurrentViewModel}" />
             </TabItem>
-            <TabItem Header="Поиск по списку">
+            <!--<TabItem Header="Поиск по списку">
                 <ContentControl Content="{Binding CurrentViewModel}" />
-            </TabItem>
+            </TabItem>-->
         </Controls:MetroAnimatedSingleRowTabControl>
 
         <Controls:ProgressRing Grid.Row="1" IsActive="{Binding CurrentViewModel.IsShowProgressBarFound, FallbackValue=False}" />

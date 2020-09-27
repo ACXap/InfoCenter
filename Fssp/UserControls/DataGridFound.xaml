@@ -26,9 +26,10 @@
     </d:DesignerProperties.DesignStyle>
     <Grid>
         <DataGrid
-            Grid.Row="2" GridLinesVisibility="Horizontal"
+            Grid.Row="2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            GridLinesVisibility="Horizontal"
             IsReadOnly="True"
             ItemsSource="{Binding CollectionRequest}">
             <DataGrid.Style>
