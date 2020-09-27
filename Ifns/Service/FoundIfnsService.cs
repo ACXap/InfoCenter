@@ -121,7 +121,7 @@ namespace Ifns.Service
 
                 data.AddRange(ifnsString);
 
-                var filename = $"ifns_{DateTime.Now::dd_MM_yyyy_hh_mm}";
+                var filename = $"ifns_{DateTime.Now::dd_MM_yyyy_HH_mm}";
                 var file = _createFile.CreateXlsx(data, filename);
                 _createFile.CreateCsv(data, filename);
 
