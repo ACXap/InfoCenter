@@ -216,6 +216,10 @@
       <Project>{f87c9803-297f-4f3c-ab7d-bd6785646a98}</Project>
       <Name>Fssp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ifns\Ifns.csproj">
+      <Project>{b3b55119-242c-460d-b320-f570bf36097b}</Project>
+      <Name>Ifns</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rosreestr\Rosreestr.csproj">
       <Project>{30845BF0-3D4D-42AC-8E50-2500F2CB8412}</Project>
       <Name>Rosreestr</Name>

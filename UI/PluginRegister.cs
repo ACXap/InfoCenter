@@ -24,6 +24,10 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using UI.Data;
+using Ifns.Repository;
+using Ifns.Views;
+using Ifns.ViewModel;
+using Ifns.Service;
 #endregion using
 
 namespace UI
@@ -52,12 +56,17 @@ namespace UI
             SimpleIoc.Default.Register<FoundListFsspViewModel>();
             SimpleIoc.Default.Register<MainFsspViewModel>();
 
-
             SimpleIoc.Default.Register<IRepositoryRosreestr, RepositoryRosreestrApi>();
             SimpleIoc.Default.Register<IFoundRosreestrService, FoundServiceRosresstr>();
             SimpleIoc.Default.Register<FoundNumberRosreestrViewModel>();
             SimpleIoc.Default.Register<FoundListRosreestrViewModel>();
             SimpleIoc.Default.Register<MainRosreestrViewModel>();
+
+            SimpleIoc.Default.Register<IRepositoryIfns, RepositoryIfnsSite>();
+            SimpleIoc.Default.Register<IFoundIfnsService, FoundIfnsService>();
+            SimpleIoc.Default.Register<FoundAllIfnsViewModel>();
+            SimpleIoc.Default.Register<FoundListIfnsViewModel>();
+            SimpleIoc.Default.Register<MainIfnsViewModel>();
         }
 
         public List<EntityPlugin> GetPlugin()
@@ -95,6 +104,14 @@ namespace UI
                     Label = "Росреестр",
                     ToolTip = "Федеральная служба государственной регистрации, кадастра и картографии",
                     Tag = new MainRosreestrView()
+                },
+                new EntityPlugin()
+                {
+                    Id = 5,
+                    Icon = new Image(){ Source = new BitmapImage(new Uri("pack://application:,,,/Ifns;component/ifns.png"))},
+                    Label = "ИФНС",
+                    ToolTip = "Определение реквизитов ИФНС",
+                    Tag = new MainIfnsView()
                 }
             };
 
@@ -132,6 +149,13 @@ namespace UI
                     Icon = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/Rosreestr;component/rosreestr.png")) },
                     Label = "Росреестр",
                     ToolTip = "Федеральная служба государственной регистрации, кадастра и картографии"
+                },
+                new EntityPlugin()
+                {
+                    Id = 5,
+                    Icon = new Image(){ Source = new BitmapImage(new Uri("pack://application:,,,/Ifns;component/ifns.png"))},
+                    Label = "ИФНС",
+                    ToolTip = "Определение реквизитов ИФНС"
                 }
             };
 
@@ -142,5 +166,6 @@ namespace UI
         public static ViewModelBase MainEgrulViewModel => ServiceLocator.Current.GetInstance<MainEgrulViewModel>();
         public static ViewModelBase MainFsspViewModel => ServiceLocator.Current.GetInstance<MainFsspViewModel>();
         public static ViewModelBase MainRosreestrViewModel => ServiceLocator.Current.GetInstance<MainRosreestrViewModel>();
+        public static ViewModelBase MainIfnsViewModel => ServiceLocator.Current.GetInstance<MainIfnsViewModel>();
     }
 }

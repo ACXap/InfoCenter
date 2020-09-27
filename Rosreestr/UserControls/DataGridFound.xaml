@@ -19,7 +19,8 @@
         <DataGrid
             Grid.Row="2"
             AutoGenerateColumns="False"
-            CanUserAddRows="False" GridLinesVisibility="Horizontal"
+            CanUserAddRows="False"
+            GridLinesVisibility="Horizontal"
             IsReadOnly="True"
             ItemsSource="{Binding CollectionFoundRealEstate}">
             <DataGrid.Columns>

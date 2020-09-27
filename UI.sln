@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rosreestr", "Rosreestr\Rosreestr.csproj", "{30845BF0-3D4D-42AC-8E50-2500F2CB8412}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ifns", "Ifns\Ifns.csproj", "{B3B55119-242C-460D-B320-F570BF36097B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{30845BF0-3D4D-42AC-8E50-2500F2CB8412}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30845BF0-3D4D-42AC-8E50-2500F2CB8412}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30845BF0-3D4D-42AC-8E50-2500F2CB8412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B55119-242C-460D-B320-F570BF36097B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B55119-242C-460D-B320-F570BF36097B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B55119-242C-460D-B320-F570BF36097B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B55119-242C-460D-B320-F570BF36097B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{F87C9803-297F-4F3C-AB7D-BD6785646A98} = {70967FEC-22DA-4238-AF9A-75218B4B57B4}
 		{61D4AA99-E465-4817-84F6-58B44DC01BE2} = {70967FEC-22DA-4238-AF9A-75218B4B57B4}
 		{30845BF0-3D4D-42AC-8E50-2500F2CB8412} = {70967FEC-22DA-4238-AF9A-75218B4B57B4}
+		{B3B55119-242C-460D-B320-F570BF36097B} = {70967FEC-22DA-4238-AF9A-75218B4B57B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4411026-8F70-4072-9E64-3D79D9423FD1}

@@ -1,14 +1,12 @@
 ﻿<UserControl
-    x:Class="Rosreestr.Views.FoundList"
+    x:Class="Ifns.Views.FoundList"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dtvm="clr-namespace:Rosreestr.Data.DesignTime"
     xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:local="clr-namespace:Rosreestr.Views"
+    xmlns:local="clr-namespace:Ifns.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext="{d:DesignInstance dtvm:CollectionRealEstateVM}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -109,18 +107,5 @@
                 </WrapPanel>
             </Controls:MetroHeader>
         </Border>
-
-        <DataGrid
-            Grid.Row="1"
-            AutoGenerateColumns="False"
-            ItemsSource="{Binding CollectionRealEstate}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Номер" />
-                <DataGridTextColumn Binding="{Binding Estate.KadastrNumber}" Header="Кадастровый номер" />
-                <DataGridTextColumn Binding="{Binding Estate.ObjectDesc}" Header="Тип" />
-                <DataGridTextColumn Binding="{Binding Estate.Address}" Header="Адрес" />
-                <DataGridTextColumn Binding="{Binding Estate.Cost}" Header="Кадастровая стоимость" />
-            </DataGrid.Columns>
-        </DataGrid>
     </Grid>
 </UserControl>
