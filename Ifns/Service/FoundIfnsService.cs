@@ -146,7 +146,7 @@ namespace Ifns.Service
 
                     ParallelOptions po = new ParallelOptions()
                     {
-                        MaxDegreeOfParallelism = 5
+                        MaxDegreeOfParallelism = 8
                     };
 
                     Parallel.ForEach(region, po, (reg) =>

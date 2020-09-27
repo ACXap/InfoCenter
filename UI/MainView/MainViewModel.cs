@@ -5,8 +5,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
-using System;
 using System.IO;
+using System.Net;
 using UI.About;
 using UI.Data;
 using UI.Home;
@@ -17,6 +17,8 @@ namespace UI.ViewModels
     {
         public MainViewModel(ISettingsService settingsService)
         {
+            ServicePointManager.DefaultConnectionLimit = 10;
+
             _settings = settingsService.GetSettings();
             CreateMenuItems();
             LoadPlugin();
