@@ -9,5 +9,6 @@ namespace Ifns.Service
     {
         ObservableCollection<EntityIfns> CollectionIfns { get; }
         Task<Result<bool>> GetAll();
+        Result<bool> SaveFile();
     }
 }

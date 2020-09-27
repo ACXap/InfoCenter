@@ -18,6 +18,7 @@ namespace Ifns.ViewModel
         private readonly IFoundIfnsService _foundService;
 
         private RelayCommand _commandStart;
+        private RelayCommand _commandSave;
         #endregion PrivateField
 
         #region PublicProperties
@@ -31,11 +32,18 @@ namespace Ifns.ViewModel
            async () =>
            {
                StartProcess();
-               
+
                var result = await _foundService.GetAll().ConfigureAwait(true);
-               
+
                StopProcess(result.ErrorResult);
            }));
+
+        public RelayCommand CommandSave =>
+        _commandSave ?? (_commandSave = new RelayCommand(
+            () =>
+            {
+                var result = _foundService.SaveFile();
+            }));
         #endregion Command
     }
 }

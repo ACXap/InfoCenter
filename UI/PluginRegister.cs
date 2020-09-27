@@ -63,6 +63,7 @@ namespace UI
             SimpleIoc.Default.Register<MainRosreestrViewModel>();
 
             SimpleIoc.Default.Register<IRepositoryIfns, RepositoryIfnsSite>();
+            //SimpleIoc.Default.Register<IRepositoryIfns,RepositoryIfnsTest>();
             SimpleIoc.Default.Register<IFoundIfnsService, FoundIfnsService>();
             SimpleIoc.Default.Register<FoundAllIfnsViewModel>();
             SimpleIoc.Default.Register<FoundListIfnsViewModel>();

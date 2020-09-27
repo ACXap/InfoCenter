@@ -57,7 +57,7 @@ namespace Ifns.Service
             {
                 result.Add(new Municipality()
                 {
-                    Id = int.Parse(colMun.Key),
+                    Id = colMun.Key,
                     Name = colMun.Value
                 });
             }

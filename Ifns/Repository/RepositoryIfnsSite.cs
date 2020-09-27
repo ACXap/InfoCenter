@@ -3,8 +3,6 @@ using Ifns.Data;
 using Ifns.Service;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-
 namespace Ifns.Repository
 {
     public class RepositoryIfnsSite : IRepositoryIfns
@@ -48,8 +46,6 @@ namespace Ifns.Repository
             {
                 if (insp == null || string.IsNullOrEmpty(insp.Id)) throw new ArgumentNullException("Один из аргументов поиска пуст");
 
-                Thread.Sleep(1000);
-
                 var munString = _httpService.RequestPost(_urlQueryGetIfns, GetRequestBodyMun(insp), HttpService.EnumContentType.Post);
                 result = _parser.ParsMunicipalities(munString);
             }
@@ -67,8 +63,6 @@ namespace Ifns.Repository
             try
             {
                 if (mun == null || insp == null || string.IsNullOrEmpty(mun.Id) || string.IsNullOrEmpty(insp.Id)) throw new ArgumentNullException("Один из аргументов поиска пуст");
-
-                Thread.Sleep(100);
 
                 var ifnsString = _httpService.RequestPost(_urlQueryGetIfns, GetRequestBodyIfns(mun, insp), HttpService.EnumContentType.Post);
                 result = _parser.ParsEntityIfns(ifnsString);

@@ -35,6 +35,7 @@ namespace Rosreestr.ViewModel
 
 
         private RelayCommand _commandStart;
+
         #endregion PrivateField
 
         #region PublicProperties
@@ -63,6 +64,7 @@ namespace Rosreestr.ViewModel
 
                 StopProcess();
             }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1));
+
         #endregion Command
 
         #region PrivateMethod

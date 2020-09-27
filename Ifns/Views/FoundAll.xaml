@@ -5,7 +5,6 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dtvm="clr-namespace:Ifns.Data.DesignTime"
-    xmlns:local="clr-namespace:Ifns.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance dtvm:CollectionIfnsVM}"
     d:DesignHeight="450"
@@ -26,11 +25,18 @@
             Padding="5"
             BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
             BorderThickness="0,0,0,1">
-            <WrapPanel HorizontalAlignment="Center" Orientation="Vertical">
+            <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button
                     Margin="10"
-                    Padding="10" Command="{Binding CommandStart}"
+                    Padding="10"
+                    Command="{Binding CommandStart}"
                     Content="Найти все" />
+
+                <Button
+                    Margin="10"
+                    Padding="10"
+                    Command="{Binding CommandSave}"
+                    Content="Сохранить" />
             </WrapPanel>
         </Border>
 
@@ -39,9 +45,21 @@
             AutoGenerateColumns="false"
             ItemsSource="{Binding CollectionIfns}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Form.Ifns}" Header="Код ИФНС" />
-                <DataGridTextColumn Binding="{Binding Form.Oktmmf}" Header="Муниципальное образование" />
-                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsName}" Header="Наименование" />
+                <DataGridTemplateColumn Header="Код ИФНС" SortMemberPath="Form.Ifns" CanUserSort="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Form.Ifns}" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Мун. образование" SortMemberPath="Form.Oktmmf" CanUserSort="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Form.Oktmmf}" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsName}" Header="Наименование"/>
                 <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsAddr}" Header="Адрес" />
                 <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeName}" Header="Получатель платежа" />
                 <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeInn}" Header="ИНН" />

@@ -31,6 +31,8 @@ namespace Ifns.Data
 
     public class IfnsDetails
     {
+        private string _ifnsAddr;
+
         [JsonProperty("ifnsCode")]
         public string IfnsCode { get; set; }
 
@@ -44,7 +46,14 @@ namespace Ifns.Data
         public string IfnsKpp { get; set; }
 
         [JsonProperty("ifnsAddr")]
-        public string IfnsAddr { get; set; }
+        public string IfnsAddr 
+        {
+            get => _ifnsAddr; 
+            set
+            {
+                _ifnsAddr = value.Trim(new char[] { ',' });
+            } 
+        }
 
         [JsonProperty("ifnsPhone")]
         public string IfnsPhone { get; set; }
