@@ -143,7 +143,7 @@ namespace Common.Service
 
             if (File.Exists(file))
             {
-                f = $"{f}_{DateTime.Now:yyMMddHHmmssfff}";
+                f = $"{f}_{DateTime.Now:yyyyMMddHHmmssfff}";
             }
 
             return f;

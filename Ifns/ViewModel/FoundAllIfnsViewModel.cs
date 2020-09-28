@@ -11,7 +11,7 @@ namespace Ifns.ViewModel
         public FoundAllIfnsViewModel(IFoundIfnsService foundService)
         {
             _foundService = foundService;
-            CollectionIfns = new ReadOnlyObservableCollection<EntityIfns>(_foundService.CollectionIfns);
+            CollectionIfns = _foundService.CollectionIfns;
         }
 
         #region PrivateField
@@ -23,7 +23,12 @@ namespace Ifns.ViewModel
 
         #region PublicProperties
 
-        public ReadOnlyObservableCollection<EntityIfns> CollectionIfns { get; }
+        private ObservableCollection<EntityIfns> _collectionIfns;
+        public ObservableCollection<EntityIfns> CollectionIfns
+        {
+            get => _collectionIfns;
+            set => Set(ref _collectionIfns, value);
+        }
         #endregion PublicProperties
 
         #region Command
@@ -33,17 +38,18 @@ namespace Ifns.ViewModel
            {
                StartProcess();
 
-               var result = await _foundService.GetAll().ConfigureAwait(true);
+               var result = await _foundService.GetAll().ConfigureAwait(false);
+               result = _foundService.SaveFile();
 
                StopProcess(result.ErrorResult);
-           }, ()=> !IsShowProgressBarFound));
+           }, () => !IsShowProgressBarFound));
 
         public RelayCommand CommandSave =>
         _commandSave ?? (_commandSave = new RelayCommand(
             () =>
             {
                 var result = _foundService.SaveFile();
-            }, ()=> CollectionIfns.Count!=0));
+            }, () => CollectionIfns != null && CollectionIfns.Count != 0));
         #endregion Command
     }
 }

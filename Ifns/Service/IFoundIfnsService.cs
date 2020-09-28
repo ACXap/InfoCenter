@@ -9,7 +9,7 @@ namespace Ifns.Service
     {
         ObservableCollection<EntityIfns> CollectionIfns { get; }
         Task<Result<bool>> GetAll();
-        Result<bool> SaveFile(string name = "");
+        Result<bool> SaveFile(string name = null);
         Task<Result<bool>> ProcessList(string file);
     }
 }

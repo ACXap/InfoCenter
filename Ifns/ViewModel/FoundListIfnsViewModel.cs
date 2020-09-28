@@ -20,7 +20,8 @@ namespace Ifns.ViewModel
                 Header = "Обработка списков",
                 Watermark = "Выбрать файл с данными для обработки",
             };
-            CollectionIfns = new ReadOnlyObservableCollection<EntityIfns>(_foundService.CollectionIfns);
+
+            CollectionIfns = _foundService.CollectionIfns;
         }
      
         #region PrivateField
@@ -33,7 +34,13 @@ namespace Ifns.ViewModel
         #endregion PrivateField
 
         #region PublicProperties
-        public ReadOnlyObservableCollection<EntityIfns> CollectionIfns { get; }
+        private ObservableCollection<EntityIfns> _collectionIfns;
+        public ObservableCollection<EntityIfns> CollectionIfns
+        {
+            get => _collectionIfns;
+            set => Set(ref _collectionIfns, value);
+        }
+
         public TypeDataIfns TypeData
         {
             get => _typeData;
@@ -47,13 +54,13 @@ namespace Ifns.ViewModel
           async () =>
           {
               var file = FoundHeader.FoundText;
-              FoundHeader.FoundText = "";
               StartProcess();
 
-              var result = await _foundService.ProcessList(file).ConfigureAwait(true);
+              var result = await _foundService.ProcessList(file).ConfigureAwait(false);
+              result = _foundService.SaveFile(file);
 
               StopProcess(result.ErrorResult);
-          }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1));
+          }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1 && !IsShowProgressBarFound));
         #endregion Command
 
         #region PrivateMethod

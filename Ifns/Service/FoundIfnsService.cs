@@ -5,9 +5,10 @@ using Ifns.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Data;
 
 namespace Ifns.Service
 {
@@ -16,21 +17,28 @@ namespace Ifns.Service
         public FoundIfnsService(IRepositoryIfns rep)
         {
             _repository = rep;
-            CollectionIfns = new ObservableCollection<EntityIfns>();
             _createFile = new CreateFileOffice("Ifns");
+            BindingOperations.EnableCollectionSynchronization(CollectionIfns, _lock);
+            _parallelOptions = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = 8
+            };
         }
 
         #region PrivateField
         private readonly IRepositoryIfns _repository;
         private readonly ICreateFileOfResult _createFile;
         private readonly ServiceFile<TypeDataIfns> _serviceFile = new ServiceFile<TypeDataIfns>();
+        private readonly object _lock = new object();
+        private readonly ParallelOptions _parallelOptions;
 
         private readonly string _charSeparator = ";";
 
         #endregion PrivateField
 
         #region PublicProperties
-        public ObservableCollection<EntityIfns> CollectionIfns { get; private set; }
+        public ObservableCollection<EntityIfns> CollectionIfns { get; private set; } = new ObservableCollection<EntityIfns>();
+
         #endregion PublicProperties
 
         #region PrivateMethod
@@ -66,6 +74,11 @@ namespace Ifns.Service
 
             foreach (var ifns in CollectionIfns)
             {
+                if (ifns == null)
+                {
+                    result.Add("Ошибка разбора ИФНС");
+                    continue;
+                }
                 var form = ifns.Form ?? new Form();
                 var ifnsDetails = ifns.IfnsDetails ?? new IfnsDetails();
                 var pay = ifns.PayeeDetails ?? new PayeeDetails();
@@ -101,7 +114,7 @@ namespace Ifns.Service
         }
         private string RemoveCharSeparator(string data)
         {
-            if (string.IsNullOrEmpty(data)) return "";   
+            if (string.IsNullOrEmpty(data)) return "";
             return data.Replace(_charSeparator, " ");
         }
 
@@ -109,11 +122,13 @@ namespace Ifns.Service
 
         #region PublicMethod
 
-        public Result<bool> SaveFile(string name = "")
+        public Result<bool> SaveFile(string name = null)
         {
             Result<bool> result = new Result<bool>();
             try
             {
+                var filename = string.IsNullOrEmpty(name) ? CreateFileOffice.GetUniqueOnlyFileName("ifns") : CreateFileOffice.GetUniqueOnlyFileName(name);
+
                 var ifnsString = GetIfnsToString(_charSeparator);
 
                 List<string> data = new List<string>(ifnsString.Count + 1)
@@ -122,8 +137,6 @@ namespace Ifns.Service
                 };
 
                 data.AddRange(ifnsString);
-
-                var filename = name ?? $"ifns_{DateTime.Now::dd_MM_yyyy_HH_mm}";
                 var file = _createFile.CreateXlsx(data, filename);
                 _createFile.CreateCsv(data, filename);
 
@@ -146,29 +159,22 @@ namespace Ifns.Service
                 {
                     var region = _repository.GetRegions();
 
-                    ParallelOptions po = new ParallelOptions()
-                    {
-                        MaxDegreeOfParallelism = 8
-                    };
-
-                    Parallel.ForEach(region, po, (reg) =>
+                    Parallel.ForEach(region, _parallelOptions, (reg) =>
                     {
                         foreach (var insp in reg.Inspections)
                         {
                             insp.Municipalities = _repository.GetMunicipalities(insp);
 
-                            Parallel.ForEach(insp.Municipalities, po, (mun) =>
+                            Parallel.ForEach(insp.Municipalities, _parallelOptions, (mun) =>
                             {
                                 mun.Ifns = _repository.GetEntityIfns(mun, insp);
-                                Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
+                                lock (_lock)
                                 {
                                     CollectionIfns.Add(mun.Ifns);
-                                }));
+                                }
                             });
                         }
                     });
-
-                    SaveFile();
                 }
                 catch (Exception ex)
                 {
@@ -182,28 +188,22 @@ namespace Ifns.Service
         public async Task<Result<bool>> ProcessList(string file)
         {
             Result<bool> result = new Result<bool>();
+            var str = _serviceFile.ReadFile(file).Skip(1);
+            var t = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
 
-            return await Task.Run(async () =>
+            return await Task.Run(() =>
             {
                 try
                 {
-                    var str = _serviceFile.ReadFile(file).Skip(1);
-
-                    var t = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
-                    var fileName = CreateFileOffice.GetUniqueOnlyFileName(file);
-
                     if (t.Title == "Поиск по ИФНС")
                     {
-                        FoundIfns(fileName, str);
+                        FoundIfns(str);
                     }
                     else if (t.Title == "Поиск по мун. образованию")
                     {
-                        FoundMun(fileName, str);
+                        FoundMun(str);
                     }
-                    else
-                    {
-                        throw new Exception("Неверный тип данных");
-                    }
+                    else throw new Exception("Неверный тип данных");
                 }
                 catch (FormatException fex)
                 {
@@ -218,63 +218,48 @@ namespace Ifns.Service
             });
         }
 
-        private void FoundMun(string fileName, IEnumerable<string> str)
+        private void FoundMun(IEnumerable<string> str)
         {
             var region = _repository.GetRegions();
             IEnumerable<Municipality> municipality = ServiceConverter.ConvertStringToMun(str);
 
-            ParallelOptions po = new ParallelOptions()
-            {
-                MaxDegreeOfParallelism = 8
-            };
-
-            Parallel.ForEach(region, po, (reg) =>
+            Parallel.ForEach(region, _parallelOptions, (reg) =>
             {
                 foreach (var insp in reg.Inspections)
                 {
                     insp.Municipalities = _repository.GetMunicipalities(insp);
 
-                    Parallel.ForEach(insp.Municipalities, po, (mun) =>
+                    Parallel.ForEach(insp.Municipalities, _parallelOptions, (mun) =>
                     {
-                        if(municipality.FirstOrDefault(x=>x.Id == mun.Id) != null)
+                        if (municipality.FirstOrDefault(x => x.Id == mun.Id) != null)
                         {
                             mun.Ifns = _repository.GetEntityIfns(mun, insp);
-                            Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
+                            lock (_lock)
                             {
                                 CollectionIfns.Add(mun.Ifns);
-                            }));
+                            }
                         }
                     });
                 }
             });
-
-            SaveFile(fileName);
         }
 
-        private void FoundIfns(string fileName, IEnumerable<string> str)
+        private void FoundIfns(IEnumerable<string> str)
         {
             IEnumerable<Inspection> inspections = ServiceConverter.ConvertStringToIfns(str);
 
-            ParallelOptions po = new ParallelOptions()
-            {
-                MaxDegreeOfParallelism = 8
-            };
-
-            Parallel.ForEach(inspections, po, (insp) =>
+            Parallel.ForEach(inspections, _parallelOptions, (insp) =>
             {
                 insp.Municipalities = _repository.GetMunicipalities(insp);
-                
-                Parallel.ForEach(insp.Municipalities, po, (mun) =>
+                Parallel.ForEach(insp.Municipalities, _parallelOptions, (mun) =>
                 {
                     mun.Ifns = _repository.GetEntityIfns(mun, insp);
-                    Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
+                    lock (_lock)
                     {
                         CollectionIfns.Add(mun.Ifns);
-                    }));
+                    }
                 });
             });
-
-            SaveFile(fileName);
         }
         #endregion PublicMethod
     }
