@@ -1,12 +1,9 @@
 ﻿using Common;
-using GalaSoft.MvvmLight;
+using Common.Service;
 using GalaSoft.MvvmLight.CommandWpf;
+using Ifns.Data;
 using Ifns.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Ifns.ViewModel
 {
@@ -18,28 +15,59 @@ namespace Ifns.ViewModel
 
             FoundHeader = new Common.Data.FoundHeader()
             {
-                CommandFound = new RelayCommand(() => { }),
+                CommandFound = new RelayCommand(() => OpenFile()),
                 FoundFast = false,
                 Header = "Обработка списков",
-                Watermark = "Выбрать файл с данными для обработки"
+                Watermark = "Выбрать файл с данными для обработки",
             };
+            CollectionIfns = new ReadOnlyObservableCollection<EntityIfns>(_foundService.CollectionIfns);
         }
-
+     
         #region PrivateField
         private readonly IFoundIfnsService _foundService;
+        private ServiceFile<TypeDataIfns> _serviceFile = new ServiceFile<TypeDataIfns>();
+
+        private TypeDataIfns _typeData;
+
+        private RelayCommand _commandStart;
         #endregion PrivateField
 
         #region PublicProperties
+        public ReadOnlyObservableCollection<EntityIfns> CollectionIfns { get; }
+        public TypeDataIfns TypeData
+        {
+            get => _typeData;
+            set => Set(ref _typeData, value);
+        }
         #endregion PublicProperties
 
         #region Command
+        public RelayCommand CommandStart =>
+       _commandStart ?? (_commandStart = new RelayCommand(
+          async () =>
+          {
+              var file = FoundHeader.FoundText;
+              FoundHeader.FoundText = "";
+              StartProcess();
+
+              var result = await _foundService.ProcessList(file).ConfigureAwait(true);
+
+              StopProcess(result.ErrorResult);
+          }, () => !string.IsNullOrEmpty(FoundHeader.FoundText) && TypeData != null && TypeData.Code == 1));
         #endregion Command
 
         #region PrivateMethod
+        private async void OpenFile()
+        {
+            var file = _serviceFile.GetFile();
+
+            if (string.IsNullOrEmpty(file) == false)
+            {
+                FoundHeader.FoundText = file;
+                TypeData = await _serviceFile.GetTypeData(file);
+                CommandStart.RaiseCanExecuteChanged();
+            }
+        }
         #endregion PrivateMethod
-
-        #region PublicMethod
-        #endregion PublicMethod
-
     }
 }

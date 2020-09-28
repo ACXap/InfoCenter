@@ -43,7 +43,7 @@ namespace Ifns.ViewModel
             () =>
             {
                 var result = _foundService.SaveFile();
-            }));
+            }, ()=> CollectionIfns.Count!=0));
         #endregion Command
     }
 }

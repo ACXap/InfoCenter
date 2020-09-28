@@ -5,6 +5,7 @@ using Ifns.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -22,6 +23,7 @@ namespace Ifns.Service
         #region PrivateField
         private readonly IRepositoryIfns _repository;
         private readonly ICreateFileOfResult _createFile;
+        private readonly ServiceFile<TypeDataIfns> _serviceFile = new ServiceFile<TypeDataIfns>();
 
         private readonly string _charSeparator = ";";
 
@@ -107,7 +109,7 @@ namespace Ifns.Service
 
         #region PublicMethod
 
-        public Result<bool> SaveFile()
+        public Result<bool> SaveFile(string name = "")
         {
             Result<bool> result = new Result<bool>();
             try
@@ -121,7 +123,7 @@ namespace Ifns.Service
 
                 data.AddRange(ifnsString);
 
-                var filename = $"ifns_{DateTime.Now::dd_MM_yyyy_HH_mm}";
+                var filename = name ?? $"ifns_{DateTime.Now::dd_MM_yyyy_HH_mm}";
                 var file = _createFile.CreateXlsx(data, filename);
                 _createFile.CreateCsv(data, filename);
 
@@ -177,6 +179,101 @@ namespace Ifns.Service
             });
         }
 
+        public async Task<Result<bool>> ProcessList(string file)
+        {
+            Result<bool> result = new Result<bool>();
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var str = _serviceFile.ReadFile(file).Skip(1);
+
+                    var t = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
+                    var fileName = CreateFileOffice.GetUniqueOnlyFileName(file);
+
+                    if (t.Title == "Поиск по ИФНС")
+                    {
+                        FoundIfns(fileName, str);
+                    }
+                    else if (t.Title == "Поиск по мун. образованию")
+                    {
+                        FoundMun(fileName, str);
+                    }
+                    else
+                    {
+                        throw new Exception("Неверный тип данных");
+                    }
+                }
+                catch (FormatException fex)
+                {
+                    result.ErrorResult = new ErrorResult(fex.Message, EnumTypeError.ErrorFileFormat);
+                }
+                catch (Exception ex)
+                {
+                    result.ErrorResult = new ErrorResult(ex.Message, EnumTypeError.ErrorSite);
+                }
+
+                return result;
+            });
+        }
+
+        private void FoundMun(string fileName, IEnumerable<string> str)
+        {
+            var region = _repository.GetRegions();
+            IEnumerable<Municipality> municipality = ServiceConverter.ConvertStringToMun(str);
+
+            ParallelOptions po = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = 8
+            };
+
+            Parallel.ForEach(region, po, (reg) =>
+            {
+                foreach (var insp in reg.Inspections)
+                {
+                    insp.Municipalities = _repository.GetMunicipalities(insp);
+
+                    Parallel.ForEach(insp.Municipalities, po, (mun) =>
+                    {
+                        if(municipality.FirstOrDefault(x=>x.Id == mun.Id) != null)
+                        {
+                            mun.Ifns = _repository.GetEntityIfns(mun, insp);
+                            Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
+                            {
+                                CollectionIfns.Add(mun.Ifns);
+                            }));
+                        }
+                    });
+                }
+            });
+        }
+
+        private void FoundIfns(string fileName, IEnumerable<string> str)
+        {
+            IEnumerable<Inspection> inspections = ServiceConverter.ConvertStringToIfns(str);
+
+            ParallelOptions po = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = 8
+            };
+
+            Parallel.ForEach(inspections, po, (insp) =>
+            {
+                insp.Municipalities = _repository.GetMunicipalities(insp);
+                
+                Parallel.ForEach(insp.Municipalities, po, (mun) =>
+                {
+                    mun.Ifns = _repository.GetEntityIfns(mun, insp);
+                    Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
+                    {
+                        CollectionIfns.Add(mun.Ifns);
+                    }));
+                });
+            });
+
+            SaveFile(fileName);
+        }
         #endregion PublicMethod
     }
 }

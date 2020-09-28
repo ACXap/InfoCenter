@@ -76,6 +76,7 @@ namespace Rosreestr.ViewModel
             {
                 FoundHeader.FoundText = file;
                 TypeData = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
+                CommandStart.RaiseCanExecuteChanged();
 
                 var resultCol = await _foundService.GetList(file).ConfigureAwait(true);
 

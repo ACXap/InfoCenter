@@ -20,7 +20,6 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Border
             Padding="5"
             BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
@@ -65,14 +64,10 @@
                                         FontSize="24"
                                         FontWeight="Bold"
                                         Text="Формат заголовка файлов (csv)" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        FontWeight="Bold"
-                                        Text="Кадастровые номера:" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Margin="20,0,0,0"
-                                        Text="Кадастровый номер" />
+                                    <TextBlock FontWeight="Bold" Text="Поиск по ИФНС:" />
+                                    <TextBlock Margin="20,0,0,0" Text="ифнс" />
+                                    <TextBlock FontWeight="Bold" Text="Поиск по мун. образованию:" />
+                                    <TextBlock Margin="20,0,0,0" Text="мун" />
                                 </WrapPanel>
                             </Border>
                         </Popup>
@@ -107,5 +102,42 @@
                 </WrapPanel>
             </Controls:MetroHeader>
         </Border>
+
+        <DataGrid
+            Grid.Row="1"
+            AutoGenerateColumns="false"
+            ItemsSource="{Binding CollectionIfns}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    CanUserSort="True"
+                    Header="Код ИФНС"
+                    SortMemberPath="Form.Ifns">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding Form.Ifns}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    CanUserSort="True"
+                    Header="Мун. образование"
+                    SortMemberPath="Form.Oktmmf">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding Form.Oktmmf}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsName}" Header="Наименование" />
+                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsAddr}" Header="Адрес" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeName}" Header="Получатель платежа" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeInn}" Header="ИНН" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeKpp}" Header="КПП" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.BankName}" Header="Банк" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.BankBic}" Header="БИК" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.CorrespAcc}" Header="Корр. счет" />
+                <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeAcc}" Header="Счет" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

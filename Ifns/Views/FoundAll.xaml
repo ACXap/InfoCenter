@@ -45,21 +45,27 @@
             AutoGenerateColumns="false"
             ItemsSource="{Binding CollectionIfns}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Код ИФНС" SortMemberPath="Form.Ifns" CanUserSort="True">
+                <DataGridTemplateColumn
+                    CanUserSort="True"
+                    Header="Код ИФНС"
+                    SortMemberPath="Form.Ifns">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Form.Ifns}" HorizontalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding Form.Ifns}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Мун. образование" SortMemberPath="Form.Oktmmf" CanUserSort="True">
+                <DataGridTemplateColumn
+                    CanUserSort="True"
+                    Header="Мун. образование"
+                    SortMemberPath="Form.Oktmmf">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Form.Oktmmf}" HorizontalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding Form.Oktmmf}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsName}" Header="Наименование"/>
+                <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsName}" Header="Наименование" />
                 <DataGridTextColumn Binding="{Binding IfnsDetails.IfnsAddr}" Header="Адрес" />
                 <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeName}" Header="Получатель платежа" />
                 <DataGridTextColumn Binding="{Binding PayeeDetails.PayeeInn}" Header="ИНН" />

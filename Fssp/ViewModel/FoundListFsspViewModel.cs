@@ -91,7 +91,8 @@ namespace Fssp.ViewModel
             if(string.IsNullOrEmpty(file) == false)
             {
                 FoundHeader.FoundText = file;
-                TypeData = await _serviceFile.GetTypeData(file).ConfigureAwait(false);
+                TypeData = await _serviceFile.GetTypeData(file);
+                CommandStart.RaiseCanExecuteChanged();
             }
         }
         #endregion PrivateMethod

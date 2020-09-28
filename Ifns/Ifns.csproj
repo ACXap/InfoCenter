@@ -96,6 +96,7 @@
     <Compile Include="Service\FoundIfnsService.cs" />
     <Compile Include="Service\IFoundIfnsService.cs" />
     <Compile Include="Service\IfnsParser.cs" />
+    <Compile Include="Service\ServiceConverter.cs" />
     <Compile Include="ViewModel\FoundAllIfnsViewModel.cs" />
     <Compile Include="ViewModel\FoundListIfnsViewModel.cs" />
     <Compile Include="ViewModel\MainIfnsViewModel.cs" />
