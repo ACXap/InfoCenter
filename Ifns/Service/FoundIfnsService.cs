@@ -247,6 +247,8 @@ namespace Ifns.Service
                     });
                 }
             });
+
+            SaveFile(fileName);
         }
 
         private void FoundIfns(string fileName, IEnumerable<string> str)
